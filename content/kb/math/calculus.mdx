@@ -1,0 +1,150 @@
+---
+title: Calculus
+subject: math
+slug: calculus
+description: 
+status: published
+verified: false
+author: n8n@learnflow.bot
+created_at: 2026-04-26
+---
+
+# Calculus
+
+## Introduction
+
+Calculus is a branch of mathematics that studies continuous change. Developed independently by Isaac Newton and Gottfried Wilhelm Leibniz in the 17th century, it provides the toolkit for modelling motion, growth, and a vast array of phenomena in physics, engineering, economics, and beyond. At its heart, calculus deals with two fundamental operations — differentiation and integration — and the surprising relationship between them. This article introduces the core concepts of undergraduate calculus: limits, continuity, derivatives, integrals, and the Fundamental Theorem of Calculus, together with illustrative examples.
+
+## Limits and Continuity
+
+The concept of a limit is the foundation on which all of calculus is built. Intuitively, a function $f(x)$ has a limit $L$ as $x$ approaches $a$ if the values of $f(x)$ can be made arbitrarily close to $L$ by taking $x$ sufficiently close (but not necessarily equal) to $a$. We write  
+
+$$\lim_{x \to a} f(x) = L.$$
+
+**Example (Limit of a rational function)**  
+Evaluate $\displaystyle \lim_{x \to 2} \frac{x^2 - 4}{x - 2}$.  
+The function is undefined at $x = 2$, but for $x \neq 2$ we can simplify  
+
+$$\frac{x^2 - 4}{x - 2} = \frac{(x-2)(x+2)}{x-2} = x+2.$$
+
+Thus  
+
+$$\lim_{x \to 2} \frac{x^2 - 4}{x - 2} = \lim_{x \to 2} (x+2) = 4.$$
+
+**Continuity**  
+A function $f$ is continuous at $a$ if  
+
+$$\lim_{x \to a} f(x) = f(a).$$
+
+Polynomials, exponentials, sine, and cosine are continuous everywhere on their domains. Sums, products, compositions, and quotients (where the denominator is non-zero) of continuous functions are continuous.
+
+## The Derivative
+
+The derivative measures the instantaneous rate of change of a function. Geometrically, it is the slope of the tangent line to the graph of $f$ at a point. Formally, the derivative of $f$ at $x$ is the limit  
+
+$$f'(x) = \lim_{h \to 0} \frac{f(x+h) - f(x)}{h},$$
+
+provided this limit exists. Common notations include $f'(x)$, $\frac{df}{dx}$, and $D_x f$.
+
+**Example (Derivative from first principles)**  
+Find the derivative of $f(x) = x^2$.  
+
+$$f'(x) = \lim_{h \to 0} \frac{(x+h)^2 - x^2}{h} = \lim_{h \to 0} \frac{x^2 + 2xh + h^2 - x^2}{h} = \lim_{h \to 0} (2x + h) = 2x.$$
+
+### Differentiation Rules
+
+The following rules simplify the computation of derivatives:
+
+* **Constant rule:** $\frac{d}{dx}[c] = 0$
+* **Power rule:** $\frac{d}{dx}[x^n] = n x^{n-1}$
+* **Sum rule:** $\frac{d}{dx}[f(x) \pm g(x)] = f'(x) \pm g'(x)$
+* **Product rule:** $\frac{d}{dx}[f(x)g(x)] = f'(x)g(x) + f(x)g'(x)$
+* **Quotient rule:** $\frac{d}{dx}\left[\frac{f(x)}{g(x)}\right] = \frac{f'(x)g(x) - f(x)g'(x)}{[g(x)]^2}$
+* **Chain rule:** $\frac{d}{dx}[f(g(x))] = f'(g(x))\,g'(x)$
+
+**Example (Chain rule)**  
+Differentiate $h(x) = \sin(x^2)$. Let $f(u) = \sin u$ and $g(x) = x^2$. Then $f'(u) = \cos u$, $g'(x) = 2x$, so $h'(x) = \cos(x^2) \cdot 2x = 2x\cos(x^2)$.
+
+### Higher-Order Derivatives
+
+The derivative of $f'$ is the second derivative $f''$, which gives the rate of change of the slope; it is denoted $\frac{d^2 f}{dx^2}$. Higher derivatives $f^{(n)}$ follow analogously.
+
+### Applications of the Derivative
+
+* **Tangent lines:** The equation of the tangent line at $(a, f(a))$ is $y - f(a) = f'(a)(x-a)$.
+* **Critical points and optimisation:** Points where $f'(x)=0$ or $f'(x)$ does not exist are candidates for local maxima or minima.
+* **Monotonicity and concavity:** If $f'(x) > 0$, $f$ is increasing; if $f''(x) > 0$, $f$ is concave up (convex).
+
+## The Integral
+
+Integration is the reverse process of differentiation and can be interpreted as the accumulation of quantities, most commonly the area under a curve. The *indefinite integral* (or antiderivative) of a function $f$ is a function $F$ such that $F'(x) = f(x)$. It is written  
+
+$$\int f(x)\,dx = F(x) + C,$$
+
+where $C$ is an arbitrary constant of integration.
+
+**Example (Basic antiderivative)**  
+$\displaystyle \int 2x\,dx = x^2 + C$ because $\frac{d}{dx}(x^2 + C) = 2x$.
+
+The *definite integral* of $f$ on $[a,b]$ is the signed area between the graph of $f$ and the $x$-axis, defined as the limit of Riemann sums:
+
+$$\int_a^b f(x)\,dx = \lim_{n \to \infty} \sum_{i=1}^n f(x_i^*)\,\Delta x,$$
+
+where $\Delta x = \frac{b-a}{n}$ and $x_i^*$ is a sample point in the $i$th subinterval.
+
+### Properties of the Definite Integral
+
+* $\displaystyle \int_a^b f(x)\,dx = -\int_b^a f(x)\,dx$
+* $\displaystyle \int_a^a f(x)\,dx = 0$
+* Linearity: $\displaystyle \int_a^b [c f(x) + d g(x)]\,dx = c\int_a^b f(x)\,dx + d\int_a^b g(x)\,dx$
+* Additivity: $\displaystyle \int_a^c f(x)\,dx = \int_a^b f(x)\,dx + \int_b^c f(x)\,dx$
+
+### Integration Techniques
+
+Beyond basic antiderivatives, common techniques include:
+
+* **Substitution:** $\displaystyle \int f(g(x))\,g'(x)\,dx = \int f(u)\,du$, where $u = g(x)$.
+* **Integration by parts:** $\displaystyle \int u\,dv = uv - \int v\,du$, derived from the product rule.
+* **Partial fractions:** To integrate rational functions by decomposing them into simpler fractions.
+
+**Example (Integration by substitution)**  
+Evaluate $\int 2x \cos(x^2)\,dx$. Let $u = x^2$, so $du = 2x\,dx$. Then  
+
+$$\int 2x \cos(x^2)\,dx = \int \cos u\,du = \sin u + C = \sin(x^2) + C.$$
+
+## The Fundamental Theorem of Calculus
+
+The Fundamental Theorem of Calculus (FTC) unites differentiation and integration in a beautiful two-part statement.
+
+**Part 1:** If $f$ is continuous on $[a,b]$, then the function  
+
+$$F(x) = \int_a^x f(t)\,dt$$
+
+is differentiable on $(a,b)$, and $F'(x) = f(x)$.  
+In words, the derivative of an integral returns the original function.
+
+**Part 2:** If $F$ is any antiderivative of a continuous function $f$ on $[a,b]$, then  
+
+$$\int_a^b f(x)\,dx = F(b) - F(a).$$
+
+This provides an easy way to evaluate definite integrals once an antiderivative is known.
+
+**Example (FTC Part 2)**  
+Compute $\displaystyle \int_0^2 3x^2\,dx$. An antiderivative of $3x^2$ is $x^3$, so  
+
+$$\int_0^2 3x^2\,dx = \left[ x^3 \right]_0^2 = 2^3 - 0^3 = 8.$$
+
+## Applications of Integration
+
+* **Area between curves:** $\displaystyle A = \int_a^b [f(x) - g(x)]\,dx$, where $f(x) \ge g(x)$ on $[a,b]$.
+* **Volumes of solids of revolution:** Disc method $V = \pi \int_a^b [f(x)]^2\,dx$; shell method $V = 2\pi \int_a^b x f(x)\,dx$ (depending on axis of rotation).
+* **Work and energy:** In physics, work done by a variable force $F(x)$ over $[a,b]$ is $W = \int_a^b F(x)\,dx$.
+* **Average value:** The average value of $f$ on $[a,b]$ is $\frac{1}{b-a} \int_a^b f(x)\,dx$.
+
+## Sequences, Series, and Multivariable Extensions (Brief Overview)
+
+Undergraduate calculus often continues with sequences and series (limits of sequences, convergence tests, power series, Taylor and Maclaurin series). The principles of differentiation and integration are extended to functions of several variables, leading to partial derivatives, multiple integrals, and vector calculus (gradient, divergence, curl, line integrals). These topics build directly on the core concepts presented here.
+
+## Summary
+
+Calculus fundamentally rests on the concept of a limit, which gives rigor to the study of instantaneous change (derivatives) and accumulation (integrals). The derivative $f'(x)$ measures rate of change; rules like the power, product, and chain rule enable efficient computation. The integral $\int f(x)\,dx$ recovers antiderivatives, and the definite integral $\int_a^b f(x)\,dx$ captures net area. The Fundamental Theorem of Calculus elegantly links these operations: differentiation and integration are inverse processes. Mastery of these core ideas equips students to solve problems across science and engineering, making calculus one of the most powerful intellectual tools ever devised.
