@@ -1,0 +1,136 @@
+---
+title: Parametric Equations and Polar Coordinates
+subject: math
+slug: parametric-equations-and-polar-coordinates
+description: 
+status: published
+verified: false
+author: n8n@learnflow.bot
+created_at: 2026-04-27
+---
+
+# Parametric Equations and Polar Coordinates
+
+## Introduction
+In calculus, the standard Cartesian representation $y = f(x)$ is often insufficient to describe the rich variety of curves and motions encountered in mathematics and physics. Two powerful alternatives—**parametric equations** and **polar coordinates**—allow us to represent curves that are not functions, describe motion along a path, and simplify computations involving symmetry about a point. Parametric equations introduce an independent parameter (often time) to express both coordinates; polar coordinates label a point by its distance from the origin and an angle. This article develops the core definitions, calculus techniques, and connections between these systems.
+
+## Parametric Equations
+
+### Definition
+A curve in the plane can be defined by a pair of functions
+$$ x = f(t), \qquad y = g(t), \quad a \le t \le b $$
+where $t$ is called the **parameter**. As $t$ varies, the point $(x,y)$ traces a curve. The parameter often represents time, but it can be any independent variable.
+
+**Example:** The unit circle centered at the origin can be written as
+$$ x = \cos t, \qquad y = \sin t, \quad 0 \le t \le 2\pi. $$
+As $t$ increases, the point moves counterclockwise around the circle.
+
+### Eliminating the Parameter
+To convert from parametric to Cartesian form, solve for $t$ from one equation and substitute into the other, when possible. For the circle above, $\cos^2 t + \sin^2 t = 1$ gives $x^2 + y^2 = 1$.
+
+**Example:** A parametric line through $(x_0,y_0)$ with direction vector $\langle a,b\rangle$:
+$$ x = x_0 + at, \quad y = y_0 + bt. $$
+Eliminating $t$: $t = \frac{x-x_0}{a}$ (if $a \neq 0$) and then $y = y_0 + \frac{b}{a}(x-x_0)$, the familiar slope-intercept form.
+
+### Graphing Parametric Curves
+- Create a table of $t$, $x$, $y$ values.
+- Identify key points where the tangent is horizontal ($\frac{dy}{dt}=0$) or vertical ($\frac{dx}{dt}=0$).
+- Plot the points in order of increasing $t$ to see direction.
+
+### Calculus with Parametric Curves
+
+#### First Derivative (Slope)
+By the chain rule,
+$$ \frac{dy}{dx} = \frac{dy/dt}{dx/dt}, \quad \text{provided } \frac{dx}{dt} \neq 0. $$
+This gives the slope of the tangent line in terms of $t$.
+
+**Example:** For $x = t^2$, $y = t^3 - t$,
+$$ \frac{dx}{dt} = 2t, \quad \frac{dy}{dt} = 3t^2 - 1, \quad \frac{dy}{dx} = \frac{3t^2-1}{2t}. $$
+Horizontal tangent when $3t^2-1=0 \Rightarrow t = \pm 1/\sqrt{3}$; vertical tangent when $t=0$ (if $\frac{dx}{dt}=0$ and $\frac{dy}{dt} \neq 0$).
+
+#### Second Derivative
+$$ \frac{d^2y}{dx^2} = \frac{d}{dx}\!\left(\frac{dy}{dx}\right) = \frac{\frac{d}{dt}\!\left(\frac{dy}{dx}\right)}{dx/dt}. $$
+This can be used to analyze concavity.
+
+#### Arc Length
+If a smooth curve is traced exactly once as $t$ goes from $\alpha$ to $\beta$, its length is
+$$ L = \int_{\alpha}^{\beta} \sqrt{\left(\frac{dx}{dt}\right)^2 + \left(\frac{dy}{dt}\right)^2} \, dt. $$
+This comes from the distance formula $\sqrt{dx^2+dy^2}$ in differential form.
+
+**Example (circle):** $x = \cos t$, $y = \sin t$, $0 \le t \le 2\pi$,
+$dx/dt = -\sin t$, $dy/dt = \cos t$, so
+$$ L = \int_{0}^{2\pi} \sqrt{\sin^2 t + \cos^2 t}\, dt = \int_{0}^{2\pi} 1\, dt = 2\pi. $$
+
+#### Surface Area of Revolution
+If the curve is rotated about the $x$-axis, the surface area (for $y \ge 0$) is
+$$ S = \int_{\alpha}^{\beta} 2\pi y \sqrt{\left(\frac{dx}{dt}\right)^2 + \left(\frac{dy}{dt}\right)^2} \, dt. $$
+Analogous formulas exist for rotation about $y$-axis.
+
+## Polar Coordinates
+
+### Definition
+A point is given by $(r, \theta)$, where $r$ is the **radial coordinate** (distance from the origin) and $\theta$ is the **angular coordinate** (angle measured from the positive $x$-axis). Usually $r \ge 0$, but $r$ can be negative; a negative $r$ means the point is located $|r|$ units in the opposite direction of $\theta$.
+
+### Conversion between Polar and Cartesian
+Given $(r,\theta)$,
+$$ x = r\cos\theta, \qquad y = r\sin\theta. $$
+Conversely,
+$$ r^2 = x^2 + y^2, \qquad \tan\theta = \frac{y}{x} \;\; (x \neq 0). $$
+Care must be taken to choose the correct quadrant for $\theta$ using the signs of $x$ and $y$.
+
+### Polar Curves
+A polar equation $r = f(\theta)$ defines a curve as the set of points $(f(\theta), \theta)$.
+
+**Common shapes:**
+- **Circle** (through origin, diameter $a$ along the $y$-axis): $r = a \sin\theta$.
+- **Cardioid:** $r = a(1 + \cos\theta)$ or $r = a(1 - \cos\theta)$.
+- **Limaçon:** $r = a + b\cos\theta$ (with inner loop if $|a| < |b|$).
+- **Rose curves:** $r = a \cos(n\theta)$ or $r = a \sin(n\theta)$ ($n$ petals if $n$ odd, $2n$ if $n$ even).
+- **Lemniscate:** $r^2 = a^2 \cos(2\theta)$ or $r^2 = a^2 \sin(2\theta)$.
+
+### Graphing Polar Equations
+- Check for symmetry: about the polar axis ($x$-axis) if replacing $\theta$ with $-\theta$ yields equivalent $r$; about $\theta = \pi/2$ ($y$-axis) if replacing $(r,\theta)$ with $(r,\pi-\theta)$ works; about the pole (origin) if $r \to -r$ or $\theta \to \theta+\pi$.
+- Plot points for key values of $\theta$ (e.g., $\theta = 0, \pi/2, \pi, 3\pi/2$ and where $r=0$).
+- Connect smoothly, respecting direction as $\theta$ increases.
+
+### Calculus in Polar Coordinates
+
+#### Slope of a Polar Curve
+We can view a polar curve as a parametric curve with parameter $\theta$:
+$$ x(\theta) = r(\theta)\cos\theta, \quad y(\theta) = r(\theta)\sin\theta. $$
+Then
+$$ \frac{dy}{dx} = \frac{dy/d\theta}{dx/d\theta} = \frac{\frac{dr}{d\theta}\sin\theta + r\cos\theta}{\frac{dr}{d\theta}\cos\theta - r\sin\theta}. $$
+Horizontal tangents occur when $dy/d\theta = 0$ (and $dx/d\theta \neq 0$), vertical tangents when $dx/d\theta = 0$.
+
+#### Area in Polar Coordinates
+The area of the region bounded by the curve $r = f(\theta)$ and the rays $\theta = \alpha$, $\theta = \beta$, where $f$ is continuous and non‑negative, is
+$$ A = \frac{1}{2} \int_{\alpha}^{\beta} \bigl[f(\theta)\bigr]^2 \, d\theta. $$
+This follows from the formula for the area of a circular sector: $\frac12 r^2 \Delta\theta$.
+
+**Example (area of a cardioid):** For $r = 1 + \cos\theta$, $\theta$ from $0$ to $2\pi$,
+$$
+\begin{aligned}
+A &= \frac12 \int_{0}^{2\pi} (1+\cos\theta)^2 \, d\theta
+   = \frac12 \int_{0}^{2\pi} (1 + 2\cos\theta + \cos^2\theta) \, d\theta \\
+  &= \frac12 \left[ \int_{0}^{2\pi} 1\,d\theta + 2\int_{0}^{2\pi} \cos\theta\,d\theta + \int_{0}^{2\pi} \frac{1+\cos 2\theta}{2} d\theta \right] \\
+  &= \frac12 \left[ 2\pi + 0 + \pi \right] = \frac{3\pi}{2}.
+\end{aligned}
+$$
+(Where $\int_{0}^{2\pi} \cos^2\theta\,d\theta = \pi$.)
+
+#### Arc Length in Polar Coordinates
+Using the parametric representation, $dx/d\theta$ and $dy/d\theta$ simplify to give
+$$ L = \int_{\alpha}^{\beta} \sqrt{\left(\frac{dr}{d\theta}\right)^2 + r^2} \; d\theta. $$
+
+## Connections Between Parametric, Polar, and Cartesian
+- Any polar curve $r = f(\theta)$ is automatically a parametric curve with parameter $\theta$: $x = f(\theta)\cos\theta$, $y = f(\theta)\sin\theta$. This allows all parametric calculus tools (slope, arc length) to be applied directly.
+- A Cartesian curve can be parameterized in many ways; for example, $y = f(x)$ can be written as $x = t$, $y = f(t)$, or more creatively to exploit symmetry.
+- Certain problems are easier in one system than the other. Area inside a cardioid is natural in polar coordinates; the trajectory of a projectile is naturally parametric.
+
+## Applications
+- **Projectile motion:** The path of a projectile launched with initial speed $v_0$ at angle $\alpha$ is parametric: $x = (v_0 \cos\alpha)\,t$, $y = (v_0 \sin\alpha)\,t - \frac12 g t^2$.
+- **Planetary orbits:** Kepler’s laws are elegantly expressed in polar coordinates; an orbit can be $r = \frac{ed}{1 + e\cos\theta}$.
+- **Cycloid:** Traced by a point on a rolling wheel: $x = a(\theta - \sin\theta)$, $y = a(1 - \cos\theta)$. Its arc length over one arch is $8a$, and the area under one arch is $3\pi a^2$.
+
+## Summary
+Parametric equations free us from the function constraint by using a third variable $t$, making them ideal for curves with complex shapes and for motion analysis. Polar coordinates, centered at the origin, are tailored for radial symmetry and yield simple equations for circles, spirals, and rose curves. Both frameworks extend seamlessly into calculus: derivatives for slopes, integrals for arc length and area, all derived by embedding them into the parametric viewpoint. Understanding the interplay between Cartesian, parametric, and polar forms equips you with a flexible toolkit for tackling a wide range of problems in mathematics, physics, and engineering.
