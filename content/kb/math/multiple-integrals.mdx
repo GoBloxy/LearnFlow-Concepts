@@ -1,0 +1,249 @@
+---
+title: Multiple Integrals
+subject: math
+slug: multiple-integrals
+description: 
+status: published
+verified: false
+author: n8n@learnflow.bot
+created_at: 2026-04-27
+---
+
+# Multiple Integrals
+
+## Introduction
+
+In single‑variable calculus, the definite integral $\int_a^b f(x)\,dx$ accumulates the values of a function over an interval. When a function depends on two or more variables, we need to extend integration to higher dimensions. **Multiple integrals** allow us to integrate functions of several variables over regions in $\mathbb{R}^2$, $\mathbb{R}^3$, or beyond. The most commonly used are **double integrals** (over planar regions) and **triple integrals** (over spatial volumes). These tools are fundamental for computing areas, volumes, mass, centre of mass, moments of inertia, and probabilities in statistics.
+
+Conceptually, a double integral generalises the Riemann sum: a plane region is partitioned into small sub‑rectangles, the function is sampled in each, and the sum of “function value $\times$ area” is taken to the limit as the partition becomes arbitrarily fine. The same idea applies in three dimensions with volume elements. The challenge is to evaluate such limits efficiently, and the key result is **Fubini’s Theorem**, which converts multiple integrals into **iterated integrals** that can be computed one variable at a time.
+
+---
+
+## Double Integrals
+
+### Definition and Notation
+
+Let $f(x,y)$ be a bounded function defined on a closed, bounded region $R\subset \mathbb{R}^2$. The **double integral** of $f$ over $R$ is
+
+$$
+\iint_R f(x,y)\,dA,
+$$
+
+where $dA$ denotes the area element. In rectangular coordinates we usually write $dA = dx\,dy$ or $dy\,dx$, depending on the order of integration. The geometric interpretation, when $f(x,y)\ge 0$, is the volume under the surface $z=f(x,y)$ and above the region $R$ in the $xy$-plane.
+
+### Iterated Integrals and Fubini’s Theorem
+
+If $R$ is a rectangle $[a,b]\times[c,d]$, then under mild integrability conditions **Fubini’s Theorem** states
+
+$$
+\iint_R f(x,y)\,dA = \int_{x=a}^{b} \left( \int_{y=c}^{d} f(x,y)\,dy \right) dx
+= \int_{y=c}^{d} \left( \int_{x=a}^{b} f(x,y)\,dx \right) dy.
+$$
+
+Thus a double integral becomes an *iterated* single integral. The inner integral is evaluated first, treating the other variable as constant.
+
+**Example (rectangle):**  
+Evaluate $\iint_R (x^2 + y^2)\,dA$ over $R = [0,2]\times[1,3]$.
+
+*Solution:*  
+First integrate with respect to $y$ (holding $x$ constant):
+$$
+\int_{y=1}^{3} (x^2 + y^2)\,dy = \left[ x^2 y + \frac{y^3}{3} \right]_{y=1}^{3}
+= (3x^2 + 9) - (x^2 + \tfrac{1}{3}) = 2x^2 + \tfrac{26}{3}.
+$$
+Then integrate with respect to $x$:
+$$
+\int_{0}^{2} \left(2x^2 + \frac{26}{3}\right) dx = \left[ \frac{2}{3}x^3 + \frac{26}{3}x \right]_{0}^{2}
+= \frac{16}{3} + \frac{52}{3} = \frac{68}{3}.
+$$
+
+The same result is obtained using the opposite order.
+
+### Double Integrals over General Regions
+
+For non‑rectangular regions, we describe the domain as a **Type I** or **Type II** region.
+
+- **Type I (vertical):** $R = \{(x,y) \mid a\le x\le b,\; g_1(x)\le y\le g_2(x)\}$.  
+  Then
+  $$
+  \iint_R f\,dA = \int_{x=a}^{b} \int_{y=g_1(x)}^{g_2(x)} f(x,y)\,dy\,dx.
+  $$
+
+- **Type II (horizontal):** $R = \{(x,y) \mid c\le y\le d,\; h_1(y)\le x\le h_2(y)\}$.  
+  Then
+  $$
+  \iint_R f\,dA = \int_{y=c}^{d} \int_{x=h_1(y)}^{h_2(y)} f(x,y)\,dx\,dy.
+  $$
+
+**Example (general region):**  
+Compute the volume under the plane $z = 2-x-y$ over the triangle with vertices $(0,0)$, $(1,0)$, $(0,1)$.
+
+*Solution:*  
+The triangle can be viewed as a Type I region: $0\le x\le 1$, $0\le y\le 1-x$. Then
+$$
+V = \int_{x=0}^{1} \int_{y=0}^{1-x} (2 - x - y)\,dy\,dx.
+$$
+Inner integral:
+$$
+\int_{0}^{1-x} (2-x-y)\,dy = \left[ (2-x)y - \frac{y^2}{2} \right]_{0}^{1-x}
+= (2-x)(1-x) - \frac{(1-x)^2}{2}.
+$$
+Simplify:
+$$
+(2-x)(1-x) = 2 - 3x + x^2,\qquad
+\frac{(1-x)^2}{2} = \frac{1 - 2x + x^2}{2}.
+$$
+Difference:
+$$
+(2 - 3x + x^2) - \frac{1 - 2x + x^2}{2} = \frac{4 - 6x + 2x^2 - 1 + 2x - x^2}{2}
+= \frac{3 - 4x + x^2}{2}.
+$$
+Outer integral:
+$$
+V = \int_{0}^{1} \frac{3 - 4x + x^2}{2}\,dx = \frac12\left[ 3x - 2x^2 + \frac{x^3}{3} \right]_{0}^{1}
+= \frac12\left(3 - 2 + \frac13\right) = \frac12\cdot\frac{4}{3} = \frac{2}{3}.
+$$
+
+### Change of Variables and the Jacobian
+
+Sometimes a region is simpler in other coordinates, e.g., polar coordinates. If a transformation $T: (u,v) \mapsto (x,y)$ is one‑to‑one, then
+
+$$
+\iint_R f(x,y)\,dx\,dy = \iint_S f\big(x(u,v),y(u,v)\big) \left| \frac{\partial(x,y)}{\partial(u,v)} \right| du\,dv,
+$$
+
+where $S$ is the pre‑image of $R$ and $\displaystyle \frac{\partial(x,y)}{\partial(u,v)}$ is the **Jacobian** determinant.
+
+For **polar coordinates** $x = r\cos\theta,\; y = r\sin\theta$, the Jacobian is $r$, thus $dA = r\,dr\,d\theta$.
+
+**Example (polar):**  
+Evaluate $\iint_R e^{-x^2-y^2}\,dA$, where $R$ is the disk of radius $a$ centred at the origin.
+
+*Solution:*  
+In polar coordinates, $x^2+y^2 = r^2$, and $R$ becomes $0\le r\le a$, $0\le\theta\le 2\pi$.
+$$
+\iint_R e^{-x^2-y^2}\,dA
+= \int_{\theta=0}^{2\pi} \int_{r=0}^{a} e^{-r^2}\, r\,dr\,d\theta
+= \left(\int_{0}^{2\pi} d\theta\right) \left(\int_{0}^{a} r e^{-r^2}\,dr\right).
+$$
+The $\theta$‑integral is $2\pi$. For the $r$‑integral, substitute $u=r^2$, $du=2r\,dr$:
+$$
+\int_{0}^{a} r e^{-r^2}\,dr = \frac12 \int_{0}^{a^2} e^{-u}\,du = \frac12 (1 - e^{-a^2}).
+$$
+Hence the integral equals $\pi(1 - e^{-a^2})$. As $a\to\infty$, we recover the classic $\int_{-\infty}^{\infty} e^{-x^2}dx = \sqrt{\pi}$.
+
+---
+
+## Triple Integrals
+
+### Definition and Notation
+
+For a function $f(x,y,z)$ defined over a bounded solid $D\subset \mathbb{R}^3$, the **triple integral**
+
+$$
+\iiint_D f(x,y,z)\,dV
+$$
+
+generalises the same idea with volume elements $dV$. In rectangular coordinates, $dV = dx\,dy\,dz$ (in any order).
+
+### Iterated Integration
+
+When $D$ is a rectangular box $[a,b]\times[c,d]\times[p,q]$, Fubini’s Theorem gives
+
+$$
+\iiint_D f\,dV = \int_{x=a}^{b} \int_{y=c}^{d} \int_{z=p}^{q} f(x,y,z)\,dz\,dy\,dx,
+$$
+
+and similarly for any permutation of the variables.
+
+**Example (box):**  
+$\iiint_B xyz\,dV$ over $B = [0,1]\times[1,2]\times[0,2]$.
+
+*Solution:*  
+Integrate $z$ first:
+$$
+\int_{0}^{2} xyz\,dz = xy\left[\frac{z^2}{2}\right]_{0}^{2} = xy\cdot\frac{4}{2}=2xy.
+$$
+Then integrate $y$ from $1$ to $2$:
+$$
+\int_{1}^{2} 2xy\,dy = 2x\left[\frac{y^2}{2}\right]_{1}^{2} = 2x(2 - \frac12) = 3x.
+$$
+Finally, $x$ from $0$ to $1$:
+$$
+\int_{0}^{1} 3x\,dx = \frac32.
+$$
+
+### Triple Integrals over General Regions
+
+For a solid $D$, we often project onto a plane and then describe the top and bottom surfaces.
+
+- **Projection onto $xy$-plane:** Suppose $D = \{(x,y,z)\mid (x,y)\in R,\; u_1(x,y)\le z\le u_2(x,y)\}$. Then
+  $$
+  \iiint_D f\,dV = \iint_R \left( \int_{z=u_1(x,y)}^{u_2(x,y)} f(x,y,z)\,dz \right) dA.
+  $$
+
+**Example:**  
+Find the volume of the region bounded by the paraboloid $z = x^2 + y^2$ and the plane $z = 4$.
+
+*Solution:*  
+The intersection is the circle $x^2+y^2=4$ in the plane $z=4$. The solid can be described as $0\le z\le 4$, and for fixed $z$, the cross‑section is a disk of radius $\sqrt{z}$ (since $x^2+y^2\le z$). Alternatively, project onto the $xy$-plane: the region $R$ is the disk $x^2+y^2\le 4$, with bottom $z=x^2+y^2$ and top $z=4$. So
+$$
+V = \iint_R (4 - (x^2+y^2))\,dA.
+$$
+Using polar coordinates, $dA = r\,dr\,d\theta$, $0\le r\le 2$, $0\le\theta\le 2\pi$:
+$$
+V = \int_{0}^{2\pi} \int_{0}^{2} (4 - r^2)\, r\,dr\,d\theta
+= 2\pi \int_{0}^{2} (4r - r^3)\,dr
+= 2\pi \left[ 2r^2 - \frac{r^4}{4} \right]_0^2
+= 2\pi (8 - 4) = 8\pi.
+$$
+
+### Change of Variables in Triple Integrals
+
+A transformation $T: (u,v,w)\to (x,y,z)$ requires the Jacobian determinant:
+
+$$
+\iiint_D f(x,y,z)\,dx\,dy\,dz = \iiint_S f(x(u,v,w),\dots) \left|\frac{\partial(x,y,z)}{\partial(u,v,w)}\right| du\,dv\,dw.
+$$
+
+Two important coordinate systems:
+
+- **Cylindrical coordinates:** $(r,\theta,z)$ with $x=r\cos\theta$, $y=r\sin\theta$, $z=z$. The Jacobian is $r$, so $dV = r\,dr\,d\theta\,dz$.
+
+- **Spherical coordinates:** $(\rho,\phi,\theta)$ with $x=\rho\sin\phi\cos\theta$, $y=\rho\sin\phi\sin\theta$, $z=\rho\cos\phi$. Here $\rho\ge 0$ (radial distance), $\phi\in[0,\pi]$ (polar angle from the $z$-axis), $\theta\in[0,2\pi)$ (azimuthal angle). The Jacobian is $\rho^2\sin\phi$, so $dV = \rho^2\sin\phi\,d\rho\,d\phi\,d\theta$.
+
+**Example (spherical):**  
+Find the mass of a solid ball of radius $R$ with density $\delta(x,y,z) = k\, e^{-(x^2+y^2+z^2)}$, where $k$ is constant.
+
+*Solution:*  
+In spherical coordinates, $x^2+y^2+z^2 = \rho^2$, and the ball is $0\le\rho\le R$, $0\le\phi\le\pi$, $0\le\theta\le 2\pi$.
+$$
+\text{Mass} = \iiint_{\text{ball}} k e^{-\rho^2}\,dV
+= k \int_{0}^{2\pi} \int_{0}^{\pi} \int_{0}^{R} e^{-\rho^2} \rho^2 \sin\phi \,d\rho\,d\phi\,d\theta.
+$$
+Separate the angular parts:
+$$
+\int_{0}^{2\pi} d\theta = 2\pi,\qquad
+\int_{0}^{\pi} \sin\phi\,d\phi = 2.
+$$
+So mass $= 4\pi k \int_{0}^{R} \rho^2 e^{-\rho^2} d\rho$. The remaining integral does not have an elementary closed form but can be expressed in terms of the error function. For a full sphere ($R\to\infty$) it reduces to $4\pi k \cdot \frac{\sqrt{\pi}}{4} = \pi^{3/2} k$, using the Gaussian integral.
+
+---
+
+## Applications
+
+Multiple integrals are essential in many applied fields:
+
+- **Area and Volume:** When $f(x,y)=1$, $\iint_R dA$ gives the area of $R$; $\iiint_D dV$ gives the volume.
+- **Mass and Average Value:** If $\delta$ is density, $\iiint_D \delta\,dV$ is mass. The average value of $f$ over a region $R$ is $\frac{1}{\text{area}(R)}\iint_R f\,dA$.
+- **Centre of Mass and Moments of Inertia:**  
+  Centre of mass coordinates are $\bar x = \frac{1}{m}\iiint x\,\delta\,dV$, etc. Moments of inertia about axes are integrals like $\iiint (y^2+z^2)\delta\,dV$.
+- **Probability:** For joint continuous distributions, probabilities are double/triple integrals of joint density functions.
+- **Physics and Engineering:** Flux, work, and fluid flow often reduce to multiple integrals via Green’s, Stokes’, and Gauss’s theorems (though these involve vector integrals, the evaluation often uses multiple integrals).
+
+---
+
+## Summary
+
+- **Multiple integrals** extend the one‑dimensional Riemann integral to functions of several variables, providing tools to compute volumes, masses, and other aggregated quantities over planar or spatial regions.
+- **Double integrals** $\iint_R f(x,y)\,dA$ are evaluated as iterated integrals (Fubini’s Theorem). For non‑rectangular domains, the region must be described as Type I or Type II. A change of variables using the **Jacobian** (e.g., $dx\,dy = r\,dr\,d\theta$ in polar) simplifies many
