@@ -1,0 +1,188 @@
+---
+title: Limits and Continuity
+subject: math
+slug: limits-and-continuity
+description: 
+status: published
+verified: false
+author: n8n@learnflow.bot
+created_at: 2026-04-27
+---
+
+# Limits and Continuity
+
+## Introduction
+In calculus, the notions of **limit** and **continuity** form the foundation upon which differentiation and integration are built. A limit describes the behavior of a function as its input approaches a particular value, while continuity captures the idea of a function having no breaks, jumps, or holes. Mastering these concepts is essential for understanding rates of change, accumulation, and the deeper properties of functions.
+
+This article provides a rigorous yet accessible treatment of limits and continuity at the undergraduate level, with clear definitions, fundamental theorems, and worked examples.
+
+## The Concept of a Limit
+
+### Intuitive Idea
+Suppose a function $f(x)$ is defined for all $x$ near a point $a$, except possibly at $a$ itself. We say
+\[
+\lim_{x \to a} f(x) = L
+\]
+if the values of $f(x)$ can be made arbitrarily close to $L$ by taking $x$ sufficiently close to $a$ (but not equal to $a$). The limit describes the *target* value, not necessarily the function’s value at $a$.
+
+### Formal Definition (ε–δ)
+For completeness, the precise definition:  
+$\lim_{x \to a} f(x) = L$ if for every $\epsilon > 0$ there exists a $\delta > 0$ such that whenever $0 < |x - a| < \delta$, we have $|f(x) - L| < \epsilon$. This article focuses on computational methods and conceptual understanding; the formal definition is rarely used directly for elementary evaluations.
+
+### Basic Limit Laws
+If $\lim_{x \to a} f(x)$ and $\lim_{x \to a} g(x)$ exist, then:
+- $\lim_{x \to a} [f(x) \pm g(x)] = \lim_{x \to a} f(x) \pm \lim_{x \to a} g(x)$
+- $\lim_{x \to a} [c \cdot f(x)] = c \cdot \lim_{x \to a} f(x)$
+- $\lim_{x \to a} [f(x) \cdot g(x)] = \lim_{x \to a} f(x) \cdot \lim_{x \to a} g(x)$
+- $\lim_{x \to a} \frac{f(x)}{g(x)} = \frac{\lim_{x \to a} f(x)}{\lim_{x \to a} g(x)}$, provided $\lim_{x \to a} g(x) \neq 0$.
+
+### Example 1: Direct Substitution
+Evaluate $\displaystyle \lim_{x \to 2} (3x^2 - 4x + 1)$.
+
+Since the polynomial is continuous everywhere (as we will formalize later), we can simply plug in $x=2$:
+\[
+\lim_{x \to 2} (3x^2 - 4x + 1) = 3(2)^2 - 4(2) + 1 = 12 - 8 + 1 = 5.
+\]
+
+### Example 2: Removing an Indeterminate Form
+Evaluate $\displaystyle \lim_{x \to 3} \frac{x^2 - 9}{x - 3}$.
+
+Direct substitution yields $\frac{0}{0}$, an indeterminate form. Factor the numerator:
+\[
+\frac{x^2 - 9}{x - 3} = \frac{(x-3)(x+3)}{x-3}.
+\]
+For $x \neq 3$, we can cancel the common factor, leaving $x+3$. Thus,
+\[
+\lim_{x \to 3} \frac{x^2 - 9}{x - 3} = \lim_{x \to 3} (x+3) = 6.
+\]
+
+### The Squeeze Theorem
+If $g(x) \leq f(x) \leq h(x)$ for all $x$ near $a$ (except possibly at $a$), and
+\[
+\lim_{x \to a} g(x) = \lim_{x \to a} h(x) = L,
+\]
+then $\lim_{x \to a} f(x) = L$.
+
+**Example 3:** Show $\displaystyle \lim_{x \to 0} x^2 \sin\!\left(\frac{1}{x}\right) = 0$.
+
+We know $-1 \leq \sin(1/x) \leq 1$, so
+\[
+- x^2 \leq x^2 \sin(1/x) \leq x^2.
+\]
+Since $\lim_{x \to 0} (-x^2) = 0$ and $\lim_{x \to 0} x^2 = 0$, the Squeeze Theorem gives the desired limit $0$.
+
+## One-Sided Limits
+Sometimes the behavior of a function differs as $x$ approaches $a$ from the left or from the right.
+
+- **Left-hand limit:** $\lim_{x \to a^-} f(x) = L$ means $f(x) \to L$ as $x \to a$ with $x < a$.
+- **Right-hand limit:** $\lim_{x \to a^+} f(x) = L$ means $f(x) \to L$ as $x \to a$ with $x > a$.
+
+The two-sided limit $\lim_{x \to a} f(x)$ exists **if and only if** both one-sided limits exist and are equal:
+\[
+\lim_{x \to a} f(x) = L \quad\Longleftrightarrow\quad \lim_{x \to a^-} f(x) = \lim_{x \to a^+} f(x) = L.
+\]
+
+### Example 4: Piecewise Function
+Define
+\[
+f(x) = 
+\begin{cases}
+x^2 + 1, & x < 1, \\
+3 - x, & x > 1.
+\end{cases}
+\]
+Find $\lim_{x \to 1} f(x)$ if it exists.
+
+Compute one-sided limits:
+\[
+\lim_{x \to 1^-} f(x) = \lim_{x \to 1^-} (x^2+1) = 2, \qquad
+\lim_{x \to 1^+} f(x) = \lim_{x \to 1^+} (3-x) = 2.
+\]
+Both equal $2$, so $\lim_{x \to 1} f(x) = 2$, regardless of the fact that $f(1)$ may not even be defined.
+
+## Infinite Limits and Limits at Infinity
+
+### Infinite Limits (Vertical Asymptotes)
+If $f(x)$ grows without bound as $x \to a$, we write
+\[
+\lim_{x \to a} f(x) = \infty \quad \text{(or } -\infty\text{)}.
+\]
+This indicates a **vertical asymptote** at $x = a$.
+
+**Example 5:** $\displaystyle \lim_{x \to 0^+} \frac{1}{x} = \infty$, and $\displaystyle \lim_{x \to 0^-} \frac{1}{x} = -\infty$. Since the one-sided limits are not equal (and not finite), $\lim_{x \to 0} \frac{1}{x}$ does not exist.
+
+### Limits at Infinity (Horizontal Asymptotes)
+We examine the long-term behavior of $f(x)$ as $x \to \infty$ or $x \to -\infty$. If the limit exists and equals $L$, the line $y = L$ is a **horizontal asymptote**.
+
+**Example 6:** $\displaystyle \lim_{x \to \infty} \frac{1}{x} = 0$, so $y = 0$ is a horizontal asymptote.
+
+For rational functions, divide numerator and denominator by the highest power of $x$ in the denominator.
+
+**Example 7:** Evaluate $\displaystyle \lim_{x \to \infty} \frac{2x^2 - 3x + 1}{x^2 + 4}$.
+
+Divide each term by $x^2$:
+\[
+\lim_{x \to \infty} \frac{2 - \frac{3}{x} + \frac{1}{x^2}}{1 + \frac{4}{x^2}} 
+= \frac{2 - 0 + 0}{1 + 0} = 2.
+\]
+So $y = 2$ is a horizontal asymptote.
+
+## Continuity
+
+### Definition
+A function $f$ is **continuous at a point** $a$ if three conditions hold:
+1. $f(a)$ is defined,
+2. $\lim_{x \to a} f(x)$ exists,
+3. $\lim_{x \to a} f(x) = f(a)$.
+
+If $f$ is continuous at every point in an interval, we say $f$ is **continuous on that interval**.
+
+Geometrically, a continuous function can be drawn without lifting the pen.
+
+### Common Continuous Functions
+- Polynomials: continuous for all real numbers.
+- Rational functions: continuous wherever the denominator is nonzero.
+- Trigonometric functions: $\sin x$, $\cos x$ continuous everywhere; $\tan x$ continuous except at $x = \frac{\pi}{2} + k\pi$.
+- Exponential and logarithmic functions: $e^x$ continuous everywhere; $\ln x$ continuous for $x > 0$.
+- Root functions: $\sqrt{x}$ continuous on $[0, \infty)$.
+
+### Example 8: Checking Continuity
+Show $f(x) = \sqrt{x-2}$ is continuous at $x = 6$.
+
+- $f(6) = \sqrt{4} = 2$ is defined.
+- $\lim_{x \to 6} \sqrt{x-2} = \sqrt{6-2} = 2$ (by limit laws and continuity of the square root).
+- The limit equals the function value, so $f$ is continuous at $x=6$.
+
+### Example 9: Discontinuity from a Hole
+Let $g(x) = \frac{x^2-4}{x-2}$ for $x \neq 2$, and define $g(2) = 3$. Is $g$ continuous at $x=2$?
+
+We have $\lim_{x \to 2} g(x) = \lim_{x \to 2} (x+2) = 4$ (after factoring). But $g(2) = 3 \neq 4$, so the function is **discontinuous** at $x=2$ despite the limit existing. This is a **removable discontinuity** (a hole) that could be fixed by redefining $g(2)=4$.
+
+## Types of Discontinuities
+1. **Removable discontinuity:** $\lim_{x \to a} f(x)$ exists but is not equal to $f(a)$, or $f(a)$ is undefined. The graph has a hole that can be “filled” by redefining the function at $a$.
+2. **Jump discontinuity:** The left‑ and right‑hand limits exist but are not equal. Example: the greatest integer function $f(x) = \lfloor x \rfloor$ at integer values.
+3. **Infinite discontinuity:** At least one of the one‑sided limits is $\infty$ or $-\infty$, indicating a vertical asymptote. Example: $f(x) = 1/x$ at $x = 0$.
+
+## The Intermediate Value Theorem (IVT)
+If $f$ is continuous on a closed interval $[a, b]$ and $N$ is any number between $f(a)$ and $f(b)$ (inclusive), then there exists at least one $c$ in $[a, b]$ such that $f(c) = N$.
+
+The IVT is a powerful tool for proving the existence of solutions to equations.
+
+### Example 10: Proving a Root Exists
+Show that the equation $x^3 - x - 1 = 0$ has a root between $1$ and $2$.
+
+Let $f(x) = x^3 - x - 1$, a polynomial and therefore continuous on $[1, 2]$.
+\[
+f(1) = 1 - 1 - 1 = -1, \qquad f(2) = 8 - 2 - 1 = 5.
+\]
+Since $f(1) < 0 < f(2)$, the IVT guarantees some $c \in (1,2)$ with $f(c) = 0$, i.e., a root of the equation.
+
+## Summary
+- The **limit** of a function at a point describes the value the function approaches. It does not depend on the function’s actual value at that point.
+- **One-sided limits** refine the idea of a limit from strictly one direction, and a two-sided limit exists only when both one-sided limits agree.
+- **Infinite limits** indicate unbounded behavior (vertical asymptotes), while **limits at infinity** describe end behavior (horizontal asymptotes).
+- A function is **continuous** at a point if the limit equals the function’s value. Continuity on an interval guarantees no breaks or jumps.
+- Discontinuities are classified as **removable**, **jump**, or **infinite**.
+- The **Intermediate Value Theorem** provides a guarantee that continuous functions attain all intermediate values, a key result for existence proofs.
+
+A solid grasp of limits and continuity opens the door to differentiation, where the limit of a difference quotient defines the derivative, and to integration, where limits of Riemann sums define the integral. These concepts remain central throughout all of calculus and real analysis.
