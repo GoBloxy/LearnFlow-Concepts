@@ -1,0 +1,229 @@
+---
+title: Sequences and Series
+subject: math
+slug: sequences-and-series
+description: 
+status: published
+verified: false
+author: n8n@learnflow.bot
+created_at: 2026-04-27
+---
+
+# Sequences and Series
+
+## Introduction
+Sequences and series are foundational concepts in calculus and mathematical analysis. A **sequence** is an ordered list of numbers, while a **series** is the sum of the terms of a sequence. Understanding their behavior—especially convergence—underpins many topics, from function approximation and differential equations to Fourier analysis and complex variables. This article provides a comprehensive overview of sequences, infinite series, convergence tests, power series, and Taylor expansions, with formal definitions, key theorems, and worked examples.
+
+---
+
+## 1. Sequences
+
+### 1.1 Definition and Notation
+A **sequence** $\{a_n\}_{n=1}^{\infty}$ is a function whose domain is the set of positive integers. The numbers $a_1, a_2, a_3, \dots$ are the **terms** of the sequence.
+
+**Examples:**
+- $a_n = \frac{1}{n}$ : $1, \tfrac12, \tfrac13, \tfrac14, \dots$
+- $a_n = (-1)^n$ : $-1, 1, -1, 1, \dots$
+- $a_n = \frac{n}{n+1}$ : $\tfrac12, \tfrac23, \tfrac34, \dots$
+
+### 1.2 Convergence and Limits
+A sequence $\{a_n\}$ **converges** to a limit $L$ if for every $\epsilon > 0$ there exists an integer $N$ such that $|a_n - L| < \epsilon$ for all $n > N$. We write $\displaystyle \lim_{n\to\infty} a_n = L$. If no such $L$ exists, the sequence **diverges**.
+
+**Example:**  
+Prove $a_n = \frac{3n+1}{2n+5} \to \frac{3}{2}$.  
+Given $\epsilon > 0$, choose $N > \frac{13}{4\epsilon} - \frac{5}{2}$. Then $n > N$ implies
+$$
+\left| \frac{3n+1}{2n+5} - \frac{3}{2} \right| 
+= \left| \frac{6n+2 - 6n-15}{2(2n+5)} \right|
+= \frac{13}{4n+10} < \epsilon.
+$$
+
+**Limit Laws:**  
+If $\lim a_n = A$ and $\lim b_n = B$, then  
+- $\lim (a_n \pm b_n) = A \pm B$  
+- $\lim (c\,a_n) = cA$  
+- $\lim (a_n b_n) = AB$  
+- $\lim \frac{a_n}{b_n} = \frac{A}{B}$, provided $B \neq 0$.
+
+### 1.3 Properties of Convergent Sequences
+- A convergent sequence is **bounded** (there exists $M$ such that $|a_n| \le M$ for all $n$).
+- If $a_n \le b_n$ for all $n$ beyond some $N$, then $\lim a_n \le \lim b_n$.
+- Every bounded monotonic sequence converges. (A sequence is **increasing** if $a_{n+1} \ge a_n$, **decreasing** if $a_{n+1} \le a_n$, and **monotonic** if it is either.)
+
+### 1.4 The Squeeze Theorem
+If $a_n \le b_n \le c_n$ for all large $n$, and $\lim a_n = \lim c_n = L$, then $\lim b_n = L$.
+
+**Example:**  
+For $b_n = \frac{\cos n}{n}$, we have $-\frac{1}{n} \le \frac{\cos n}{n} \le \frac{1}{n}$. Since $\pm\frac{1}{n} \to 0$, the squeeze theorem gives $\frac{\cos n}{n} \to 0$.
+
+### 1.5 Common Limits and Divergent Behavior
+- $\lim_{n\to\infty} r^n = 0$ if $|r| < 1$; diverges (or oscillates) otherwise.
+- $\lim_{n\to\infty} \frac{1}{n^p} = 0$ for $p > 0$.
+- $\lim_{n\to\infty} \left(1 + \frac{x}{n}\right)^n = e^x$.
+
+---
+
+## 2. Infinite Series
+
+### 2.1 Definition and Partial Sums
+An **infinite series** is the sum of the terms of a sequence:
+$$
+\sum_{n=1}^{\infty} a_n = a_1 + a_2 + a_3 + \cdots
+$$
+Its convergence is determined by the sequence of **partial sums**: $S_N = \sum_{n=1}^{N} a_n$.  
+The series **converges** to $S$ if $\lim_{N\to\infty} S_N = S$. Otherwise it **diverges**.
+
+**Telescoping series**:  
+Consider $\sum_{n=1}^{\infty} \frac{1}{n(n+1)}$. Using partial fractions,
+$$
+a_n = \frac{1}{n} - \frac{1}{n+1}, \quad
+S_N = 1 - \frac{1}{N+1} \to 1.
+$$
+So the series converges to $1$.
+
+### 2.2 Geometric Series
+A geometric series has the form $\sum_{n=0}^{\infty} ar^n$, with $a \neq 0$. Its partial sum is
+$$
+S_N = a\frac{1-r^{N+1}}{1-r} \quad (r \neq 1).
+$$
+Thus the series **converges** if $|r| < 1$:
+$$
+\sum_{n=0}^{\infty} ar^n = \frac{a}{1-r}.
+$$
+If $|r| \ge 1$, the series diverges.
+
+**Example:**  
+$\sum_{n=0}^{\infty} 5\left(\frac{2}{3}\right)^n = \frac{5}{1-2/3} = 15$.
+
+### 2.3 Divergence Test
+If $\sum a_n$ converges, then $\lim_{n\to\infty} a_n = 0$. Equivalently, if $\lim_{n\to\infty} a_n \neq 0$ or does not exist, the series diverges.
+
+**Warning:** The converse is false. The harmonic series $\sum \frac{1}{n}$ has $a_n \to 0$ yet diverges.
+
+### 2.4 Harmonic Series and $p$-Series
+- **Harmonic series:** $\sum_{n=1}^{\infty} \frac{1}{n}$ diverges (integral test or grouping).
+- **$p$-series:** $\sum_{n=1}^{\infty} \frac{1}{n^p}$ converges if $p > 1$, diverges if $p \le 1$.
+
+---
+
+## 3. Convergence Tests for Series of Positive Terms
+
+Assume $a_n \ge 0$ for all $n$.
+
+### 3.1 The Integral Test
+If $f(x)$ is continuous, positive, and decreasing on $[1,\infty)$, and $a_n = f(n)$, then  
+$\sum_{n=1}^{\infty} a_n$ converges $\iff$ $\int_{1}^{\infty} f(x)\,dx$ converges.
+
+**Example:**  
+For $f(x)=\frac{1}{x^2}$, $\int_1^\infty \frac{dx}{x^2} = 1$, so the $p$-series with $p=2$ converges.
+
+### 3.2 Comparison Test
+If $0 \le a_n \le b_n$ for all sufficiently large $n$:
+- $\sum b_n$ converges $\implies$ $\sum a_n$ converges.
+- $\sum a_n$ diverges $\implies$ $\sum b_n$ diverges.
+
+**Limit Comparison Test:**  
+If $\lim_{n\to\infty} \frac{a_n}{b_n} = c$, with $0 < c < \infty$, then both series either converge or diverge.
+
+**Example:**  
+Test $\sum \frac{n}{n^3+1}$. Compare with $\sum \frac{1}{n^2}$: $\frac{n/(n^3+1)}{1/n^2} = \frac{n^3}{n^3+1} \to 1$. Since $\sum \frac{1}{n^2}$ converges, the given series converges.
+
+### 3.3 Ratio Test
+Let $\rho = \lim_{n\to\infty} \left| \frac{a_{n+1}}{a_n} \right|$.
+- If $\rho < 1$, the series converges absolutely.
+- If $\rho > 1$ or $\rho = \infty$, the series diverges.
+- If $\rho = 1$, the test is inconclusive.
+
+**Example:**  
+$\sum \frac{3^n}{n!}$. Then $\frac{a_{n+1}}{a_n} = \frac{3}{n+1} \to 0 < 1$, so converges absolutely.
+
+### 3.4 Root Test
+Let $\rho = \lim_{n\to\infty} \sqrt[n]{|a_n|}$.
+- $\rho < 1$ $\implies$ absolute convergence.
+- $\rho > 1$ $\implies$ divergence.
+- $\rho = 1$ inconclusive.
+
+**Example:**  
+$\sum \left(1 + \frac{1}{n}\right)^{n^2}$. Then $\sqrt[n]{a_n} = \left(1+\frac{1}{n}\right)^n \to e > 1$, series diverges.
+
+---
+
+## 4. Alternating Series and Absolute Convergence
+
+### 4.1 Alternating Series Test
+An alternating series $\sum (-1)^{n-1} b_n$ (with $b_n > 0$) converges if:
+1. $b_{n+1} \le b_n$ for all large $n$ (decreasing),  
+2. $\lim_{n\to\infty} b_n = 0$.
+
+**Example:**  
+Alternating harmonic series $\sum (-1)^{n-1} \frac{1}{n}$ converges by this test (though conditionally, see below).
+
+### 4.2 Absolute and Conditional Convergence
+- $\sum a_n$ converges **absolutely** if $\sum |a_n|$ converges.
+- If $\sum a_n$ converges but $\sum |a_n|$ diverges, the series is **conditionally convergent**.
+
+**Absolute convergence implies convergence**, but not vice versa.  
+The alternating harmonic series is conditionally convergent: $\sum \frac{1}{n}$ diverges, but $\sum (-1)^{n-1}\frac{1}{n}$ converges.  
+Conditionally convergent series can be rearranged to sum to any real number (Riemann rearrangement theorem).
+
+**Example:**  
+$\sum \frac{(-1)^n}{n^2}$ converges absolutely because $\sum \frac{1}{n^2}$ is a convergent $p$-series.
+
+---
+
+## 5. Power Series
+
+### 5.1 Definition
+A **power series** centered at $x = a$ is an expression
+$$
+\sum_{n=0}^{\infty} c_n (x-a)^n,
+$$
+where $c_n$ are constants. It can be thought of as an infinite polynomial.
+
+### 5.2 Radius and Interval of Convergence
+For a given power series, there exists a number $R \ge 0$ (the **radius of convergence**) such that the series converges absolutely for $|x-a| < R$, diverges for $|x-a| > R$, and may converge or diverge at the endpoints $x = a \pm R$. The set of all $x$ where it converges is the **interval of convergence**.
+
+**Finding $R$:** Often use Ratio or Root Test.  
+For $\sum c_n (x-a)^n$, compute
+$$
+\lim_{n\to\infty} \left| \frac{c_{n+1}}{c_n} \right| = L \quad \Rightarrow \quad R = \frac{1}{L} \quad (\text{with } R=\infty \text{ if } L=0,\; R=0 \text{ if } L=\infty).
+$$
+
+**Example:**  
+$\sum_{n=1}^{\infty} \frac{(x-2)^n}{n\, 3^n}$.  
+Ratio: $\left| \frac{c_{n+1}}{c_n} \right| = \frac{1}{3} \frac{n}{n+1} \to \frac{1}{3}$, so $R = 3$.  
+Center $a=2$, interval $|x-2|<3$: $(-1,5)$. Test endpoints separately:  
+$x=-1$ gives $\sum \frac{(-3)^n}{n\,3^n} = \sum \frac{(-1)^n}{n}$ converges (alternating harmonic);  
+$x=5$ gives $\sum \frac{3^n}{n\,3^n} = \sum \frac{1}{n}$ diverges.  
+Interval: $[-1,5)$.
+
+### 5.3 Differentiation and Integration of Power Series
+Within its interval of convergence, a power series can be differentiated and integrated term by term:
+$$
+\frac{d}{dx}\sum_{n=0}^\infty c_n (x-a)^n = \sum_{n=1}^\infty n c_n (x-a)^{n-1},
+$$
+$$
+\int \sum_{n=0}^\infty c_n (x-a)^n\,dx = C + \sum_{n=0}^\infty \frac{c_n}{n+1} (x-a)^{n+1}.
+$$
+Both resulting series have the same radius of convergence $R$ (but endpoint behavior may change).
+
+---
+
+## 6. Taylor and Maclaurin Series
+
+### 6.1 Taylor’s Theorem
+If $f$ is infinitely differentiable at $a$, its **Taylor series** is
+$$
+f(x) = \sum_{n=0}^{\infty} \frac{f^{(n)}(a)}{n!} (x-a)^n.
+$$
+The special case $a=0$ is the **Maclaurin series**: $\displaystyle f(x) = \sum_{n=0}^{\infty} \frac{f^{(n)}(0)}{n!} x^n$.
+
+Taylor’s formula with remainder: $f(x) = P_N(x) + R_N(x)$, where $P_N$ is the $N$th-degree Taylor polynomial and $R_N(x)$ is the remainder. Often $R_N(x) \to 0$ as $N\to\infty$ for $x$ in the interval of convergence, and the series equals $f(x)$.
+
+### 6.2 Common Maclaurin Series
+- $\displaystyle e^x = \sum_{n=0}^{\infty} \frac{x^n}{n!}, \quad R=\infty$
+- $\displaystyle \sin x = \sum_{n=0}^{\infty} (-1)^n \frac{x^{2n+1}}{(2n+1)!}, \quad R=\infty$
+- $\displaystyle \cos x = \sum_{n=0}^{\infty} (-1)^n \frac{x^{2n}}{(2n)!}, \quad R=\infty$
+- $\displaystyle \frac{1}{1-x} = \sum_{n=0}^{\infty} x^n, \quad R=1$
+- $\displaystyle \ln(1+x) = \sum_{n=1}^{\infty} (-1)^{n-1} \frac{x^n}{n}, \quad R=1$
+- $\displaystyle \arctan x = \sum_{n=0}^{\infty} (-1)^n \frac{x^{2
