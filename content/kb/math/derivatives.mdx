@@ -1,0 +1,138 @@
+---
+title: Derivatives
+subject: math
+slug: derivatives
+description: 
+status: published
+verified: false
+author: n8n@learnflow.bot
+created_at: 2026-04-27
+---
+
+# Derivatives
+
+## Introduction
+
+The derivative is one of the fundamental concepts of calculus, capturing the idea of instantaneous rate of change. For a function $f(x)$, the derivative $f'(x)$ measures how $f$ changes as its input $x$ changes by an infinitesimally small amount. Geometrically, the derivative at a point is the slope of the tangent line to the graph of $f$ at that point. Derivatives are essential tools in mathematics, physics, engineering, economics, and any field that models change. They form the foundation for optimization, motion analysis, and differential equations. This article develops the definition, core rules, and key applications of derivatives at an undergraduate level.
+
+## Core Concepts
+
+### Limit Definition of the Derivative
+
+The derivative of a function $f$ at a point $a$ is defined by the limit
+$$f'(a) = \lim_{h \to 0} \frac{f(a+h) - f(a)}{h},$$
+provided this limit exists. If the limit exists, we say $f$ is differentiable at $a$. This expression is the difference quotient, giving the slope of the secant line through $(a, f(a))$ and $(a+h, f(a+h))$. As $h \to 0$, the secant line approaches the tangent line.
+
+**Example 1**  
+Compute the derivative of $f(x) = x^2$ using the limit definition.
+
+**Solution**
+$$f'(x) = \lim_{h \to 0} \frac{(x+h)^2 - x^2}{h} = \lim_{h \to 0} \frac{x^2 + 2xh + h^2 - x^2}{h} = \lim_{h \to 0} \frac{2xh + h^2}{h} = \lim_{h \to 0} (2x + h) = 2x.$$
+Thus $f'(x) = 2x$.
+
+The derivative function $f'(x)$ can also be denoted by Leibniz notation $\frac{dy}{dx}$ or $\frac{d}{dx}f(x)$.
+
+**Differentiability implies continuity**: If $f$ is differentiable at $a$, then $f$ is continuous at $a$. The converse is not true (e.g., $f(x)=|x|$ is continuous at $0$ but not differentiable there).
+
+### Basic Differentiation Rules
+
+Computing derivatives from the limit definition is tedious, so we use rules derived from it.
+
+- **Constant Rule**: $\frac{d}{dx}[c] = 0$.
+- **Power Rule**: $\frac{d}{dx}[x^n] = n x^{n-1}$ for any real number $n$.
+- **Constant Multiple Rule**: $\frac{d}{dx}[cf(x)] = c f'(x)$.
+- **Sum/Difference Rule**: $\frac{d}{dx}[f(x) \pm g(x)] = f'(x) \pm g'(x)$.
+- **Product Rule**: $\frac{d}{dx}[f(x)g(x)] = f'(x)g(x) + f(x)g'(x)$.
+- **Quotient Rule**: $\frac{d}{dx}\left[\frac{f(x)}{g(x)}\right] = \frac{f'(x)g(x) - f(x)g'(x)}{[g(x)]^2}$, where $g(x) \neq 0$.
+- **Chain Rule**: If $y = f(u)$ and $u = g(x)$, then $\frac{dy}{dx} = \frac{dy}{du} \cdot \frac{du}{dx}$, or $[f(g(x))]' = f'(g(x)) \cdot g'(x)$.
+
+**Example 2: Product Rule**  
+Differentiate $h(x) = (3x^2 + 1)(x^3 - 2x)$.
+
+**Solution**  
+Let $f(x) = 3x^2+1$, $g(x) = x^3-2x$. Then $f'(x) = 6x$, $g'(x) = 3x^2-2$.
+$$h'(x) = (6x)(x^3-2x) + (3x^2+1)(3x^2-2).$$
+Expanding: $6x^4 - 12x^2 + 9x^4 -6x^2 + 3x^2 -2 = 15x^4 -15x^2 -2$, but expansion is often left in factored form depending on context.
+
+**Example 3: Chain Rule**  
+Differentiate $y = \sin(x^3)$.
+
+**Solution**  
+Let $u = x^3$, $y = \sin u$. Then $\frac{dy}{dx} = \cos u \cdot 3x^2 = 3x^2 \cos(x^3)$.
+
+### Derivatives of Elementary Functions
+
+- $\frac{d}{dx}[\sin x] = \cos x$
+- $\frac{d}{dx}[\cos x] = -\sin x$
+- $\frac{d}{dx}[\tan x] = \sec^2 x$
+- $\frac{d}{dx}[e^x] = e^x$
+- $\frac{d}{dx}[\ln x] = \frac{1}{x}$, $x>0$
+- $\frac{d}{dx}[a^x] = a^x \ln a$, for $a>0$
+- $\frac{d}{dx}[\log_a x] = \frac{1}{x \ln a}$
+- $\frac{d}{dx}[\arcsin x] = \frac{1}{\sqrt{1-x^2}}$
+- $\frac{d}{dx}[\arctan x] = \frac{1}{1+x^2}$
+
+These can be combined with rules above to differentiate complicated expressions.
+
+### Implicit Differentiation
+
+When a function is given implicitly, such as $x^2 + y^2 = 1$, we differentiate both sides with respect to $x$, treating $y$ as a function of $x$ and using the chain rule.
+
+**Example 4**  
+Find $\frac{dy}{dx}$ for $x^2 + y^2 = 1$.
+
+**Solution**  
+Differentiate: $2x + 2y \frac{dy}{dx} = 0 \implies \frac{dy}{dx} = -\frac{x}{y}$ (for $y \neq 0$).
+
+### Logarithmic Differentiation
+
+For functions involving products, quotients, or powers where variables appear in both base and exponent, taking natural logarithms simplifies differentiation.
+
+**Example 5**  
+Differentiate $y = x^x$.
+
+**Solution**  
+$\ln y = x \ln x$.  
+Differentiate implicitly: $\frac{1}{y}\frac{dy}{dx} = \ln x + 1 \implies \frac{dy}{dx} = y (\ln x + 1) = x^x (\ln x + 1)$.
+
+### Higher-Order Derivatives
+
+The derivative of a derivative is the second derivative, denoted $f''(x)$ or $\frac{d^2y}{dx^2}$. It measures the rate of change of the rate of change, i.e., acceleration if $y$ is position. Higher derivatives $f^{(n)}(x)$ follow similarly.
+
+### Applications of Derivatives
+
+- **Tangent Lines**: The equation of the tangent line to $y=f(x)$ at $x=a$ is $y - f(a) = f'(a)(x-a)$.
+- **Linear Approximation**: $f(x) \approx f(a) + f'(a)(x-a)$ near $a$.
+- **Critical Points and Extrema**: Points where $f'(x)=0$ or $f'(x)$ does not exist are candidates for local maxima/minima. Use first or second derivative tests.
+- **Concavity and Inflection Points**: $f''(x)>0$ implies concave up; $f''(x)<0$ concave down. Points where concavity changes are inflection points.
+- **Optimization**: Finding global maxima/minima of functions on intervals.
+- **Related Rates**: If two variables are related by an equation, their derivatives with respect to time are related via the chain rule.
+- **L'Hôpital's Rule**: For limits of indeterminate forms $\frac{0}{0}$ or $\frac{\infty}{\infty}$, $\lim \frac{f(x)}{g(x)} = \lim \frac{f'(x)}{g'(x)}$, provided the limit exists.
+
+**Example 6: Optimization**  
+Find the rectangle with maximum area under the curve $y = 4 - x^2$ and above the x-axis.
+
+**Solution**  
+Consider rectangle with vertices $(-x,0)$, $(x,0)$, $(x,4-x^2)$, $(-x,4-x^2)$ for $0 \le x \le 2$.  
+Area $A(x) = 2x(4-x^2) = 8x - 2x^3$.  
+$A'(x) = 8 - 6x^2 = 0 \implies x = \sqrt{4/3} = 2/\sqrt{3}$.  
+$A''(x) = -12x < 0$ at this $x$, so it’s a maximum. Maximum area $A = \frac{32}{3\sqrt{3}}$.
+
+### Differentiability and Non-Differentiability
+
+A function can fail to be differentiable at a point if it has:
+- A corner (e.g., $f(x)=|x|$ at $0$)
+- A vertical tangent (infinite slope)
+- A discontinuity
+
+Smooth elementary functions are differentiable on their domains, but piecewise functions require checking limits from left and right.
+
+### Mean Value Theorem
+
+If $f$ is continuous on $[a,b]$ and differentiable on $(a,b)$, then there exists $c \in (a,b)$ such that
+$$f'(c) = \frac{f(b)-f(a)}{b-a}.$$
+Geometrically, there is at least one point where the tangent is parallel to the secant line. This theorem underpins many important results in calculus.
+
+## Summary
+
+Derivatives quantify instantaneous rates of change and slopes of tangents. The limit definition leads to powerful differentiation rules, enabling efficient computation. Mastery of the product, quotient, chain rules, and derivatives of elementary functions allows tackling a wide variety of functions. Implicit and logarithmic differentiation handle more subtle relationships. Beyond calculation, derivatives provide tools for approximating functions, finding extreme values, analyzing motion, and solving real-world optimization problems. A solid understanding of derivatives and their properties is indispensable for progressing in calculus, differential equations, and applied mathematics.
