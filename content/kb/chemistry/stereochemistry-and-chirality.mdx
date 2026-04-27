@@ -1,0 +1,114 @@
+---
+title: Stereochemistry and Chirality
+subject: chemistry
+slug: stereochemistry-and-chirality
+description: 
+status: published
+verified: false
+author: n8n@learnflow.bot
+created_at: 2026-04-27
+---
+
+# Stereochemistry and Chirality
+
+## 1. Introduction
+Stereochemistry is the branch of chemistry that studies the three‑dimensional arrangement of atoms within molecules and the influence of this arrangement on the physical and chemical properties of substances. One of its central concepts is **chirality** – the property of an object that is not superimposable on its mirror image. In the molecular world, chirality has profound consequences: the two mirror‑image forms of a chiral molecule (enantiomers) often behave identically in an achiral environment, yet they can exhibit dramatically different biological activities. The tragic example of thalidomide, where one enantiomer acted as a sedative while the other caused severe birth defects, underscores the critical importance of stereochemistry in drug design. This article provides a comprehensive undergraduate‑level survey of stereochemistry and chirality, covering fundamental definitions, the Cahn‑Ingold‑Prelog (R/S) nomenclature, optical activity, diastereomers and meso compounds, non‑classical chirality, and practical aspects such as resolution of enantiomers.
+
+## 2. Isomerism and Stereoisomers
+Isomers are molecules that share the same molecular formula but differ in how their atoms are connected or arranged in space.
+
+### 2.1 Constitutional Isomers vs. Stereoisomers
+- **Constitutional (structural) isomers** have the same molecular formula but different atom‑to‑atom connectivity.  
+  *Example*: $C_2H_6O$ can be ethanol ($CH_3CH_2OH$) or dimethyl ether ($CH_3OCH_3$).
+- **Stereoisomers** possess identical connectivity but differ in the spatial orientation of their atoms. Stereoisomers are subdivided into:
+  - **Enantiomers** – non‑superimposable mirror images.
+  - **Diastereomers** – stereoisomers that are not mirror images (e.g., *cis/trans* isomers, epimers).
+
+### 2.2 Chirality and Enantiomers
+A molecule is **chiral** (from Greek *cheir*, hand) if it is not superimposable on its mirror image. The most common cause of molecular chirality is the presence of an asymmetric (stereogenic) carbon atom – a tetrahedral carbon bonded to four different groups. Such a carbon is called a **stereocenter** or chiral center. The two non‑superimposable mirror‑image arrangements of a chiral molecule are called **enantiomers**.
+
+*Example*: 2‑butanol, $CH_3CH(OH)CH_2CH_3$, has a stereocenter at C‑2 (the carbon bearing $H$, $OH$, $CH_3$, and $CH_2CH_3$). Its two enantiomers are non‑identical mirror images.
+
+A molecule is **achiral** if it possesses an internal plane of symmetry (a mirror plane that bisects the molecule into two identical halves). Any molecule with a plane of symmetry is superimposable on its mirror image. For instance, 2‑propanol (where the central carbon carries two identical methyl groups) is achiral.
+
+### 2.3 Naming Enantiomers: The R/S System
+The absolute configuration of a stereocenter is assigned using the **Cahn–Ingold–Prelog (CIP) priority rules**:
+
+1. Assign a priority number (1 = highest, 4 = lowest) to each atom directly attached to the stereocenter based on atomic number (higher atomic number → higher priority). For isotopes, the higher mass number takes priority.
+2. If two atoms are identical, move outward along the chain until a point of difference is found.
+3. Multiple bonds are treated as if each bond were to an equivalent number of singly‑bonded “phantom” atoms.
+4. After assigning priorities, orient the molecule so that the lowest‑priority group (4) points directly away from the viewer.
+5. Observe the sequence 1 → 2 → 3:
+   - Clockwise direction → configuration **R** (Rectus)
+   - Counter‑clockwise direction → configuration **S** (Sinister)
+
+*Worked example*: Assign the configuration of (‑)-2‑butanol.
+- Groups on C‑2: $OH$ (1), $CH_2CH_3$ (2), $CH_3$ (3), $H$ (4).  
+- With $H$ pointing away, the order $OH$ → $CH_2CH_3$ → $CH_3$ is counter‑clockwise, so the enantiomer is **(S)‑2‑butanol**. The mirror image is (R)‑2‑butanol.
+
+*Note*: (R) and (S) are absolute configurations, not related directly to the direction of optical rotation.
+
+## 3. Optical Activity
+Enantiomers differ in their interaction with **plane‑polarized light**.
+
+### 3.1 Polarimetry and Specific Rotation
+When a beam of plane‑polarized light passes through a solution of a chiral compound, the plane of polarization is rotated. The phenomenon is called **optical activity**. One enantiomer rotates the plane clockwise [(+), dextrorotatory] and the other rotates it counter‑clockwise [(‑), levorotatory] by an equal magnitude.
+
+The specific rotation $[\alpha]$ is a standardized measure, given by the formula:
+
+$$[\alpha]_\lambda^T = \frac{\alpha}{l \cdot c}$$
+
+where:
+- $\alpha$ = observed rotation (degrees),
+- $l$ = path length (dm),
+- $c$ = concentration (g mL⁻¹),
+- $T$ = temperature (°C), commonly 20 °C,
+- $\lambda$ = wavelength, usually the sodium D‑line (589 nm), denoted $D$.
+
+Thus $[\alpha]^{20}_D$ represents the specific rotation measured at 20 °C using the sodium D‑line.
+
+### 3.2 Enantiomeric Excess and Optical Purity
+A 1:1 mixture of two enantiomers is called a **racemic mixture** (racemate) and shows no net optical rotation. In synthetic chemistry, mixtures often contain an excess of one enantiomer. The **enantiomeric excess** ($ee$) quantifies this:
+
+$$ee\ (\%) = \frac{|[R] - [S]|}{[R] + [S]} \times 100\% = |\%R - \%S|$$
+
+For a mixture where the rotation arises solely from the excess enantiomer, the $ee$ equals the **optical purity**:
+
+$$\text{Optical purity}\ (\%) = \frac{\text{observed specific rotation}}{\text{specific rotation of pure enantiomer}} \times 100\%$$
+
+## 4. Molecules with Multiple Stereocenters
+When a molecule contains $n$ stereocenters, the maximum number of stereoisomers is $2^n$. However, internal symmetry can reduce this number.
+
+### 4.1 Diastereomers
+**Diastereomers** are stereoisomers that are not enantiomers (i.e., they are not mirror images). Unlike enantiomers, diastereomers have different physical properties (melting point, boiling point, solubility, etc.) and can often be separated by conventional techniques such as fractional crystallization or chromatography.
+
+*Example*: 2‑bromo‑3‑chlorobutane, $CH_3CHBrCHClCH_3$, with two uneven stereocenters, gives four stereoisomers:
+- (2R,3R) and (2S,3S) – a pair of enantiomers.
+- (2R,3S) and (2S,3R) – a second enantiomeric pair.
+Any (R,R) isomer is diastereomeric to either (R,S) isomer.
+
+### 4.2 Meso Compounds
+A **meso compound** is an achiral member of a set of stereoisomers that contains at least two stereocenters. Despite possessing chiral centers, the molecule as a whole is achiral because an internal mirror plane bisects it, making it superimposable on its mirror image. Meso compounds are optically inactive.
+
+*Classic example*: Tartaric acid, $HOOC\!-\!CH(OH)\!-\!CH(OH)\!-\!COOH$. The two central carbons are stereocenters. The four possible combinations are:
+- (2R,3R)-tartaric acid and (2S,3S)-tartaric acid (enantiomers).
+- (2R,3S)-tartaric acid, which is identical to (2S,3R)-tartaric acid – this is the achiral meso form.
+
+Thus, tartaric acid has only three distinct stereoisomers: the (R,R) and (S,S) pair, and the meso compound.
+
+## 5. Chirality without Tetrahedral Stereocenters
+Chirality is not limited to tetrahedral carbon stereocenters. Several structural motifs can give rise to chiral molecules even in the absence of a classical asymmetric carbon.
+
+- **Axial chirality (atropisomerism)**: Restricted rotation about a single bond, typically in biaryl systems, gives non‑superimposable mirror images. *Example*: 1,1′‑bi‑2‑naphthol (BINOL), where the two naphthalene rings cannot freely rotate because of bulky substituents, exists as enantiomeric atropisomers.
+- **Allenes**: Molecules with a cumulative double bond system $C=C=C$ display axial chirality when each terminal carbon carries two different substituents. The substituents lie in perpendicular planes, and the molecule has no plane of symmetry. *Example*: 1,3‑dichloroallene, $ClHC=C=CHCl$, is chiral.
+- **Helical chirality**: Inherently chiral helical structures such as hexahelicene (a polycyclic aromatic hydrocarbon twisted into a helix) exist as right‑ and left‑handed enantiomers.
+- **Planar chirality**: Some macrocycles and organometallic compounds (e.g., certain substituted ferrocenes) derive chirality from the arrangement of substituents above or below a ring plane.
+
+## 6. Chirality in Biological Systems and Drug Design
+Living organisms are inherently chiral; enzymes and receptors are composed of L‑amino acids and D‑sugars. Consequently, the two enantiomers of a chiral drug often interact very differently with biological targets. The Easson–Stedman hypothesis describes a three‑point attachment model for chiral recognition: a receptor can distinguish enantiomers only if the drug makes at least three specific interactions with the receptor site.
+
+*Thalidomide tragedy*: The racemic mixture of thalidomide was marketed as a sedative and anti‑nausea agent for pregnant women in the late 1950s. It was later discovered that (R)‑thalidomide provided the desired sedative effect, while (S)‑thalidomide caused severe fetal limb malformations. Moreover, interconversion of enantiomers *in vivo* meant that administering the pure (R)‑enantiomer did not eliminate the teratogenic risk entirely. This event spurred the development of regulatory guidelines demanding the evaluation of each enantiomer’s pharmacology and led to a preference for single‑enantiomer drugs when possible.
+
+## 7. Fischer Projections and the D/L System
+**Fischer projections** are a two‑dimensional representation of molecules with multiple stereocenters. By convention:
+- Horizontal
