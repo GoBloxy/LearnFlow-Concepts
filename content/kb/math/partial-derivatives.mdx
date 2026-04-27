@@ -1,0 +1,145 @@
+---
+title: Partial Derivatives
+subject: math
+slug: partial-derivatives
+description: 
+status: published
+verified: false
+author: n8n@learnflow.bot
+created_at: 2026-04-27
+---
+
+# Partial Derivatives
+
+## Introduction
+
+In single-variable calculus, the derivative measures the instantaneous rate of change of a function with respect to its independent variable. When we move to functions of several variables, the situation becomes richer: a function $f(x,y)$ can change at different rates depending on the direction we move in its domain. The **partial derivative** captures the rate of change of a multivariable function along one of its coordinate axes, while all other variables are held constant.
+
+For example, the temperature on a metal plate depends on the position $(x,y)$. The rate at which temperature changes as you move strictly east (increasing $x$) is a partial derivative with respect to $x$; moving strictly north gives the partial derivative with respect to $y$. This article develops the definition, notation, computation, geometric meaning, and higher-order partial derivatives, providing a foundation for vector calculus and optimization.
+
+## Core Concepts
+
+### Definition of a Partial Derivative
+
+Let $f: \mathbb{R}^n \to \mathbb{R}$ be a function of $n$ variables. The **partial derivative** of $f$ with respect to the variable $x_i$ at a point $\mathbf{a} = (a_1, \dots, a_n)$ is defined by the limit
+
+$$
+\frac{\partial f}{\partial x_i}(\mathbf{a}) = \lim_{h \to 0} \frac{f(a_1, \dots, a_{i-1}, a_i + h, a_{i+1}, \dots, a_n) - f(a_1, \dots, a_n)}{h},
+$$
+
+provided the limit exists. This is exactly the ordinary derivative of the single-variable function obtained by fixing all variables except $x_i$. For a function of two variables, $f(x,y)$, we have two partial derivatives:
+
+$$
+f_x(x,y) = \frac{\partial f}{\partial x} = \lim_{h \to 0} \frac{f(x+h, y) - f(x,y)}{h},
+\qquad
+f_y(x,y) = \frac{\partial f}{\partial y} = \lim_{h \to 0} \frac{f(x, y+h) - f(x,y)}{h}.
+$$
+
+### Notation
+
+Several equivalent notations are used:
+
+- $\displaystyle \frac{\partial f}{\partial x}$, $\frac{\partial f}{\partial y}$ (Leibniz)
+- $f_x$, $f_y$ (subscript)
+- $D_x f$, $D_y f$ (operator style)
+
+The symbol $\partial$ (often read “del” or “partial”) distinguishes the partial derivative from the ordinary derivative $d/dx$.
+
+### Geometric Interpretation
+
+For a function $f: \mathbb{R}^2 \to \mathbb{R}$, the graph $z = f(x,y)$ is a surface in three-dimensional space. At a point $(x_0, y_0)$, the intersection of this surface with the vertical plane $y = y_0$ gives a curve. The slope of the tangent line to this curve at $(x_0, y_0, f(x_0,y_0))$ is exactly the partial derivative $f_x(x_0,y_0)$. Similarly, slicing with $x = x_0$ yields a curve whose tangent slope is $f_y(x_0,y_0)$. Thus, $f_x$ and $f_y$ represent the slopes of the surface in the directions of the $x$- and $y$-axes, respectively.
+
+### Computing Partial Derivatives
+
+To compute $\partial f / \partial x$, treat all variables other than $x$ as constants and differentiate with respect to $x$ using the ordinary rules (power, product, chain, etc.). The same principle applies to $\partial f / \partial y$. This simplicity is one of the great strengths of partial differentiation.
+
+**Example 1**: Find $f_x$ and $f_y$ for $f(x,y) = x^3 y^2 + e^{x} \sin y$.
+
+- For $f_x$, treat $y$ as constant:
+  $$
+  \frac{\partial}{\partial x}(x^3 y^2) = 3x^2 y^2,
+  \qquad
+  \frac{\partial}{\partial x}(e^{x} \sin y) = e^{x} \sin y,
+  $$
+  so $f_x = 3x^2 y^2 + e^x \sin y$.
+- For $f_y$, treat $x$ as constant:
+  $$
+  \frac{\partial}{\partial y}(x^3 y^2) = 2x^3 y,
+  \qquad
+  \frac{\partial}{\partial y}(e^{x} \sin y) = e^{x} \cos y,
+  $$
+  hence $f_y = 2x^3 y + e^x \cos y$.
+
+**Example 2**: $f(x,y) = \sqrt{x^2 + y^2}$. For $(x,y) \neq (0,0)$,
+$$
+f_x = \frac{x}{\sqrt{x^2 + y^2}}, \quad f_y = \frac{y}{\sqrt{x^2 + y^2}}.
+$$
+At $(0,0)$ the limits do not exist; the surface $z = \sqrt{x^2 + y^2}$ (a cone) has a cusp at the origin and no well-defined tangent plane.
+
+### Higher‑Order Partial Derivatives
+
+Since the first partial derivatives $f_x$ and $f_y$ are themselves functions of $x$ and $y$, we can differentiate them again to obtain **second‑order partial derivatives**. There are four possibilities for a function of two variables:
+
+- $\displaystyle \frac{\partial^2 f}{\partial x^2} = \frac{\partial}{\partial x}\!\left(\frac{\partial f}{\partial x}\right) = f_{xx}$,
+- $\displaystyle \frac{\partial^2 f}{\partial y \partial x} = \frac{\partial}{\partial y}\!\left(\frac{\partial f}{\partial x}\right) = f_{xy}$,
+- $\displaystyle \frac{\partial^2 f}{\partial x \partial y} = \frac{\partial}{\partial x}\!\left(\frac{\partial f}{\partial y}\right) = f_{yx}$,
+- $\displaystyle \frac{\partial^2 f}{\partial y^2} = \frac{\partial}{\partial y}\!\left(\frac{\partial f}{\partial y}\right) = f_{yy}$.
+
+Mixed partials like $f_{xy}$ and $f_{yx}$ are typically computed by first taking the derivative with respect to one variable, then the other. The order of the subscripts indicates the order of differentiation; e.g., $f_{xy} = (f_x)_y$.
+
+**Clairaut’s Theorem** (also called the equality of mixed partials) states that if $f_{xy}$ and $f_{yx}$ are continuous on an open region, then they are equal at every point of that region: $f_{xy} = f_{yx}$. This permits us to choose the more convenient order of differentiation when computing mixed partials.
+
+**Example of higher-order derivatives**: Let $f(x,y) = x^3 y^2 + e^x y$.
+
+First partials:
+$$
+f_x = 3x^2 y^2 + e^x y, \qquad f_y = 2x^3 y + e^x.
+$$
+Second partials:
+$$
+f_{xx} = \frac{\partial}{\partial x}(3x^2 y^2 + e^x y) = 6x y^2 + e^x y,
+$$
+$$
+f_{yy} = \frac{\partial}{\partial y}(2x^3 y + e^x) = 2x^3,
+$$
+$$
+f_{xy} = \frac{\partial}{\partial y}(f_x) = \frac{\partial}{\partial y}(3x^2 y^2 + e^x y) = 6x^2 y + e^x,
+$$
+$$
+f_{yx} = \frac{\partial}{\partial x}(f_y) = \frac{\partial}{\partial x}(2x^3 y + e^x) = 6x^2 y + e^x.
+$$
+Indeed, $f_{xy} = f_{yx}$, as guaranteed by Clairaut’s theorem.
+
+Higher orders are defined analogously; for example $f_{xxy} = \frac{\partial}{\partial y}(f_{xx})$.
+
+### Partial Derivatives and Differentiability
+
+Existence of partial derivatives at a point does **not** guarantee that the function is continuous, or even differentiable, there. Consider
+
+$$
+f(x,y) = \begin{cases}
+\dfrac{xy}{x^2 + y^2}, & (x,y) \neq (0,0),\\
+0, & (x,y) = (0,0).
+\end{cases}
+$$
+
+Both $f_x(0,0)$ and $f_y(0,0)$ exist (they equal 0), but $f$ is not continuous at the origin. For a function to be **differentiable** in the sense of having a good linear approximation, the partial derivatives must not only exist but also be continuous near the point. Differentiability is a stronger condition that will lead to the concept of the total derivative and the gradient.
+
+### Connections to the Gradient and Directional Derivatives
+
+The vector of first partial derivatives,
+$$
+\nabla f = \left( \frac{\partial f}{\partial x_1}, \dots, \frac{\partial f}{\partial x_n} \right),
+$$
+is the **gradient** of $f$. It points in the direction of steepest ascent, and its magnitude gives that maximal rate of change. The **directional derivative** in the direction of a unit vector $\mathbf{u}$ is the dot product $\nabla f \cdot \mathbf{u}$. The partial derivatives are precisely the directional derivatives along the standard basis vectors $\mathbf{e}_i$.
+
+## Summary
+
+- **Partial derivative** $\partial f/\partial x_i$ measures how a multivariable function changes as $x_i$ varies while all other variables stay fixed.
+- It is defined by a limit analogous to the ordinary derivative, and computed by treating other variables as constants.
+- Geometrically, for $f(x,y)$, $f_x$ and $f_y$ give the slopes of the surface $z = f(x,y)$ in the $x$ and $y$ directions.
+- **Higher-order partial derivatives** are obtained by repeated partial differentiation. Under mild continuity conditions, mixed partials are equal (Clairaut’s theorem).
+- Existence of partial derivatives does not alone imply continuity or differentiability; stronger conditions are needed for a good linear approximation.
+- Partial derivatives are the building blocks of the gradient, directional derivatives, and later of optimization and multiple integration.
+
+Mastering partial derivatives allows you to analyze functions of several variables and opens the door to advanced topics such as multivariable calculus, physics, engineering, and data science.
