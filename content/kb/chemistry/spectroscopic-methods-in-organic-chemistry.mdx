@@ -1,0 +1,216 @@
+---
+title: Spectroscopic Methods in Organic Chemistry
+subject: chemistry
+slug: spectroscopic-methods-in-organic-chemistry
+description: 
+status: published
+verified: false
+author: n8n@learnflow.bot
+created_at: 2026-04-27
+---
+
+# Spectroscopic Methods in Organic Chemistry
+
+## Introduction  
+Spectroscopic methods are indispensable tools for determining the structure, purity, and dynamics of organic molecules. They exploit the interaction of electromagnetic radiation or high‑energy particles with matter to reveal details about functional groups, carbon skeletons, stereochemistry, and molecular weight. This article introduces the four most common techniques used in undergraduate organic chemistry: **UV‑Visible (UV‑Vis) spectroscopy**, **Infrared (IR) spectroscopy**, **Nuclear Magnetic Resonance (NMR) spectroscopy**, and **Mass Spectrometry (MS)**. Together they allow a complete picture of a molecule’s identity.
+
+---
+
+## UV‑Visible Spectroscopy  
+
+### Principle  
+UV‑Vis spectroscopy probes electronic transitions. When a molecule absorbs ultraviolet (200–400 nm) or visible (400–800 nm) light, electrons are promoted from a ground state to an excited state. The energy of the absorbed photon is given by  
+
+$$E = h\nu = \frac{hc}{\lambda}$$  
+
+where $h$ is Planck’s constant, $c$ the speed of light, $\nu$ the frequency, and $\lambda$ the wavelength.  
+
+The absorbance $A$ obeys the Beer–Lambert law:  
+
+$$A = \log_{10}\left(\frac{I_0}{I}\right) = \varepsilon c l$$  
+
+$I_0$ and $I$ are incident and transmitted intensities, $\varepsilon$ is the molar absorption coefficient (L mol⁻¹ cm⁻¹), $c$ the concentration (mol L⁻¹), and $l$ the path length (cm).
+
+### Chromophores in Organic Molecules  
+Only molecules with **chromophores** – functional groups containing $\pi$ electrons or non‑bonding electrons – show useful UV‑Vis absorptions. Important transitions:  
+
+- $\pi \rightarrow \pi^*$ (e.g., C=C, C=O, aromatic rings)  
+- $n \rightarrow \pi^*$ (e.g., carbonyl compounds, nitro groups)  
+- $n \rightarrow \sigma^*$ (high energy, rarely observed)  
+
+Conjugation lowers the energy gap between HOMO and LUMO, shifting absorption to longer wavelengths (**bathochromic shift**) and increasing intensity (**hyperchromic effect**).
+
+### Example: β‑Carotene  
+β‑Carotene, with 11 conjugated double bonds, absorbs strongly at $\lambda_{\text{max}} \approx 450$ nm (blue light), giving it an orange colour. Its $\varepsilon$ is around $1.4\times10^5$ L mol⁻¹ cm⁻¹.
+
+### Applications  
+- Monitoring reactions involving conjugated systems.  
+- Quantitative analysis using the Beer–Lambert law.  
+- Determining purity of compounds with known extinction coefficients.
+
+---
+
+## Infrared (IR) Spectroscopy  
+
+### Principle  
+Infrared radiation (4000–400 cm⁻¹) excites molecular vibrations – stretching and bending of bonds. A bond absorbs IR radiation only if its dipole moment changes during the vibration. The frequency $\tilde{\nu}$ (wavenumber, cm⁻¹) is related to the reduced mass $\mu$ and force constant $k$ of the bond:  
+
+$$\tilde{\nu} = \frac{1}{2\pi c} \sqrt{\frac{k}{\mu}}$$  
+
+Stronger bonds and lighter atoms vibrate at higher wavenumbers.
+
+### Characteristic Group Frequencies  
+Different functional groups absorb in predictable regions. Key correlations for organic molecules:
+
+| Bond / Functional Group | $\tilde{\nu}$ (cm⁻¹) | Intensity / Shape                  |
+|------------------------|----------------------|------------------------------------|
+| O–H (alcohol, H‑bonded) | 3200–3600           | Broad, strong                     |
+| N–H (amine, amide)    | 3300–3500           | Medium, sharp (often multiple)    |
+| C–H (alkane)          | 2850–2960           | Strong                            |
+| C–H (alkene, alkyne)  | 3000–3100, ~3300    | Medium, sharp (C≡C–H)            |
+| C≡C                   | 2100–2260           | Weak (or absent if symmetric)     |
+| C≡N                   | 2210–2260           | Medium, sharp                     |
+| C=O (carbonyl)        | 1680–1750           | Very strong                       |
+| C=C (alkene)          | 1600–1680           | Variable                          |
+| C–O (alcohol, ether)  | 1000–1300           | Strong                            |
+
+### Example: IR Spectrum of Acetophenone  
+Acetophenone ($\ce{C6H5COCH3}$) shows:  
+- Aromatic C–H stretch: ~3060 cm⁻¹ (weak)  
+- Alkane C–H stretch: ~2960, 2870 cm⁻¹  
+- C=O stretch: 1685 cm⁻¹ (very strong)  
+- Aromatic C=C stretches: ~1600, 1580, 1450 cm⁻¹  
+- C–O (not present) – no band near 1200 cm⁻¹  
+
+The carbonyl peak confirms a ketone; the aromatic bands indicate a phenyl ring.
+
+### Fingerprint Region  
+The region below ~1500 cm⁻¹ is highly characteristic of the whole molecule and is used to match compounds against databases.
+
+---
+
+## Nuclear Magnetic Resonance (NMR) Spectroscopy  
+
+NMR exploits the magnetic properties of certain nuclei (e.g., $^1$H, $^{13}$C) placed in a strong magnetic field. It provides the most detailed structural information: the number, type, and connectivity of atoms.
+
+### Basic Principles  
+Nuclei with spin $I \neq 0$ possess a magnetic moment. In an external magnetic field $B_0$, they occupy $2I+1$ energy levels. For $^1$H and $^{13}$C ($I = 1/2$), two levels exist. The energy difference is  
+
+$$\Delta E = \gamma \hbar B_0$$  
+
+where $\gamma$ is the gyromagnetic ratio. Irradiation with radiofrequency energy matching $\Delta E$ induces transitions.
+
+### Chemical Shift  
+Electrons shield the nucleus from $B_0$, causing nuclei in different chemical environments to resonate at slightly different frequencies. The **chemical shift** $\delta$ (ppm) is defined as  
+
+$$\delta = \frac{\nu_{\text{sample}} - \nu_{\text{ref}}}{\nu_{\text{ref}}} \times 10^6$$  
+
+TMS ($\ce{(CH3)4Si}$) is the common reference ($\delta = 0$). Electronegative atoms and $\pi$‑electron currents deshield protons, shifting signals downfield (higher $\delta$).
+
+### $^1$H NMR: Chemical Shift Ranges  
+Typical shifts for organic protons (ppm):
+
+| Proton type           | $\delta$ (ppm) |
+|-----------------------|----------------|
+| Alkane C–H            | 0.8–1.7        |
+| Allylic C–H           | 1.5–2.5        |
+| α to carbonyl         | 2.0–2.7        |
+| Alkynyl C–H           | 1.7–3.1        |
+| Alkoxyl (ether, ester)| 3.3–4.5        |
+| Alcohol O–H           | 1–5 (variable) |
+| Aldehyde C–H          | 9–10           |
+| Aromatic C–H          | 6.5–8.5        |
+| Carboxylic acid O–H   | 10–13          |
+
+### Spin‑Spin Splitting (Coupling)  
+Non‑equivalent protons on adjacent carbons split each other’s signals. The multiplicity follows the $n+1$ rule, where $n$ is the number of neighbouring equivalent protons. The separation between peaks is the coupling constant $J$ (Hz). For example, an ethyl group $\ce{-CH2CH3}$ gives a quartet (for $\ce{CH2}$) and a triplet (for $\ce{CH3}$) with $J \approx 7$ Hz.
+
+### Integration  
+The area under each signal is proportional to the number of protons giving rise to it. Integration traces (or numbers) allow assignment of proton counts.
+
+### $^{13}$C NMR  
+$^{13}$C has low natural abundance (1.1%) but gives a spectrum with one peak per chemically distinct carbon. Chemical shifts span ~0–220 ppm:  
+
+- Alkane carbons: 0–50 ppm  
+- C–O (alcohol, ether): 50–90 ppm  
+- Alkene/aromatic: 100–150 ppm  
+- Carbonyl (ketone, aldehyde, ester, acid): 160–220 ppm  
+
+Broad‑band proton decoupling simplifies spectra to singlets (except for coupling to other nuclei), and techniques like DEPT reveal the number of attached hydrogens ($\ce{CH3}$, $\ce{CH2}$, $\ce{CH}$, $\ce{C}$).
+
+### Example: $^1$H and $^{13}$C NMR of Ethyl Acetate  
+$\ce{CH3COOCH2CH3}$:  
+- $^1$H NMR:  
+  - $\delta = 4.12$ ppm, quartet (2H, $\ce{CH2}$O, $J=7.1$ Hz)  
+  - $\delta = 2.04$ ppm, singlet (3H, $\ce{CH3CO}$)  
+  - $\delta = 1.25$ ppm, triplet (3H, $\ce{CH3CH2}$, $J=7.1$ Hz)  
+- $^{13}$C NMR:  
+  - $\delta = 171.2$ ppm (carbonyl)  
+  - $\delta = 60.5$ ppm ($\ce{CH2O}$)  
+  - $\delta = 21.0$ ppm ($\ce{CH3CO}$)  
+  - $\delta = 14.2$ ppm ($\ce{CH3CH2}$)  
+
+The splitting pattern and shifts confirm the ester structure.
+
+---
+
+## Mass Spectrometry (MS)  
+
+Mass spectrometry does not involve absorption of electromagnetic radiation but is routinely paired with spectroscopic methods. It measures the mass‑to‑charge ratio ($m/z$) of ions, yielding the molecular weight and fragmentation pattern.
+
+### Principle  
+A sample is ionised (e.g., by electron impact, EI, at 70 eV), producing radical cations. These often fragment to give smaller ions. The ions are accelerated through a magnetic or electric field and separated according to their $m/z$.
+
+### The Molecular Ion  
+The **molecular ion** ($M^{+ \bullet}$) peak corresponds to the unfragmented radical cation and gives the molecular mass. The presence of isotopes ($^{13}$C, $^{37}$Cl, $^{81}$Br) creates characteristic **M+1**, **M+2** peaks that help determine molecular formulas.
+
+### Common Fragmentation Patterns  
+Functional groups direct fragmentation. For example:  
+- **Alkanes**: peaks separated by 14 mass units ($\ce{CH2}$ loss); strong $m/z$ 43, 57, 71, …  
+- **Alcohols**: dehydration ($M-18$), α‑cleavage to give oxonium ion.  
+- **Carbonyls**: α‑cleavage and McLafferty rearrangement.  
+
+Accurate mass and isotope patterns provide the molecular formula.
+
+### Example: Mass Spectrum of Acetone  
+$\ce{CH3COCH3}$ (MW = 58):  
+- Molecular ion peak at $m/z$ 58 (small)  
+- Base peak at $m/z$ 43 ($\ce{CH3CO+}$, loss of $\ce{CH3 \bullet}$)  
+- Peak at $m/z$ 15 ($\ce{CH3+}$)  
+
+The $m/z$ 43 base peak is characteristic of methyl ketones.
+
+---
+
+## Combined Structure Determination  
+
+In practice, the techniques are used together. A typical workflow:
+
+1. **MS** gives molecular weight and possible formula.  
+2. **UV‑Vis** indicates conjugation.  
+3. **IR** identifies key functional groups (C=O, O–H, N–H, etc.).  
+4. **$^1$H NMR** provides the number and environment of hydrogens, integration ratios, and coupling patterns.  
+5. **$^{13}$C NMR** reveals the carbon skeleton, hybridisation, and symmetry.  
+6. Advanced 2D NMR (COSY, HSQC, HMBC) can establish atom connectivity when needed.
+
+### Integrated Example: An Unknown Compound  
+Data: MS m/z = 88. IR: 1735 cm⁻¹ (strong), no broad O–H. $^1$H NMR: $\delta$ 3.66 (s, 3H), 2.32 (q, $J=7.5$ Hz, 2H), 1.12 (t, $J=7.5$ Hz, 3H). $^{13}$C NMR: $\delta$ 174.0, 51.3, 27.6, 9.1.  
+
+Interpretation:  
+- MS: MW 88 → possible formula $\ce{C4H8O2}$.  
+- IR: 1735 cm⁻¹ → ester or saturated ketone? No O–H rules out acid.  
+- $^1$H NMR: 3.66 (3H, singlet) → $\ce{CH3O}$ group attached to carbonyl (methyl ester); 2.32 (2H, quartet) and 1.12 (3H, triplet) → ethyl group $\ce{CH2CH3}$ adjacent to carbonyl.  
+- $^{13}$C NMR: carbonyl at 174 ppm (ester), $\ce{OCH3}$ at 51.3, $\ce{CH2}$ at 27.6, $\ce{CH3}$ at 9.1.  
+
+Conclusion: methyl propanoate ($\ce{CH3CH2COOCH3}$).
+
+---
+
+## Summary  
+
+- **UV‑Vis** reveals conjugation through $\pi \rightarrow \pi^*$ and $n \rightarrow \pi^*$ transitions.  
+- **IR** identifies functional groups by characteristic bond vibrations.  
+- **NMR** (both $^1$H and $^{13}$C) gives a detailed map of the carbon‑hydrogen framework, including connectivity and stereochemistry.  
+- **Mass spectrometry** provides molecular weight and fragmentation fingerprints.  
+
+Together, these methods form the cornerstone of molecular characterisation in organic chemistry, enabling chemists to solve structures from small synthetic intermediates to complex natural products.
