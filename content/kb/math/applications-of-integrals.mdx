@@ -1,0 +1,143 @@
+---
+title: Applications of Integrals
+subject: math
+slug: applications-of-integrals
+description: 
+status: published
+verified: false
+author: n8n@learnflow.bot
+created_at: 2026-04-27
+---
+
+# Applications of Integrals
+
+The definite integral, introduced as the limit of a Riemann sum, is one of the most powerful tools in mathematics. While its definition provides a way to compute the signed area under a curve, the integral's additive nature makes it applicable to a vast range of geometric, physical, and probabilistic problems. In this article, we explore several key applications of integrals at the undergraduate level: computing areas between curves, volumes of solids of revolution, arc lengths, surface areas of revolution, physical quantities like work and moments, and average values. Each section builds on the core idea that integrals let us accumulate infinitesimally small contributions to obtain a total quantity.
+
+## Area Between Curves
+The simplest extension of the area under a curve is the area between two curves. If $f(x) \ge g(x)$ on an interval $[a,b]$, the area bounded by them and the vertical lines $x=a$ and $x=b$ is
+$$
+A = \int_a^b \bigl(f(x) - g(x)\bigr)\, dx.
+$$
+When the region is better described by functions of $y$, with $x = f(y)$ to the right of $x = g(y)$ on $[c,d]$, we use
+$$
+A = \int_c^d \bigl(f(y) - g(y)\bigr)\, dy.
+$$
+
+**Example.** Find the area enclosed by the curves $y = x^2$ and $y = x+2$.
+First, find intersection points: $x^2 = x+2 \implies x^2 - x - 2 = 0 \implies x = -1, 2$. On $[-1,2]$, the line $y = x+2$ lies above the parabola $y = x^2$. Thus,
+$$
+A = \int_{-1}^{2} \bigl((x+2) - x^2\bigr)\, dx = \left[ \frac{x^2}{2} + 2x - \frac{x^3}{3} \right]_{-1}^{2} = \frac{9}{2}.
+$$
+
+## Volumes of Solids of Revolution
+### Disk and Washer Methods
+When a region in the $xy$-plane is revolved around an axis, it sweeps out a solid. If the region lies between a curve $y=f(x)$ and the $x$-axis on $[a,b]$, revolving around the $x$-axis gives volume
+$$
+V = \int_a^b \pi [f(x)]^2 \, dx.
+$$
+More generally, if the region is bounded between two curves $y = f(x)$ (outer) and $y = g(x)$ (inner), revolving around the $x$-axis yields a solid with washer cross-sections:
+$$
+V = \int_a^b \pi \bigl( [f(x)]^2 - [g(x)]^2 \bigr)\, dx.
+$$
+Analogous formulas hold for revolving around the $y$-axis or other horizontal/vertical lines.
+
+**Example (Washer method).** The region bounded by $y = \sqrt{x}$, $y = 0$, and $x = 4$ is revolved around the $x$-axis. This is a solid of revolution with radius $\sqrt{x}$:
+$$
+V = \int_0^4 \pi (\sqrt{x})^2 \, dx = \pi \int_0^4 x \, dx = 8\pi.
+$$
+### Shell Method
+When a region is revolved around a vertical axis (say, the $y$-axis) and the slices parallel to the axis are difficult to integrate using disks, cylindrical shells are often convenient. If a region under $y=f(x)$ from $x=a$ to $x=b$ is revolved around the $y$-axis, the volume is
+$$
+V = \int_a^b 2\pi x \, f(x) \, dx.
+$$
+The factor $2\pi x$ is the circumference of a shell of radius $x$, and $f(x)\,dx$ is its height and thickness.
+
+**Example (Shell method).** The region bounded by $y = \sqrt{x}$, $x=0$, and $y=2$ is revolved around the $x$-axis. Using shells (with integration in $y$): the length of a horizontal strip at height $y$ is $x = y^2$, and distance from the $x$-axis is $y$, so
+$$
+V = \int_0^2 2\pi y \cdot (y^2) \, dy = 2\pi \int_0^2 y^3 \, dy = 8\pi.
+$$
+(Check: This is a cone-like solid, volume $8\pi$, matching $\frac{1}{3}\pi r^2 h$ with $r=2, h=4$? Actually the region is bounded by $y=\sqrt{x}$ from $x=0$ to $x=4$ when $y=2$, so height is 4; it's a paraboloid, not a cone.)
+
+## Arc Length
+The length of a smooth curve $y = f(x)$ from $x=a$ to $x=b$ is given by
+$$
+L = \int_a^b \sqrt{1 + \bigl( f'(x) \bigr)^2 } \, dx.
+$$
+If the curve is parametrized by $t \in [\alpha,\beta]$ as $(x(t), y(t))$, the arc length is
+$$
+L = \int_\alpha^\beta \sqrt{ \bigl( x'(t) \bigr)^2 + \bigl( y'(t) \bigr)^2 } \, dt.
+$$
+
+**Example.** Find the length of the curve $y = \frac{2}{3} x^{3/2}$ from $x=0$ to $x=3$. Compute $f'(x) = x^{1/2}$. Then
+$$
+1 + (f'(x))^2 = 1 + x,
+$$
+so
+$$
+L = \int_0^3 \sqrt{1 + x} \, dx = \left[ \frac{2}{3} (1+x)^{3/2} \right]_0^3 = \frac{2}{3}(8 - 1) = \frac{14}{3}.
+$$
+
+## Surface Area of Revolution
+When a smooth curve $y = f(x) \ge 0$ on $[a,b]$ is revolved around the $x$-axis, the resulting surface area (excluding end caps) is
+$$
+S = \int_a^b 2\pi f(x) \sqrt{1 + \bigl( f'(x) \bigr)^2 } \, dx.
+$$
+Revolving around the $y$-axis, the formula becomes $S = \int_a^b 2\pi x \sqrt{1 + \bigl( f'(x) \bigr)^2 } \, dx$, depending on the axis.
+
+**Example.** The curve $y = \sqrt{x}$ from $x=0$ to $x=4$ is revolved around the $x$-axis. The surface area is
+$$
+S = \int_0^4 2\pi \sqrt{x} \sqrt{1 + \left( \frac{1}{2\sqrt{x}} \right)^2 } \, dx = 2\pi \int_0^4 \sqrt{x} \sqrt{ 1 + \frac{1}{4x} } \, dx.
+$$
+Simplify inside: $\sqrt{x} \sqrt{ \frac{4x+1}{4x} } = \sqrt{ \frac{4x+1}{4} } = \frac{1}{2}\sqrt{4x+1}$. Thus
+$$
+S = 2\pi \int_0^4 \frac{1}{2} \sqrt{4x+1} \, dx = \pi \left[ \frac{1}{6} (4x+1)^{3/2} \right]_0^4 = \frac{\pi}{6} (17^{3/2} - 1).
+$$
+
+## Physical Applications
+### Work
+In physics, work done by a varying force $F(x)$ along a straight line from $x=a$ to $x=b$ is $W = \int_a^b F(x)\,dx$. A classic problem involves lifting a rope or pumping fluid. For example, to pump water out of a tank, we slice the water into thin horizontal sheets, compute the work to lift each sheet to the top, and integrate.
+
+**Example.** A cylindrical tank of radius $2$ m and height $6$ m is full of water ($\rho g = 9800$ N/m$^3$). Find the work required to pump the water over the top edge.
+Place the $x$-axis vertically downward with $x=0$ at the top. A thin disk of water at depth $x$ and thickness $dx$ has volume $\pi (2)^2 dx = 4\pi dx$, mass $\rho \cdot 4\pi dx$, and must be lifted a distance $x$. Work for that slice: $dW = \rho g \cdot 4\pi \cdot x \, dx$. Integrate from $x=0$ to $x=6$:
+$$
+W = \int_0^6 9800 \cdot 4\pi x \, dx = 39200\pi \left[ \frac{x^2}{2} \right]_0^6 = 39200\pi \cdot 18 = 705600\pi \text{ J}.
+$$
+
+### Moments and Centers of Mass
+For a thin plane region (lamina) of uniform density, the center of mass $(\bar{x}, \bar{y})$ is found by integrating moments. If the region lies between $y = f(x)$ and $y = g(x)$ on $[a,b]$ with $f(x) \ge g(x)$, the area is $A = \int_a^b (f(x)-g(x))dx$, and
+$$
+\bar{x} = \frac{1}{A} \int_a^b x\bigl(f(x)-g(x)\bigr)\,dx, \quad
+\bar{y} = \frac{1}{A} \int_a^b \frac{1}{2}\bigl([f(x)]^2 - [g(x)]^2\bigr)\,dx.
+$$
+
+**Example.** Find the centroid $(\bar{x},\bar{y})$ of the region bounded by $y = x^2$ and $y = x$ in the first quadrant.
+Intersections: $x=0,1$. On $[0,1]$, $f(x)=x \ge g(x)=x^2$. Area: $A = \int_0^1 (x-x^2)dx = \left[ \frac{x^2}{2} - \frac{x^3}{3} \right]_0^1 = \frac{1}{6}$.
+$$
+\bar{x} = \frac{1}{1/6} \int_0^1 x(x-x^2)dx = 6 \int_0^1 (x^2 - x^3)dx = 6\left[ \frac{1}{3} - \frac{1}{4} \right] = 6 \cdot \frac{1}{12} = \frac{1}{2}.
+$$
+$$
+\bar{y} = \frac{1}{1/6} \int_0^1 \frac{1}{2}(x^2 - x^4)dx = 3 \left[ \frac{x^3}{3} - \frac{x^5}{5} \right]_0^1 = 3 \left( \frac{1}{3} - \frac{1}{5} \right) = 3 \cdot \frac{2}{15} = \frac{2}{5}.
+$$
+Centroid: $(1/2, 2/5)$.
+
+## Average Value of a Function
+The average value of an integrable function $f$ on $[a,b]$ is
+$$
+f_{\text{avg}} = \frac{1}{b-a} \int_a^b f(x) \, dx.
+$$
+This generalizes the arithmetic mean: the integral accumulates all values of $f$ weighted by $dx$, and division by the interval length yields the average.
+
+**Example.** Find the average value of $f(x) = \sin x$ over $[0,\pi]$.
+$$
+f_{\text{avg}} = \frac{1}{\pi} \int_0^\pi \sin x \, dx = \frac{1}{\pi} \bigl[ -\cos x \bigr]_0^\pi = \frac{2}{\pi}.
+$$
+
+## Summary
+The definite integral serves as a universal accumulator. We have seen how:
+- **Area between curves** extends the area under a curve to differences of functions.
+- **Volumes of revolution** are obtained by integrating cross-sectional areas (disk/washer) or cylindrical shells.
+- **Arc length** and **surface area** formulas stem from the Pythagorean theorem applied to infinitesimal segments.
+- Physical quantities like **work** and **center of mass** are computed by breaking the problem into infinitesimal contributions and summing via an integral.
+- The **average value** of a function provides a continuous analog of the mean.
+
+These applications all share a common thread: identifying a small representative piece, expressing the desired quantity for that piece as a product of a density and an infinitesimal element, and integrating over the entire domain. Mastery of these techniques forms the foundation for multivariable calculus, differential equations, and many areas of physics and engineering.
