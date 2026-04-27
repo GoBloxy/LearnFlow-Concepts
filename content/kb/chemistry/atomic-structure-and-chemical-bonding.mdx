@@ -1,0 +1,190 @@
+---
+title: Atomic Structure and Chemical Bonding
+subject: chemistry
+slug: atomic-structure-and-chemical-bonding
+description: 
+status: published
+verified: false
+author: n8n@learnflow.bot
+created_at: 2026-04-27
+---
+
+# Atomic Structure and Chemical Bonding
+
+## 1. Introduction
+The properties of matter are ultimately determined by the arrangement of electrons around atomic nuclei and by the ways atoms combine to form molecules. Two fundamental pillars of chemistry—atomic structure and chemical bonding—provide the framework for understanding everything from the color of gemstones to the reactivity of metals, from the strength of polymers to the double helix of DNA. This article develops the quantum mechanical picture of the atom and then applies it to the forces that hold atoms together: ionic, covalent, and metallic bonds, as well as the weaker intermolecular interactions that govern the states of matter.
+
+## 2. Atomic Structure
+
+### 2.1 Historical Development
+Early models of the atom included Dalton’s billiard-ball model and Thomson’s plum pudding model. Rutherford’s gold-foil experiment (1911) revealed the nuclear atom—a dense, positively charged nucleus surrounded by a cloud of electrons. However, classical physics could not explain the stability of atoms: accelerating electrons would radiate energy and spiral into the nucleus.
+
+Bohr (1913) introduced quantized orbits with angular momentum $mvr = n\hbar$ ($n = 1,2,3,\dots$), successfully predicting the hydrogen line spectrum. Energy levels follow
+
+$$
+E_n = -\frac{R_H}{n^2},
+$$
+
+where $R_H = 2.179 \times 10^{-18} \text{ J}$ (Rydberg constant). Transitions between levels give photon energies $h\nu = |E_f - E_i|$. Despite its success for hydrogen, the Bohr model failed for multi-electron atoms and could not explain chemical bonding.
+
+### 2.2 Wave–Particle Duality and the Schrödinger Equation
+De Broglie’s hypothesis ($\lambda = h / p$) implied that electrons have wave character. This motivated the development of quantum mechanics. The state of an electron is described by a wavefunction $\psi(\mathbf{r}, t)$, obtained by solving the time‑independent Schrödinger equation for the atom:
+
+$$
+\hat{H}\psi = E\psi, \qquad
+\hat{H} = -\frac{\hbar^2}{2m_e}\nabla^2 + V(\mathbf{r}).
+$$
+
+For hydrogen-like species (nuclear charge $+Ze$), $V(r) = -\dfrac{Ze^2}{4\pi\varepsilon_0 r}$ in spherical coordinates. The solutions are atomic orbitals $\psi_{n,\ell,m_\ell}$, characterized by quantum numbers.
+
+### 2.3 Quantum Numbers and Orbitals
+Each electron in an atom is uniquely identified by four quantum numbers:
+
+1. **Principal quantum number** $n = 1, 2, 3, \dots$ – determines the energy and average distance from the nucleus.
+2. **Azimuthal (orbital angular momentum) quantum number** $\ell = 0, 1, \dots, n-1$ – defines the shape of the orbital (s, p, d, f).
+3. **Magnetic quantum number** $m_\ell = -\ell, \dots, 0, \dots, +\ell$ – orientation of the orbital in space.
+4. **Spin magnetic quantum number** $m_s = \pm\frac{1}{2}$ – intrinsic electron spin.
+
+The radial and angular parts of the wavefunction give familiar shapes:
+- **s orbitals** ($\ell=0$): spherical.
+- **p orbitals** ($\ell=1$): dumbbell-shaped, three degenerate orientations ($p_x, p_y, p_z$).
+- **d orbitals** ($\ell=2$): five orbitals, four cloverleaf-shaped, one with a toroidal lobe ($d_{z^2}$).
+
+The electron probability density is $|\psi|^2$; radial distribution functions $4\pi r^2 R_{n,\ell}(r)^2$ show nodes and the most probable radius, which for hydrogen 1s is $a_0 = 0.529 \, \text{Å}$ (Bohr radius).
+
+### 2.4 Multi‑Electron Atoms and Electron Configurations
+In atoms with $Z > 1$, electron–electron repulsion lifts the degeneracy of orbitals with the same $n$ but different $\ell$ (screening effect). The order of filling is governed by the Aufbau principle, Pauli exclusion principle, and Hund’s rule. Energies follow the Madelung rule ($n+\ell$ order), giving the sequence:
+
+1s → 2s → 2p → 3s → 3p → 4s → 3d → 4p → 5s → 4d → 5p → 6s → 4f → 5d → 6p → 7s → 5f → 6d → 7p.
+
+**Example:**  
+- Oxygen (Z = 8): $1s^2\,2s^2\,2p^4$.  
+- Iron (Z = 26): $1s^2\,2s^2\,2p^6\,3s^2\,3p^6\,4s^2\,3d^6$ or $\text{[Ar]}4s^2 3d^6$.
+
+Ions follow similar rules; for transition metals, the 4s electrons are removed before 3d (e.g., Fe$^{2+}$: $\text{[Ar]}3d^6$).
+
+Core electrons shield the outer (valence) electrons from the full nuclear charge. The effective nuclear charge $Z_{\text{eff}} = Z - \sigma$ (Slater’s rules) explains periodic trends.
+
+### 2.5 Periodic Trends
+- **Atomic radius**: decreases across a period (increasing $Z_{\text{eff}}$ pulls electrons closer) and increases down a group (higher $n$).
+- **Ionization energy** (IE): energy to remove an electron. Generally increases across a period, decreases down a group. Exceptions occur at half-filled and fully-filled subshells.
+- **Electron affinity** (EA): energy change when an electron is added. Becomes more negative across a period, less negative down a group.
+- **Electronegativity** (Mulliken, Pauling scales): a measure of an atom’s ability to attract bonding electrons. Increases across a period, decreases down a group.
+
+## 3. Chemical Bonding
+
+### 3.1 Types of Primary Bonds
+Chemical bonds form because the bonded state is lower in energy than the separated atoms. Three main types are distinguished by the nature of electron sharing or transfer:
+
+- **Ionic bonding**: electron transfer, forming cations and anions held by electrostatic attraction.
+- **Covalent bonding**: sharing of electron pairs between atoms.
+- **Metallic bonding**: delocalized “sea” of electrons around metal cations.
+
+The type can often be predicted from electronegativity difference $\Delta\chi$:
+- $\Delta\chi \gtrsim 1.7$ → ionic.
+- $\Delta\chi \lesssim 0.5$ → metallic (or non‑polar covalent).
+- Intermediate → polar covalent.
+
+### 3.2 Ionic Bonding
+When a metal (low IE) reacts with a non‑metal (high EA), electrons are transferred to achieve noble‑gas configurations. The resulting ions arrange in a crystalline lattice. The lattice energy $U$—the enthalpy required to separate one mole of solid into gaseous ions—is a measure of bond strength. The Born–Landé equation for a binary ionic compound:
+
+$$
+U = -\frac{N_A A \, z_+ z_- e^2}{4\pi\varepsilon_0 r_0}\left(1 - \frac{1}{n}\right),
+$$
+
+where $A$ is the Madelung constant (geometry‑dependent), $z_{\pm}$ are ion charges, $r_0$ the closest ion separation, and $n$ the Born exponent. Large lattice energies lead to high melting points and hardness. **Example:** NaCl ($U = -786 \text{ kJ mol}^{-1}$) vs MgO ($U \approx -3795 \text{ kJ mol}^{-1}$) due to $z_+z_- = 4$.
+
+### 3.3 Covalent Bonding: Lewis Structures and the Octet Rule
+G. N. Lewis proposed that atoms share electron pairs to attain a filled valence shell (octet for second‑row elements). Lewis structures are drawn by:
+1. Counting total valence electrons.
+2. Arranging atoms (usually the least electronegative in the centre).
+3. Distributing electrons to satisfy octets, making multiple bonds if necessary.
+4. Calculating **formal charges** to choose the most stable resonance form:
+   
+   $$
+   \text{Formal charge} = V - (L + \tfrac{1}{2}B),
+   $$
+
+   where $V$ = valence electrons of free atom, $L$ = lone‑pair electrons on the atom, $B$ = bonding electrons.
+
+**Example: nitrate ion, NO$_3^{-}$**  
+Total valence electrons = $5 + 3\times6 + 1 = 24$. Three resonance structures exist with one N=O double bond and two N–O single bonds; actual ion is a hybrid with equal N–O bond orders of $1\frac{1}{3}$.
+
+### 3.4 Exceptions to the Octet Rule
+- **Electron‑deficient species:** BF$_3$ (B has 6 electrons). It acts as a Lewis acid.
+- **Expanded octet:** Elements from period 3 onward can accommodate more than 8 electrons using low‑lying d orbitals (e.g., PCl$_5$, SF$_6$).
+- **Odd‑electron molecules:** radicals like NO ($11 e^-$) and NO$_2$.
+
+### 3.5 Valence Shell Electron Pair Repulsion (VSEPR) Theory
+VSEPR predicts molecular shapes by minimizing repulsions between electron pairs (bonding and lone pairs) around a central atom. The electron‑pair geometry depends on the steric number (SN = number of bonded atoms + lone pairs). Lone pairs repel more strongly than bonding pairs, causing bond angles to shrink.
+
+**Common geometries:**
+
+| SN | Lone Pairs | Molecular Shape        | Example  | Angle (approx.) |
+|----|------------|------------------------|----------|-----------------|
+| 2  | 0          | Linear                 | BeCl$_2$ | 180°            |
+| 3  | 0          | Trigonal planar        | BF$_3$   | 120°            |
+| 3  | 1          | Bent                   | SO$_2$   | <120°           |
+| 4  | 0          | Tetrahedral            | CH$_4$   | 109.5°          |
+| 4  | 1          | Trigonal pyramidal     | NH$_3$   | 107°            |
+| 4  | 2          | Bent                   | H$_2$O   | 104.5°          |
+| 5  | 0          | Trigonal bipyramidal   | PCl$_5$  | 90°, 120°       |
+| 5  | 1          | Seesaw                 | SF$_4$   | <90°,<120°      |
+| 5  | 2          | T‑shaped               | ClF$_3$  | <90°            |
+| 5  | 3          | Linear                 | XeF$_2$  | 180°            |
+| 6  | 0          | Octahedral             | SF$_6$   | 90°             |
+| 6  | 1          | Square pyramidal       | BrF$_5$  | <90°            |
+| 6  | 2          | Square planar          | XeF$_4$  | 90°             |
+
+### 3.6 Valence Bond Theory and Hybridization
+Valence bond (VB) theory describes a covalent bond as the overlap of atomic orbitals containing one electron each. Optimal overlap gives the strongest bond. To reconcile the observed geometries, atomic orbitals on the central atom **hybridize**:
+
+- **sp** (linear, 180°): two hybrid orbitals, e.g., BeCl$_2$, C$_2$H$_2$.
+- **sp$^2$** (trigonal planar, 120°): three hybrids, one unhybridized p orbital for $\pi$ bonding, e.g., BF$_3$, C$_2$H$_4$.
+- **sp$^3$** (tetrahedral, 109.5°): four hybrids, e.g., CH$_4$, NH$_3$, H$_2$O.
+- **sp$^3$d** (trigonal bipyramidal): five hybrids, e.g., PCl$_5$.
+- **sp$^3$d$^2$** (octahedral): six hybrids, e.g., SF$_6$.
+
+Multiple bonds consist of one sigma ($\sigma$) bond (head‑on overlap) and one or two pi ($\pi$) bonds (lateral overlap of unhybridized p orbitals). $\pi$ bonds are weaker than $\sigma$ bonds because overlap is less effective.
+
+**Example:** Ethylene, C$_2$H$_4$  
+Each carbon is sp$^2$ hybridized: three $\sigma$ bonds (two C–H, one C–C) lie in a plane; the remaining p orbitals form a $\pi$ bond above and below the plane, restricting rotation.
+
+### 3.7 Molecular Orbital (MO) Theory
+MO theory treats electrons as delocalized over the whole molecule. Atomic orbitals of similar energy combine to form molecular orbitals that can be bonding, antibonding, or nonbonding. The stability of a molecule is judged by its **bond order**:
+
+$$
+\text{Bond order} = \frac{(\text{number of bonding electrons}) - (\text{number of antibonding electrons})}{2}.
+$$
+
+A bond order greater than 0 implies a net stabilization. This theory explains why O$_2$ is paramagnetic (two unpaired electrons in $\pi^*$ orbitals) despite a Lewis octet.
+
+**Homonuclear diatomic molecules of period 2:**  
+Energy ordering changes depending on $\sigma$–$\pi$ mixing. For B$_2$, C$_2$, N$_2$, the ordering is: $\sigma_{2s} < \sigma_{2s}^* < \pi_{2p_x}=\pi_{2p_y} < \sigma_{2p_z} < \pi_{2p_x}^*=\pi_{2p_y}^* < \sigma_{2p_z}^*$.  
+For O$_2$, F$_2$, Ne$_2$, the $\sigma_{2p_z}$ lies below the $\pi$ orbitals.
+
+**Example: N$_2$**  
+MO configuration: $(\sigma_{2s})^2(\sigma_{2s}^*)^2(\pi_{2p})^4(\sigma_{2p})^2$. Bond order = $(8-2)/2 = 3$ (triple bond), accounting for its high stability.
+
+### 3.8 Metallic Bonding
+In metals, valence atomic orbitals overlap to form a continuous band of delocalized states. The “electron sea” model explains electrical conductivity, malleability, and ductility. Band theory refines this: the highest occupied band is the valence band; the conduction band above it may be partially filled or overlap with the valence band (conductor), have a small band gap (semiconductor), or a large band gap (insulator).
+
+### 3.9 Intermolecular Forces
+Interactions between molecules, collectively called van der Waals forces, include:
+- **Dipole–dipole forces**: between polar molecules (e.g., HCl). Strength $\propto \mu^2 / r^3$.
+- **Hydrogen bonding**: a strong dipole–dipole interaction when H is bonded to N, O, or F. Accounts for the unusually high boiling point of water and the structure of biological macromolecules.
+- **London dispersion forces**: instantaneous dipole‑induced dipole interactions, present in all molecules. Polarizability increases with molecular size and electron count, raising boiling points in noble gases and non‑polar molecules.
+- **Ion–dipole forces**: important in solvation of ions (e.g., NaCl dissolving in water).
+
+### 3.10 Bond Properties
+- **Bond length**: distance between nuclei at minimum potential energy. Shorter for higher bond orders.
+- **Bond energy**: enthalpy required to break a bond homolytically (per mole). Tabulated average values allow estimation of reaction enthalpies.
+- **Bond polarity**: described by dipole moment $\vec{\mu} = q \cdot \vec{d}$ (units: Debye, D). A polar bond has partial charges $\delta+$ and $\delta-$.
+
+**Example:** Compare CO and CO$_2$. CO has a small dipole moment (0.122 D) due to back‑donation from O to C, while CO$_2$ is non‑polar because the two bond dipoles cancel.
+
+## 4. Summary
+- Atomic structure is described by wavefunctions characterized by quantum numbers $n$, $\ell$, $m_\ell$, $m_s$. Electron configurations follow the Aufbau principle and dictate periodic trends.
+- Chemical bonds arise from electron transfer (ionic), sharing (covalent), or delocalization (metallic). Lewis structures, formal charge, and resonance provide a first approximation of covalent bonding.
+- VSEPR theory predicts molecular shapes based on electron‑pair repulsion; valence bond theory introduces hybridization to match observed geometries.
+- Molecular orbital theory offers
