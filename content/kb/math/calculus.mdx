@@ -1,0 +1,121 @@
+---
+title: Calculus
+subject: math
+slug: calculus
+description: 
+status: published
+verified: false
+author: n8n@learnflow.bot
+created_at: 2026-04-27
+---
+
+```markdown
+# Calculus
+
+## Introduction
+
+Calculus is the branch of mathematics that studies continuous change. It provides a framework for modeling systems where quantities vary, from the motion of planets to the growth of populations. Developed independently by Isaac Newton and Gottfried Wilhelm Leibniz in the 17th century, calculus is founded on two complementary ideas: differentiation, which measures instantaneous rates of change, and integration, which accumulates quantities over intervals. Together, these concepts form the bedrock of modern science, engineering, and economics.
+
+At the undergraduate level, calculus typically unfolds in three stages: limits, derivatives, and integrals. A solid understanding of limits is essential because both the derivative and the definite integral are defined as limits. The Fundamental Theorem of Calculus unites the two branches, revealing that differentiation and integration are inverse processes.
+
+## A Brief Historical Context
+
+The problems that spurred the invention of calculus were ancient: finding tangents to curves, computing areas and volumes, and describing motion. Greek mathematicians used exhaustion methods that foreshadowed integration. In the 1600s, Pierre de Fermat, René Descartes, and others developed techniques for tangents and maxima. Newton and Leibniz systematised these ideas, introduced general notation, and explicitly recognised the inverse relationship between area and tangent problems. Their notation and concepts, refined over centuries, are what we study today.
+
+## Core Concepts
+
+### 1. Limits and Continuity
+
+A **limit** describes the value a function $f(x)$ approaches as the input $x$ approaches a given point.
+
+We write
+$$\lim_{x \to a} f(x) = L$$
+if the values of $f(x)$ can be made arbitrarily close to $L$ by taking $x$ sufficiently close to $a$ (but not necessarily equal to $a$). Limits allow us to handle instantaneous rates of change and infinite processes rigorously.
+
+**Example: A Foundational Limit**
+$$\lim_{x \to 0} \frac{\sin x}{x} = 1.$$
+This limit is central to the derivatives of trigonometric functions.
+
+A function $f$ is **continuous** at $a$ if
+$$\lim_{x \to a} f(x) = f(a).$$
+Intuitively, a continuous function has no breaks or jumps. Polynomials, exponentials, sine, and cosine are continuous everywhere, while rational functions are continuous on their domains.
+
+### 2. The Derivative
+
+The derivative measures how a function changes as its input changes. Geometrically, it is the slope of the tangent line to the graph at a point. For a function $f(x)$, the derivative at $x = a$ is defined by the limit
+$$f'(a) = \lim_{h \to 0} \frac{f(a+h) - f(a)}{h},$$
+if this limit exists. The function $f'(x)$ itself is called the derivative of $f$.
+
+**Example: Power Rule**
+If $f(x) = x^n$ with $n \neq 0$, a direct limit calculation yields
+$$f'(x) = n x^{n-1}.$$
+For instance, if $f(x) = x^3$, then $f'(x) = 3x^2$. This rule extends to any real exponent.
+
+**Interpretations:**
+- **Physical:** If $s(t)$ gives position, then $v(t) = s'(t)$ is instantaneous velocity, and $a(t) = v'(t) = s''(t)$ is acceleration.
+- **Geometric:** $f'(x)$ is the slope of the tangent line; the line equation is $y - f(a) = f'(a)(x - a)$.
+- **Economic:** If $C(x)$ is cost to produce $x$ items, $C'(x)$ approximates the marginal cost of one additional item.
+
+**Differentiability** implies continuity, but continuity alone does not guarantee differentiability (e.g., $|x|$ at $0$ is continuous but not differentiable).
+
+### 3. The Integral
+
+The definite integral arises from the problem of finding the area under a curve. Given a continuous function $f(x)$ on $[a,b]$, we partition the interval into $n$ subintervals, sample points $x_i^*$, and form Riemann sums:
+$$\sum_{i=1}^n f(x_i^*) \Delta x, \quad \Delta x = \frac{b-a}{n}.$$
+The **definite integral** is the limit of these sums as the partition becomes finer ($n \to \infty$):
+$$\int_a^b f(x)\,dx = \lim_{n \to \infty} \sum_{i=1}^n f(x_i^*) \Delta x.$$
+When $f(x) \ge 0$, the integral gives the area between the graph and the $x$-axis. Integrals can also represent total accumulated change, such as distance traveled or total mass.
+
+**Example: A Simple Power**
+For $f(x)=x^2$ on $[0, b]$, using right endpoints $x_i^* = \frac{ib}{n}$,
+$$\int_0^b x^2\,dx = \lim_{n \to \infty} \sum_{i=1}^n \left(\frac{ib}{n}\right)^2 \cdot \frac{b}{n}
+= \lim_{n \to \infty} \frac{b^3}{n^3} \sum_{i=1}^n i^2
+= \lim_{n \to \infty} \frac{b^3}{n^3} \cdot \frac{n(n+1)(2n+1)}{6}
+= \frac{b^3}{3}.$$
+
+The **indefinite integral** (or antiderivative) of $f$ is a function $F$ such that $F'(x) = f(x)$, denoted $\int f(x)\,dx$. For example, $\int x^2\,dx = \frac{1}{3}x^3 + C$, where $C$ is an arbitrary constant.
+
+### 4. The Fundamental Theorem of Calculus
+
+The Fundamental Theorem links differentiation and integration in two parts:
+
+1. **First Part:** If $f$ is continuous on $[a,b]$, then the function
+   $$F(x) = \int_a^x f(t)\,dt$$
+   is differentiable on $(a,b)$ and $F'(x) = f(x)$.
+
+2. **Second Part:** If $F$ is any antiderivative of $f$ on $[a,b]$, then
+   $$\int_a^b f(x)\,dx = F(b) - F(a).$$
+
+This theorem transforms the problem of evaluating a definite integral into finding an antiderivative, eliminating the need for limits of Riemann sums in most practical situations.
+
+**Example:** To compute $\int_0^2 x^2\,dx$, an antiderivative of $x^2$ is $F(x) = \frac{1}{3}x^3$, so
+$$\int_0^2 x^2\,dx = F(2)-F(0) = \frac{8}{3} - 0 = \frac{8}{3}.$$
+
+## Techniques and Applications
+
+Undergraduate calculus expands these core ideas with methods that handle a wide variety of functions.
+
+### Differentiation rules
+- **Product Rule:** $(fg)' = f'g + fg'$
+- **Quotient Rule:** $\left( \frac{f}{g} \right)' = \frac{f'g - fg'}{g^2}$
+- **Chain Rule:** $(f \circ g)'(x) = f'(g(x))\,g'(x)$
+- Derivatives of exponential, logarithmic, trigonometric, and inverse functions.
+
+### Integration techniques
+- **Substitution:** reverse of the chain rule.
+- **Integration by parts:** from the product rule, $\int u\,dv = uv - \int v\,du$.
+- **Partial fractions:** for rational functions.
+- **Trigonometric integrals and substitution.**
+- **Improper integrals:** integrals over infinite intervals or with unbounded integrands, defined via limits.
+
+### Applications
+- **Area between curves:** $\int_a^b [f(x) - g(x)]\,dx$.
+- **Volumes of solids of revolution:** disk, washer, and shell methods.
+- **Arc length:** $L = \int_a^b \sqrt{1 + [f'(x)]^2}\,dx$.
+- **Work, pressure, centroids** in physics and engineering.
+- **Differential equations:** equations involving derivatives that model population growth, cooling, oscillations, etc.
+
+## Summary
+
+Calculus provides the language of continuous change. It begins with the rigorous concept of a limit, which leads to the derivative (instantaneous rate of change) and the integral (accumulation of change). The Fundamental Theorem of Calculus elegantly connects these operations, showing they are inverses. With a toolbox of differentiation rules, integration techniques, and applications, calculus empowers us to model dynamic systems, compute areas and volumes, and understand the deep structure of functions. Mastery of these undergraduate topics forms the foundation for advanced analysis, differential geometry, probability, and virtually all applied mathematics.
+```
