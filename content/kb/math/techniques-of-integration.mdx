@@ -1,0 +1,165 @@
+---
+title: Techniques of Integration
+subject: math
+slug: techniques-of-integration
+description: 
+status: published
+verified: false
+author: n8n@learnflow.bot
+created_at: 2026-04-27
+---
+
+# Techniques of Integration
+
+## Introduction
+Integration is a cornerstone of calculus, essential for computing areas, volumes, and solving differential equations. While differentiation follows straightforward rules, integration often requires ingenuity. Many functions do not possess elementary antiderivatives, but a rich set of techniques can transform complex integrals into manageable ones. This article explores the core methods: substitution, integration by parts, trigonometric integrals, trigonometric substitution, and partial fractions, with brief mentions of additional strategies.
+
+---
+
+## 1. Integration by Substitution
+Substitution is the reverse of the chain rule. If an integrand contains a composite function $f(g(x))$ multiplied by the derivative of the inner function $g'(x)$, we set $u = g(x)$, $du = g'(x) \, dx$, and rewrite the integral as $\int f(u) \, du$.
+
+**Example 1.1**  
+Evaluate $\displaystyle \int 2x \cos(x^2) \, dx$.
+
+Let $u = x^2$, so $du = 2x \, dx$. The integral becomes  
+$$\int \cos u \, du = \sin u + C = \sin(x^2) + C.$$
+
+For definite integrals, the limits change accordingly: if $u = g(x)$, then  
+$$\int_a^b f(g(x))\, g'(x) \, dx = \int_{g(a)}^{g(b)} f(u) \, du.$$
+
+**Example 1.2**  
+Evaluate $\displaystyle \int_0^1 x \sqrt{1 + x^2} \, dx$.
+
+Set $u = 1 + x^2$, $du = 2x \, dx$. When $x=0$, $u=1$; when $x=1$, $u=2$. The integral is  
+$$\frac{1}{2}\int_1^2 \sqrt{u} \, du = \frac{1}{2} \cdot \frac{2}{3} u^{3/2} \Big|_1^2 = \frac{1}{3}(2^{3/2} - 1) = \frac{2\sqrt{2}-1}{3}.$$
+
+---
+
+## 2. Integration by Parts
+Based on the product rule for differentiation, integration by parts is given by:  
+$$\int u \, dv = uv - \int v \, du.$$  
+The key is choosing $u$ and $dv$ so that the new integral $\int v \, du$ is simpler. A common mnemonic for the choice of $u$ is **LIATE** (Logarithmic, Inverse trigonometric, Algebraic, Trigonometric, Exponential).
+
+**Example 2.1**  
+Evaluate $\displaystyle \int x e^x \, dx$.
+
+Let $u = x$ (Algebraic), $dv = e^x \, dx$. Then $du = dx$, $v = e^x$.  
+$$\int x e^x \, dx = x e^x - \int e^x \, dx = x e^x - e^x + C = e^x (x - 1) + C.$$
+
+**Example 2.2 (Repeated integration by parts)**  
+Evaluate $\displaystyle \int x^2 \sin x \, dx$.
+
+Let $u = x^2$, $dv = \sin x \, dx$, so $du = 2x \, dx$, $v = -\cos x$.  
+$$\int x^2 \sin x \, dx = -x^2 \cos x + \int 2x \cos x \, dx.$$  
+Now apply parts again to $\int x \cos x \, dx$: let $u = x$, $dv = \cos x \, dx$, giving $du = dx$, $v = \sin x$. Then  
+$$\int x \cos x \, dx = x \sin x - \int \sin x \, dx = x \sin x + \cos x + C.$$  
+Combining,  
+$$\int x^2 \sin x \, dx = -x^2 \cos x + 2(x \sin x + \cos x) + C = -x^2 \cos x + 2x \sin x + 2\cos x + C.$$
+
+---
+
+## 3. Trigonometric Integrals
+These involve powers of sine, cosine, tangent, and secant. Strategies rely on trigonometric identities to reduce powers.
+
+### 3.1 Products of $\sin^m x$ and $\cos^n x$
+- If $m$ is odd, save one $\sin x$ factor, use $\sin^2 x = 1 - \cos^2 x$, and substitute $u = \cos x$.
+- If $n$ is odd, save one $\cos x$ factor, use $\cos^2 x = 1 - \sin^2 x$, and substitute $u = \sin x$.
+- If both $m$ and $n$ are even, use half-angle formulas:  
+  $\sin^2 x = \frac{1 - \cos 2x}{2}, \quad \cos^2 x = \frac{1 + \cos 2x}{2}$.
+
+**Example 3.1**  
+Evaluate $\displaystyle \int \sin^3 x \cos^2 x \, dx$.
+
+$m=3$ (odd): save $\sin x$, rewrite $\sin^2 x = 1 - \cos^2 x$.
+$$\int \sin^2 x \cos^2 x \sin x \, dx = \int (1 - \cos^2 x) \cos^2 x \sin x \, dx.$$
+Let $u = \cos x$, $du = -\sin x \, dx \Rightarrow \sin x \, dx = -du$.  
+$$\int (1 - u^2) u^2 (-du) = -\int (u^2 - u^4) \, du = -\left(\frac{u^3}{3} - \frac{u^5}{5}\right) + C = \frac{1}{5}\cos^5 x - \frac{1}{3}\cos^3 x + C.$$
+
+### 3.2 Products of $\tan^m x$ and $\sec^n x$
+- For $\int \tan^m x \sec^n x \, dx$, if $n$ is even, save a $\sec^2 x$ factor and use $\sec^2 x = 1 + \tan^2 x$, substitute $u = \tan x$.
+- If $m$ is odd, save a $\sec x \tan x$ factor, use $\tan^2 x = \sec^2 x - 1$, substitute $u = \sec x$.
+
+**Example 3.2**  
+Evaluate $\displaystyle \int \tan^3 x \sec^4 x \, dx$.
+
+$n=4$ (even): keep $\sec^2 x$, convert remaining $\sec^2 x$ to $1 + \tan^2 x$.  
+$$\int \tan^3 x \sec^2 x \sec^2 x \, dx = \int \tan^3 x (1 + \tan^2 x) \sec^2 x \, dx.$$
+Let $u = \tan x$, $du = \sec^2 x \, dx$. Then  
+$$\int u^3 (1 + u^2) \, du = \int (u^3 + u^5) \, du = \frac{u^4}{4} + \frac{u^6}{6} + C = \frac{1}{4}\tan^4 x + \frac{1}{6}\tan^6 x + C.$$
+
+---
+
+## 4. Trigonometric Substitution
+For integrands involving radicals of the form $\sqrt{a^2 - x^2}$, $\sqrt{a^2 + x^2}$, or $\sqrt{x^2 - a^2}$, a trigonometric substitution simplifies the integral by exploiting Pythagorean identities:
+
+| Expression | Substitution | Identity used |
+|------------|--------------|---------------|
+| $\sqrt{a^2 - x^2}$ | $x = a \sin \theta$ | $1 - \sin^2 \theta = \cos^2 \theta$ |
+| $\sqrt{a^2 + x^2}$ | $x = a \tan \theta$ | $1 + \tan^2 \theta = \sec^2 \theta$ |
+| $\sqrt{x^2 - a^2}$ | $x = a \sec \theta$ | $\sec^2 \theta - 1 = \tan^2 \theta$ |
+
+After substitution, the integral becomes trigonometric and may require the techniques from Section 3. Finally, convert back to the original variable using a reference triangle.
+
+**Example 4.1**  
+Evaluate $\displaystyle \int \frac{dx}{\sqrt{4 - x^2}}$.
+
+Here $a=2$, $x = 2 \sin \theta$, $dx = 2 \cos \theta \, d\theta$, $\sqrt{4 - x^2} = \sqrt{4 - 4\sin^2\theta} = 2\cos\theta$. Then  
+$$\int \frac{2\cos\theta}{2\cos\theta} \, d\theta = \int d\theta = \theta + C = \arcsin\left(\frac{x}{2}\right) + C.$$
+
+**Example 4.2**  
+Evaluate $\displaystyle \int \frac{dx}{x^2 \sqrt{x^2 + 9}}$.
+
+Expression $\sqrt{x^2 + 9}$ with $a=3$: set $x = 3 \tan \theta$, $dx = 3 \sec^2 \theta \, d\theta$, $\sqrt{x^2 + 9} = 3 \sec \theta$. The integral becomes  
+$$\int \frac{3 \sec^2 \theta \, d\theta}{(9 \tan^2 \theta)(3 \sec \theta)} = \frac{1}{9} \int \frac{\sec \theta}{\tan^2 \theta} \, d\theta = \frac{1}{9} \int \frac{\cos \theta}{\sin^2 \theta} \, d\theta.$$  
+Now let $u = \sin \theta$, $du = \cos \theta \, d\theta$, so  
+$$\frac{1}{9} \int \frac{du}{u^2} = -\frac{1}{9u} + C = -\frac{1}{9\sin\theta} + C.$$  
+Using the triangle $x = 3\tan\theta$: opposite $= x$, adjacent $=3$, hypotenuse $= \sqrt{x^2+9}$, so $\sin\theta = x/\sqrt{x^2+9}$. Thus the integral is  
+$$-\frac{\sqrt{x^2+9}}{9x} + C.$$
+
+---
+
+## 5. Integration by Partial Fractions
+This technique applies to rational functions $\frac{P(x)}{Q(x)}$ where $P$ and $Q$ are polynomials and the degree of $P$ is less than that of $Q$ (if not, perform polynomial long division first). The method expresses the fraction as a sum of simpler fractions that can be integrated individually.
+
+**Procedure:**
+1. Factor $Q(x)$ into linear and irreducible quadratic factors.
+2. For each distinct linear factor $(ax + b)$, include a term $\frac{A}{ax + b}$.
+3. For repeated linear factors $(ax + b)^k$, include $\frac{A_1}{ax + b} + \frac{A_2}{(ax + b)^2} + \dots + \frac{A_k}{(ax + b)^k}$.
+4. For irreducible quadratic factors $(ax^2 + bx + c)$, include $\frac{Ax + B}{ax^2 + bx + c}$.
+5. Solve for the unknown constants by clearing denominators and equating coefficients or plugging convenient $x$-values.
+6. Integrate each term.
+
+**Example 5.1**  
+Evaluate $\displaystyle \int \frac{1}{x^2 - 1} \, dx$.
+
+Factor denominator: $(x-1)(x+1)$. Write  
+$$\frac{1}{(x-1)(x+1)} = \frac{A}{x-1} + \frac{B}{x+1}.$$  
+Multiply through by $(x-1)(x+1)$: $1 = A(x+1) + B(x-1)$.  
+Set $x=1$: $1 = 2A \Rightarrow A = 1/2$.  
+Set $x=-1$: $1 = -2B \Rightarrow B = -1/2$.  
+Then  
+$$\int \left( \frac{1/2}{x-1} - \frac{1/2}{x+1} \right) dx = \frac{1}{2} \ln|x-1| - \frac{1}{2} \ln|x+1| + C = \frac{1}{2} \ln\left|\frac{x-1}{x+1}\right| + C.$$
+
+**Example 5.2 (Repeated linear factor)**  
+Evaluate $\displaystyle \int \frac{x + 2}{(x+1)^2} \, dx$.
+
+Write: $\frac{x+2}{(x+1)^2} = \frac{A}{x+1} + \frac{B}{(x+1)^2}$. Multiply: $x+2 = A(x+1) + B = Ax + (A+B)$.  
+Equate coefficients: $A = 1$, $A+B = 2 \Rightarrow B = 1$.  
+Then  
+$$\int \left( \frac{1}{x+1} + \frac{1}{(x+1)^2} \right) dx = \ln|x+1| - \frac{1}{x+1} + C.$$
+
+**Example 5.3 (Irreducible quadratic)**  
+Evaluate $\displaystyle \int \frac{1}{x(x^2+1)} \, dx$.
+
+Write: $\frac{1}{x(x^2+1)} = \frac{A}{x} + \frac{Bx + C}{x^2+1}$. Multiply: $1 = A(x^2+1) + (Bx+C)x = (A+B)x^2 + Cx + A$.  
+Equate coefficients: $A+B = 0$, $C = 0$, $A = 1$, so $B = -1$.  
+Integral:  
+$$\int \left( \frac{1}{x} - \frac{x}{x^2+1} \right) dx = \ln|x| - \frac{1}{2} \ln(x^2+1) + C = \ln\left| \frac{x}{\sqrt{x^2+1}} \right| + C.$$
+
+---
+
+## 6. Other Techniques and Remarks
+While the five methods above form the core of elementary integration, several additional techniques are valuable:
+
+- **Weierstrass substitution**: For rational functions of $\sin x$ and $\cos x$, let $t = \tan(x/2)$, giving $\sin x = \frac{2t}{1+t^2}$, $\cos x = \frac{1-t^2}{1+t^
