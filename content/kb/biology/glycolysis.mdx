@@ -9,141 +9,177 @@ author: "n8n@learnflow.bot"
 created_at: 2026-04-30
 ---
 
+```markdown
 # Glycolysis
 
-## Introduction
-Glycolysis (from the Greek *glykys*, “sweet,” and *lysis*, “splitting”) is the universal, evolutionarily ancient metabolic pathway that converts one molecule of glucose into two molecules of pyruvate. Occurring in the cytosol of nearly every living cell, glycolysis does not require oxygen and proceeds under both aerobic and anaerobic conditions. It serves three major purposes:
+## 1. Introduction
 
-- **ATP production** by substrate‑level phosphorylation (net 2 ATP per glucose).
-- **Reducing power** in the form of NADH (2 per glucose), which can be fed into oxidative phosphorylation or used to regenerate NAD⁺ in fermentation.
-- **Carbon skeletons** for biosynthesis (pyruvate can be further metabolised to acetyl‑CoA, lactate, ethanol, and many other intermediates).
+Glycolysis (from the Greek *glykys*, “sweet,” and *lysis*, “splitting”) is a nearly universal metabolic pathway that converts one molecule of glucose (a six‑carbon sugar) into two molecules of pyruvate (a three‑carbon compound). It occurs in the cytosol of virtually all living cells and does not require oxygen, making it an anaerobic process. Glycolysis serves as the first stage of cellular respiration, providing both a modest amount of ATP and key intermediates for other metabolic pathways. For many organisms, it is the sole source of metabolic energy.
 
-The overall balanced equation for glycolysis is:
+The pathway is a sequence of ten enzyme‑catalysed reactions. The overall balanced equation is:
 
 $$
-\text{Glucose} + 2\,\text{NAD}^{+} + 2\,\text{ADP} + 2\,\text{P}_i \rightarrow 2\,\text{Pyruvate} + 2\,\text{NADH} + 2\,\text{H}^{+} + 2\,\text{ATP} + 2\,\text{H}_2\text{O}
+\text{C}_6\text{H}_{12}\text{O}_6 + 2\,\text{NAD}^+ + 2\,\text{ADP} + 2\,\text{P}_i \rightarrow 2\,\text{C}_3\text{H}_4\text{O}_3 + 2\,\text{NADH} + 2\,\text{H}^+ + 2\,\text{ATP} + 2\,\text{H}_2\text{O}
 $$
 
-In eukaryotes, the pyruvate produced is transported into mitochondria for complete oxidation to CO₂ and H₂O when O₂ is present, or fermented to lactate or ethanol when O₂ is limiting. Because glycolysis can support ATP synthesis independently of mitochondria, it is especially critical for rapidly contracting skeletal muscle, red blood cells (which lack mitochondria), and many tumours that exhibit the Warburg effect.
+In this article we explore the two phases of glycolysis, examine each enzymatic step, discuss the energetics and regulation of the pathway, and illustrate its central role with concrete examples.
 
-## The 10 Steps of Glycolysis
+## 2. Overview of Glycolysis
 
-Glycolysis is traditionally divided into two phases: the **energy investment (preparatory) phase**, which consumes 2 ATP to phosphorylate glucose and split it into two triose phosphates, and the **energy payoff phase**, which oxidises the trioses and generates 4 ATP and 2 NADH. The ten enzyme‑catalysed reactions are:
+Glycolysis can be divided into two distinct phases:
 
-### Energy Investment Phase
+1. **Energy investment phase (reactions 1–5)**  
+   Two molecules of ATP are consumed to phosphorylate glucose and its early intermediates, “priming” the sugar for subsequent cleavage. At the end of this phase, the six‑carbon skeleton is split into two three‑carbon molecules: glyceraldehyde‑3‑phosphate (G3P) and dihydroxyacetone phosphate (DHAP). DHAP is rapidly isomerised to a second molecule of G3P, so the remainder of the pathway effectively proceeds with two identical triose phosphates.
 
-1. **Hexokinase** (or glucokinase in liver) phosphorylates glucose, trapping it inside the cell:  
-   $$
-   \text{Glucose} + \text{ATP} \rightarrow \text{Glucose‑6‑phosphate} + \text{ADP}
-   $$
+2. **Energy payoff phase (reactions 6–10)**  
+   The two triose phosphates are oxidised and rearranged, generating four ATP molecules through substrate‑level phosphorylation and two molecules of NADH. The net gain is two ATP per glucose (four produced minus two invested) and two NADH.
 
-2. **Phosphoglucose isomerase** converts the aldose to the ketose:  
-   $$
-   \text{Glucose‑6‑phosphate} \rightleftharpoons \text{Fructose‑6‑phosphate}
-   $$
+All intermediates are phosphorylated, which serves two purposes: the charged phosphate groups prevent the intermediates from diffusing out of the cell, and they participate directly in the chemistry of substrate‑level phosphorylation.
 
-3. **Phosphofructokinase‑1 (PFK‑1)** catalyses the first committed (irreversible) step unique to glycolysis:  
-   $$
-   \text{Fructose‑6‑phosphate} + \text{ATP} \rightarrow \text{Fructose‑1,6‑bisphosphate} + \text{ADP}
-   $$
+## 3. The Reactions of Glycolysis
 
-4. **Aldolase** cleaves the six‑carbon bisphosphate into two three‑carbon fragments:  
-   $$
-   \text{Fructose‑1,6‑bisphosphate} \rightleftharpoons \text{Dihydroxyacetone phosphate (DHAP)} + \text{Glyceraldehyde‑3‑phosphate (G3P)}
-   $$
+Below, each step is described with the enzyme, the reaction, and salient thermodynamic or regulatory features.
 
-5. **Triose phosphate isomerase** rapidly interconverts DHAP and G3P, allowing both halves of the glucose molecule to proceed through the remaining reactions. At equilibrium, ~96% is in the DHAP form, but G3P is continually removed by step 6, pulling the overall conversion to 2 G3P per glucose:  
-   $$
-   \text{DHAP} \rightleftharpoons \text{G3P}
-   $$
+### 3.1 Energy Investment Phase (Steps 1–5)
 
-### Energy Payoff Phase
-From this point, every reaction occurs **twice** per original glucose because two molecules of G3P are processed.
+**Step 1: Phosphorylation of glucose**  
+*Enzyme: hexokinase (or glucokinase in liver)*
 
-6. **Glyceraldehyde‑3‑phosphate dehydrogenase (GAPDH)** oxidises G3P and incorporates inorganic phosphate, producing the first high‑energy intermediate and NADH:  
-   $$
-   \text{G3P} + \text{NAD}^{+} + \text{P}_i \rightleftharpoons \text{1,3‑Bisphosphoglycerate (1,3‑BPG)} + \text{NADH} + \text{H}^{+}
-   $$
+$$
+\text{Glucose} + \text{ATP} \xrightarrow{\text{Mg}^{2+}} \text{Glucose‑6‑phosphate} + \text{ADP} + \text{H}^+
+$$
 
-7. **Phosphoglycerate kinase** performs substrate‑level phosphorylation, transferring the high‑energy phosphoryl group of 1,3‑BPG to ADP:  
-   $$
-   \text{1,3‑BPG} + \text{ADP} \rightleftharpoons \text{3‑Phosphoglycerate} + \text{ATP}
-   $$
+Hexokinase transfers a phosphoryl group from ATP to the C‑6 hydroxyl of glucose. This irreversible reaction traps glucose inside the cell and commits it to metabolism. It is inhibited by its product, glucose‑6‑phosphate. The liver isoenzyme glucokinase has a higher $K_m$ for glucose and is not inhibited by glucose‑6‑phosphate, allowing the liver to phosphorylate glucose even when blood glucose is high.
 
-8. **Phosphoglycerate mutase** relocates the phosphate from C‑3 to C‑2:  
-   $$
-   \text{3‑Phosphoglycerate} \rightleftharpoons \text{2‑Phosphoglycerate}
-   $$
+**Step 2: Isomerisation of glucose‑6‑phosphate**  
+*Enzyme: phosphoglucose isomerase*
 
-9. **Enolase** dehydrates 2‑phosphoglycerate, creating another high‑energy compound, phosphoenolpyruvate (PEP):  
-   $$
-   \text{2‑Phosphoglycerate} \rightleftharpoons \text{Phosphoenolpyruvate (PEP)} + \text{H}_2\text{O}
-   $$
+$$
+\text{Glucose‑6‑phosphate} \rightleftharpoons \text{Fructose‑6‑phosphate}
+$$
 
-10. **Pyruvate kinase** catalyses the second substrate‑level phosphorylation, yielding pyruvate and ATP. This step is irreversible under cellular conditions:  
-    $$
-    \text{PEP} + \text{ADP} \rightarrow \text{Pyruvate} + \text{ATP}
-    $$
+The aldose sugar is converted to the ketose fructose‑6‑phosphate. This isomerisation, which is readily reversible, moves the carbonyl closer to C‑1 and prepares the molecule for a second phosphorylation.
 
-#### Net Yield per Glucose
-| Molecule | Investment | Payoff | Net |
-|----------|------------|--------|-----|
-| ATP      | –2         | +4     | +2  |
-| NADH     | 0          | +2     | +2  |
-| Pyruvate | 0          | +2     | +2  |
-| H₂O      | 0          | +2 (step 9) | +2 |
+**Step 3: Second phosphorylation**  
+*Enzyme: phosphofructokinase‑1 (PFK‑1)*
 
-Note that the NADH produced must be re‑oxidised to NAD⁺ for glycolysis to continue. Under aerobic conditions, mitochondrial shuttles (e.g., malate‑aspartate shuttle) deliver the electrons to the electron‑transport chain, yielding up to ~5 ATP per glucose (via glycerol‑3‑phosphate shuttle) or ~7 ATP (via malate‑aspartate shuttle) depending on tissue. Anaerobically, NADH is recycled by fermentation.
+$$
+\text{Fructose‑6‑phosphate} + \text{ATP} \xrightarrow{\text{Mg}^{2+}} \text{Fructose‑1,6‑bisphosphate} + \text{ADP} + \text{H}^+
+$$
 
-## Regulation of Glycolysis
+PFK‑1 catalyses the rate‑limiting, irreversible step of glycolysis. It is allosterically inhibited by ATP and citrate (signals of high energy) and activated by AMP, ADP, and fructose‑2,6‑bisphosphate. This elaborate regulation ensures that flux through glycolysis matches the cell’s energy demands.
 
-Glycolysis is tightly controlled at three irreversible steps to match cellular energy needs and biosynthetic demands.
+**Step 4: Cleavage of the hexose**  
+*Enzyme: aldolase*
 
-- **Hexokinase/Glucokinase:** Hexokinase is inhibited by its product, glucose‑6‑phosphate. Glucokinase (liver, pancreatic β‑cells) has a lower affinity for glucose and is induced by insulin, enabling the liver to take up glucose only when blood levels are high.
+$$
+\text{Fructose‑1,6‑bisphosphate} \rightleftharpoons \text{Dihydroxyacetone phosphate} + \text{Glyceraldehyde‑3‑phosphate}
+$$
 
-- **Phosphofructokinase‑1 (PFK‑1):** The major rate‑limiting enzyme.  
-  - **Inhibited** by high ATP, citrate (a TCA cycle intermediate) – signals abundant energy.  
-  - **Activated** by AMP (low energy charge) and fructose‑2,6‑bisphosphate, a potent allosteric activator produced by PFK‑2 in response to insulin. Glucagon signalling reduces fructose‑2,6‑bisphosphate levels in liver, slowing glycolysis.
+Aldolase carries out a reversible aldol cleavage, producing one ketose (DHAP) and one aldose (G3P) triose phosphate. Under standard conditions the equilibrium favours the hexose, but in the cell the products are rapidly consumed, pulling the reaction forward.
 
-- **Pyruvate kinase:**  
-  - **Inhibited** by ATP, alanine (biosynthetic feedback), and covalent phosphorylation by glucagon (in liver).  
-  - **Activated** by fructose‑1,6‑bisphosphate (feed‑forward activation from earlier in the pathway).
+**Step 5: Triose phosphate isomerisation**  
+*Enzyme: triose phosphate isomerase (TIM)*
 
-These regulatory mechanisms ensure glycolysis is active when energy is needed and turned down when ATP is plentiful or alternative fuels are available.
+$$
+\text{Dihydroxyacetone phosphate} \rightleftharpoons \text{Glyceraldehyde‑3‑phosphate}
+$$
 
-## Fates of Pyruvate
+DHAP is isomerised to a second molecule of glyceraldehyde‑3‑phosphate. Only G3P continues through the remainder of glycolysis, so this step effectively doubles the yield of downstream products from each glucose.
 
-The endpoint of glycolysis, pyruvate, can take several metabolic routes depending on the cell type and oxygen availability.
+### 3.2 Energy Payoff Phase (Steps 6–10)
 
-- **Aerobic oxidation (most tissues, mitochondrial):**  
-  Pyruvate is transported into mitochondria and oxidized by the pyruvate dehydrogenase complex to acetyl‑CoA, which then enters the citric acid cycle. The NADH from glycolysis and the subsequent oxidation of acetyl‑CoA yield up to ~30–32 ATP per glucose in total.
+**Step 6: Oxidation and phosphorylation of G3P**  
+*Enzyme: glyceraldehyde‑3‑phosphate dehydrogenase*
 
-- **Lactic acid fermentation (anaerobic muscle, red blood cells, some microorganisms):**  
-  Lactate dehydrogenase reduces pyruvate to lactate using NADH:  
-  $$
-  \text{Pyruvate} + \text{NADH} + \text{H}^{+} \rightarrow \text{Lactate} + \text{NAD}^{+}
-  $$
-  This regenerates NAD⁺, allowing continuous ATP production by glycolysis during intense exercise. Accumulated lactate is later reconverted to glucose in the liver (Cori cycle).
+$$
+\text{Glyceraldehyde‑3‑phosphate} + \text{NAD}^+ + \text{P}_i \rightleftharpoons 1,3\text{-bisphosphoglycerate} + \text{NADH} + \text{H}^+
+$$
 
-- **Alcoholic fermentation (yeast and some plants under hypoxia):**  
-  Pyruvate is first decarboxylated to acetaldehyde, then reduced to ethanol:
-  $$
-  \text{Pyruvate} \rightarrow \text{Acetaldehyde} + \text{CO}_2 \\
-  \text{Acetaldehyde} + \text{NADH} + \text{H}^{+} \rightarrow \text{Ethanol} + \text{NAD}^{+}
-  $$
-  This process is exploited in baking and brewing.
+The aldehyde group of G3P is oxidised to a carboxyl group, with the energy of oxidation driving the formation of a high‑energy acyl phosphate. NAD$^+$ is reduced to NADH. This is the only step of glycolysis in which NAD$^+$ is reduced.
 
-### Example: Human Sprinting
-During a 100‑m sprint, skeletal muscle rapidly hydrolyses ATP, raising ADP and AMP. PFK‑1 is activated, glycolysis runs at maximal rate, and the large NADH production exceeds the mitochondrial capacity. Lactate fermentation provides the NAD⁺ needed to sustain ATP generation. The resulting lactate accumulation contributes to the burning sensation and temporary muscle acidosis, but provides the energy burst.
+**Step 7: First substrate‑level phosphorylation**  
+*Enzyme: phosphoglycerate kinase*
 
-## Clinical and Evolutionary Significance
+$$
+1,3\text{-bisphosphoglycerate} + \text{ADP} \rightleftharpoons 3\text{-phosphoglycerate} + \text{ATP}
+$$
 
-- **Ancient pathway:** Glycolysis is present in all three domains of life, highlighting its origin before the rise of free atmospheric oxygen. Many of its enzymes are highly conserved across species.
+The high‑energy phosphate is transferred directly to ADP, forming ATP. Because two G3P molecules enter this step per glucose, two ATP are produced here. The reaction is reversible but pulled forward by the rapid removal of ATP.
 
-- **Metabolic diseases:** Deficiencies in glycolytic enzymes, particularly pyruvate kinase, cause nonspherocytic haemolytic anaemia because red blood cells rely solely on glycolysis for ATP to maintain ion gradients and membrane integrity.
+**Step 8: Phosphate shift**  
+*Enzyme: phosphoglycerate mutase*
 
-- **Cancer metabolism (Warburg effect):** Many cancer cells upregulate glycolysis even in the presence of oxygen (aerobic glycolysis). This shift is driven by oncogenic signalling (e.g., HIF‑1α, MYC) and allows rapid ATP production and synthesis of nucleotide, amino acid, and lipid precursors, supporting proliferation. The phenomenon is exploited in PET imaging with ¹⁸F‑fluorodeoxyglucose.
+$$
+3\text{-phosphoglycerate} \rightleftharpoons 2\text{-phosphoglycerate}
+$$
 
-## Summary
+The phosphoryl group is relocated from C‑3 to C‑2, priming the molecule for dehydration.
 
-Glycolysis is a ten‑enzyme cytosolic pathway that breaks one glucose (6 C) into two pyruvate (3 C) molecules, yielding a net profit of 2 ATP and 2 NADH. It consists of an energy investment phase (consuming 2 ATP) and an energy payoff phase (generating 4 ATP). The pathway is regulated primarily at hexokinase, PFK‑1, and pyruvate kinase to match cellular energy charge. Pyruvate produced can be aerobically oxidised in the mitochondria or fermented to lactate or ethanol to regenerate NAD⁺, enabling glycolysis to continue during oxygen limitation. Understanding glycolysis is fundamental to biochemistry, medicine, and the study of cellular energy metabolism.
+**Step 9: Dehydration**  
+*Enzyme: enolase*
+
+$$
+2\text{-phosphoglycerate} \rightleftharpoons \text{Phosphoenolpyruvate (PEP)} + \text{H}_2\text{O}
+$$
+
+Enolase removes a water molecule, generating a high‑energy enol phosphate. PEP has a very high phosphoryl‑transfer potential, making the following step thermodynamically favourable.
+
+**Step 10: Second substrate‑level phosphorylation**  
+*Enzyme: pyruvate kinase*
+
+$$
+\text{Phosphoenolpyruvate} + \text{ADP} + \text{H}^+ \xrightarrow{\text{Mg}^{2+},\,\text{K}^+} \text{Pyruvate} + \text{ATP}
+$$
+
+The transfer of the phosphate from PEP to ADP is irreversible and yields pyruvate (in its enol form, which quickly tautomerises to the keto form). Again, two ATP are generated per glucose. Pyruvate kinase is allosterically activated by fructose‑1,6‑bisphosphate (feed‑forward activation) and inhibited by ATP and acetyl‑CoA. It is also regulated by covalent phosphorylation in response to glucagon signalling in the liver.
+
+## 4. Energetics and Regulation
+
+Under standard conditions, the conversion of glucose to two pyruvate molecules is exergonic:
+
+$$
+\Delta G^{\circ\prime} \approx -73.3\ \text{kJ mol}^{-1}
+$$
+
+The invested ATP (2) are more than compensated by the ATP produced (4), yielding a net of 2 ATP. Additionally, 2 NADH are generated and can be reoxidised to yield further ATP in aerobic organisms (via the electron transport chain).
+
+Regulation of glycolysis occurs primarily at three irreversible steps:
+
+- **Hexokinase/glucokinase**: controls glucose entry into the pathway.
+- **Phosphofructokinase‑1 (PFK‑1)**: the most important control point; responds to cellular energy charge.
+- **Pyruvate kinase**: adjusts the output of the pathway.
+
+In addition, hormonal signals (insulin and glucagon) regulate the synthesis and activity of key glycolytic enzymes, especially in liver, integrating glycolysis with whole‑body energy homeostasis.
+
+## 5. Examples and Connections
+
+### 5.1 Yeast Fermentation
+In the absence of oxygen, yeast cells convert pyruvate to ethanol and CO$_2$ in order to regenerate NAD$^+$ from NADH, allowing glycolysis to continue. The net reaction:
+
+$$
+\text{Glucose} + 2\,\text{ADP} + 2\,\text{P}_i \rightarrow 2\,\text{Ethanol} + 2\,\text{CO}_2 + 2\,\text{ATP} + 2\,\text{H}_2\text{O}
+$$
+
+This process is the basis of bread making and alcoholic beverage production.
+
+### 5.2 Muscle Cells Under Anaerobic Conditions
+When oxygen is scarce (e.g., during intense exercise), animal muscle cells reduce pyruvate to lactate, catalysed by lactate dehydrogenase:
+
+$$
+\text{Pyruvate} + \text{NADH} + \text{H}^+ \rightarrow \text{Lactate} + \text{NAD}^+
+$$
+
+This regenerates the NAD$^+$ needed for step 6, enabling continued glycolytic ATP production. The accumulated lactate is later converted back to glucose in the liver (Cori cycle) or oxidised when oxygen becomes available.
+
+### 5.3 Glycolysis in Cancer Cells
+Many tumour cells exhibit the Warburg effect: they rely on high levels of glycolysis followed by lactate fermentation even in the presence of oxygen (aerobic glycolysis). This metabolic shift supports rapid biosynthesis of macromolecules and is being exploited for diagnostic imaging (PET scans using $^{18}$F‑fluorodeoxyglucose).
+
+## 6. Summary
+
+Glycolysis is a universal, cytosolic pathway that breaks down one glucose molecule into two pyruvate molecules. It consists of ten enzyme‑catalysed steps, organised into an energy‑investment phase (consuming 2 ATP) and an energy‑payoff phase (producing 4 ATP and 2 NADH). The net energy yield is 2 ATP and 2 NADH per glucose.
+
+The pathway is tightly regulated at three irreversible steps, primarily by the allosteric enzyme phosphofructokinase‑1, to align glucose catabolism with the cell’s energy status. Beyond energy production, glycolysis provides carbon skeletons for biosynthetic pathways and intermediates that link to the pentose phosphate pathway and the tricarboxylic acid cycle.
+
+Depending on the availability of oxygen and the organism’s metabolic repertoire, the fate of pyruvate varies: it can enter the mitochondria for complete oxidation, be fermented to ethanol or lactate, or be used in anabolic reactions. Understanding glycolysis is fundamental to grasping cellular respiration, fermentation, and the metabolic adaptations observed in health and disease.
+```
