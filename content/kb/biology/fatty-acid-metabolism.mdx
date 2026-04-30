@@ -1,0 +1,123 @@
+---
+title: "Fatty Acid Metabolism"
+subject: "biology"
+slug: "fatty-acid-metabolism"
+description: ""
+status: "published"
+verified: false
+author: "n8n@learnflow.bot"
+created_at: 2026-04-30
+---
+
+# Fatty Acid Metabolism
+
+## Introduction
+Fatty acids are key players in cellular energy homeostasis. As highly reduced molecules, they store more than twice the energy per gram compared to carbohydrates or proteins. In mammals, fatty acids are stored as triacylglycerols (triglycerides) in adipose tissue and serve as the primary long‑term fuel. Their degradation, known as β‑oxidation, occurs mainly in mitochondria and provides acetyl‑CoA, reducing equivalents (NADH, FADH₂), and ultimately large amounts of ATP. Conversely, when energy is abundant, excess acetyl‑CoA is converted back into fatty acids through *de novo* lipogenesis, primarily in the liver and adipose tissue. This article covers the mobilisation, activation, transport, β‑oxidation, energy yield, special cases, ketone body formation, fatty acid synthesis, and regulation, integrating biochemical mechanisms with physiological examples.
+
+## 1. Overview of Fatty Acid Metabolism
+Fatty acid metabolism can be divided into:
+- **Catabolism** – mobilisation of stored triacylglycerols, transport to mitochondria, β‑oxidation, and ketogenesis (under fasting conditions).
+- **Anabolism** – fatty acid synthesis (*de novo* lipogenesis) from acetyl‑CoA and malonyl‑CoA.
+
+The two pathways are compartmentally separated (mitochondrial vs. cytosolic) and reciprocally regulated to prevent futile cycling.
+
+## 2. Mobilisation of Stored Fats
+In adipose tissue, hormone‑sensitive lipase (HSL) and adipose triglyceride lipase (ATGL) sequentially hydrolyse triacylglycerols to free fatty acids and glycerol. Hormones such as glucagon and epinephrine (via cAMP‑dependent phosphorylation) activate HSL; insulin inhibits it. The free fatty acids are released into the blood and transported bound to serum albumin. Glycerol is taken up by the liver for gluconeogenesis or glycolysis.
+
+## 3. Activation and Transport into Mitochondria
+Once inside the cell, free fatty acids are activated in the cytoplasm by **acyl‑CoA synthetase** (fatty acid:CoA ligase) in an ATP‑dependent reaction:
+
+$$ \text{Fatty acid} + \text{CoA} + \text{ATP} \rightarrow \text{Acyl‑CoA} + \text{AMP} + \text{PP}_i $$
+
+The pyrophosphate is rapidly hydrolysed, rendering the reaction essentially irreversible. Short‑ and medium‑chain fatty acids (≤10 carbons) can diffuse directly into the mitochondrial matrix, but long‑chain fatty acyl‑CoA molecules (≥14 carbons) require the **carnitine shuttle**:
+
+1. **Carnitine palmitoyltransferase I** (CPT‑I) on the outer mitochondrial membrane transfers the acyl group to carnitine, forming acylcarnitine.
+2. Acylcarnitine translocase exchanges acylcarnitine for free carnitine across the inner membrane.
+3. **Carnitine palmitoyltransferase II** (CPT‑II) on the matrix side regenerates acyl‑CoA from acylcarnitine and free CoA.
+
+CPT‑I is the rate‑limiting step for mitochondrial β‑oxidation and is inhibited by malonyl‑CoA (the first committed intermediate of fatty acid synthesis).
+
+## 4. The β‑Oxidation Pathway
+Inside the mitochondrial matrix, saturated fatty acyl‑CoA thioesters undergo successive cycles of four enzymatic reactions, each cycle shortening the chain by two carbon atoms (releasing acetyl‑CoA). The sequence is:
+
+1. **Oxidation** – Acyl‑CoA dehydrogenase (using FAD) produces *trans*‑Δ²‑enoyl‑CoA and FADH₂.
+2. **Hydration** – Enoyl‑CoA hydratase adds water across the double bond to form L‑β‑hydroxyacyl‑CoA.
+3. **Oxidation** – β‑Hydroxyacyl‑CoA dehydrogenase (NAD⁺‑dependent) generates β‑ketoacyl‑CoA and NADH + H⁺.
+4. **Thiolysis** – Thiolase (β‑ketothiolase) cleaves β‑ketoacyl‑CoA with CoA, releasing acetyl‑CoA and a fatty acyl‑CoA shortened by two carbons.
+
+For palmitate (C16), seven cycles yield eight molecules of acetyl‑CoA, seven FADH₂, and seven NADH.
+
+## 5. Energy Yield from Fatty Acid Oxidation
+Oxidation of the acetyl‑CoA through the citric acid cycle (TCA) and the respiratory chain yields large amounts of ATP. For **palmitoyl‑CoA** (C16:0):
+
+- **7 FADH₂** → 7 × 1.5 = 10.5 ATP (if using the older 2‑ATP/FADH₂ convention, 14)
+- **7 NADH** → 7 × 2.5 = 17.5 ATP (or 21)
+- **8 acetyl‑CoA** → each yields 10 ATP (3 NADH, 1 FADH₂, 1 GTP) → 80 ATP
+- **Activation** consumes 2 ~P bonds (ATP → AMP + PPᵢ), equivalent to 2 ATP
+
+Modern total: 10.5 + 17.5 + 80 − 2 = **106 ATP** from one palmitate molecule. (Using the classical integer values: 14 + 21 + 96 − 2 = 129 ATP; for undergraduate teaching either is acceptable with explanation). For comparison, complete oxidation of one glucose molecule yields about 30–32 ATP. Thus, fatty acids provide substantially more energy per carbon.
+
+For **stearic acid** (C18:0), 8 cycles produce 9 acetyl‑CoA, 8 FADH₂, 8 NADH. Calculation:
+
+- 8 FADH₂ → 12 ATP
+- 8 NADH → 20 ATP
+- 9 acetyl‑CoA → 90 ATP
+- Activation −2 ATP → **120 ATP** (using 1.5/2.5 conversion factors)
+
+These values illustrate the high caloric density of fat.
+
+## 6. Oxidation of Unsaturated and Odd‑Chain Fatty Acids
+Most dietary fatty acids are unsaturated; their β‑oxidation requires auxiliary enzymes.
+- **Monounsaturated fatty acids** (e.g., oleate, C18:1 Δ⁹) undergo normal β‑oxidation until a *cis*‑Δ³‑enoyl‑CoA is formed, which cannot be hydrated by enoyl‑CoA hydratase. An isomerase converts it to the *trans*‑Δ² isomer, allowing β‑oxidation to continue.
+- **Polyunsaturated fatty acids** (e.g., linoleate) require an additional 2,4‑dienoyl‑CoA reductase in combination with isomerase to handle the conjugated double bonds.
+
+**Odd‑chain fatty acids** (e.g., C15, C17, from some plant and marine lipids) are processed normally until the final thiolysis yields propionyl‑CoA instead of acetyl‑CoA. Propionyl‑CoA is carboxylated to D‑methylmalonyl‑CoA (propionyl‑CoA carboxylase, biotin‑dependent), epimerised to L‑methylmalonyl‑CoA, and then converted to succinyl‑CoA by methylmalonyl‑CoA mutase (requires vitamin B₁₂). Succinyl‑CoA enters the TCA cycle, providing an anaplerotic substrate or being used for gluconeogenesis.
+
+## 7. Ketone Bodies: Alternate Fuel
+During prolonged fasting, starvation, or untreated diabetes, hepatic acetyl‑CoA production exceeds the capacity of the TCA cycle. The liver diverts excess acetyl‑CoA to **ketone body** synthesis (ketogenesis):
+- Acetoacetate
+- β‑Hydroxybutyrate (the reduced form, not a true ketone)
+- Acetone (minor, volatile)
+
+Key steps: Thiolase condenses two acetyl‑CoA to acetoacetyl‑CoA; HMG‑CoA synthase adds another acetyl‑CoA to form β‑hydroxy‑β‑methylglutaryl‑CoA (HMG‑CoA); HMG‑CoA lyase cleaves it to acetoacetate and acetyl‑CoA. β‑Hydroxybutyrate is formed via mitochondrial β‑hydroxybutyrate dehydrogenase (NADH‑dependent).
+
+Ketone bodies are exported to extrahepatic tissues (brain, heart, muscle), where they are reconverted to acetyl‑CoA:
+- β‑Hydroxybutyrate → acetoacetate → acetoacetyl‑CoA → 2 acetyl‑CoA (via succinyl‑CoA:acetoacetate CoA transferase and thiolase).
+
+Under physiological ketosis, this provides an important glucose‑sparing fuel for the brain. In uncontrolled diabetes mellitus, overproduction leads to ketoacidosis (blood pH drop) due to the accumulation of acetoacetic acid and β‑hydroxybutyric acid.
+
+## 8. Fatty Acid Synthesis (Lipogenesis)
+*De novo* fatty acid synthesis occurs in the **cytosol**, mainly in liver and adipose tissue, while β‑oxidation is mitochondrial. The building block is **malonyl‑CoA**, synthesized from acetyl‑CoA by **acetyl‑CoA carboxylase (ACC)**:
+
+$$ \text{Acetyl‑CoA} + \text{HCO}_3^- + \text{ATP} \xrightarrow{\text{ACC (biotin)}} \text{Malonyl‑CoA} + \text{ADP} + \text{P}_i $$
+
+Acetyl‑CoA is produced in the mitochondria and must be transported to the cytosol via the **citrate shuttle**: citrate synthase condenses acetyl‑CoA with oxaloacetate; citrate exits, and ATP‑citrate lyase regenerates acetyl‑CoA and oxaloacetate in the cytosol.
+
+The **fatty acid synthase** (FAS) complex in animals is a large, multifunctional dimer that catalyses seven sequential reactions to yield palmitate (C16:0):
+
+$$ \text{Acetyl‑CoA} + 7\,\text{Malonyl‑CoA} + 14\,\text{NADPH} + 14\,\text{H}^+ \rightarrow \text{Palmitate} + 7\,\text{CO}_2 + 14\,\text{NADP}^+ + 8\,\text{CoA} + 6\,\text{H}_2\text{O} $$
+
+Each cycle adds two carbons from malonyl‑CoA: condensation (with CO₂ loss), reduction, dehydration, and a second reduction. The reducing power is provided by NADPH, mainly from the pentose phosphate pathway and malic enzyme. Elongation and desaturation of palmitate occur in the endoplasmic reticulum and mitochondria to produce longer and unsaturated fatty acids.
+
+## 9. Regulation of Fatty Acid Metabolism
+Fatty acid oxidation and synthesis are reciprocally regulated:
+
+- **Hormonal control**: Insulin (fed state) activates acetyl‑CoA carboxylase (via protein phosphatases) and promotes lipogenesis; it inhibits hormone‑sensitive lipase. Glucagon and epinephrine (fasting/exercise) stimulate adipose lipolysis via PKA‑mediated phosphorylation of HSL, and they phosphorylate/inhibit ACC, reducing malonyl‑CoA. The fall in malonyl‑CoA relieves CPT‑I inhibition, allowing increased β‑oxidation.
+- **Allosteric regulation**: Citrate allosterically activates ACC, signalling abundant acetyl‑CoA. Long‑chain acyl‑CoA inhibits ACC. Malonyl‑CoA inhibits CPT‑I, preventing simultaneous synthesis and oxidation.
+- **Transcriptional regulation**: PPARα (peroxisome proliferator‑activated receptor alpha) and PGC‑1α up‑regulate enzymes of β‑oxidation. SREBP‑1c (sterol regulatory element‑binding protein) up‑regulates lipogenic genes (ACC, FAS) in response to insulin.
+
+## 10. Examples and Clinical Correlations
+- **Medium‑chain acyl‑CoA dehydrogenase (MCAD) deficiency**: A common inborn error of metabolism that impairs β‑oxidation of medium‑chain fatty acids. It presents with hypoketotic hypoglycaemia, vomiting, and lethargy, especially during fasting. Accumulation of medium‑chain acylcarnitines is diagnostic.
+- **Carnitine deficiency**: Can be primary (defective carnitine transporter) or secondary (e.g., valproate therapy). It prevents long‑chain fatty acid entry into mitochondria, causing lipid accumulation in muscle (myopathy) and liver.
+- **Diabetes mellitus**: Insulin deficiency leads to uncontrolled lipolysis and massive fatty acid delivery to the liver, overwhelming TCA cycle capacity. The resulting ketone body overproduction leads to diabetic ketoacidosis.
+- **Obesity and metabolic syndrome**: Elevated malonyl‑CoA and CPT‑I inhibition contribute to decreased fatty acid oxidation and increased fat storage. The interplay between AMP‑activated protein kinase (AMPK) and ACC is a therapeutic target (e.g., metformin activates AMPK, phosphorylating and inhibiting ACC, promoting fat oxidation).
+
+## Summary
+- Fatty acids are activated to acyl‑CoA and transported into mitochondria via the carnitine shuttle, with CPT‑I being the key regulatory step.
+- **β‑Oxidation** removes two‑carbon units as acetyl‑CoA, producing FADH₂ and NADH. Complete oxidation of palmitate yields ~106 ATP.
+- Unsaturated and odd‑chain fatty acids require ancillary enzymes; odd‑chain oxidation produces propionyl‑CoA, which can be converted to succinyl‑CoA.
+- In fasting, hepatic acetyl‑CoA is channelled into **ketone bodies**, which serve as critical fuel for the brain and other tissues.
+- Fatty acid **synthesis** occurs in the cytosol, using acetyl‑CoA (via the citrate shuttle) and malonyl‑CoA; it is catalysed by the FAS complex and consumes NADPH.
+- Regulation is tightly coordinated by insulin, glucagon, malonyl‑CoA, and transcriptional programs to match energy supply and demand.
+
+Fatty acid metabolism is therefore a beautifully orchestrated system that balances storage and mobilisation of energy, reflecting the organism’s nutritional state.
