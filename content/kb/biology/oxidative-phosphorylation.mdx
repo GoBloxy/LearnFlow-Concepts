@@ -1,0 +1,113 @@
+---
+title: "Oxidative Phosphorylation"
+subject: "biology"
+slug: "oxidative-phosphorylation"
+description: ""
+status: "published"
+verified: false
+author: "n8n@learnflow.bot"
+created_at: 2026-04-30
+---
+
+# Oxidative Phosphorylation
+
+## Introduction
+Oxidative phosphorylation is the culminating process of cellular respiration in aerobic organisms. It takes place in the inner mitochondrial membrane of eukaryotes (or the plasma membrane of prokaryotes) and couples the oxidation of electron carriers—NADH and FADH₂—to the phosphorylation of ADP, regenerating the cell’s primary energy currency, ATP. The pathway integrates two tightly linked components:
+
+- **The electron transport chain (ETC)**, a series of protein complexes and mobile carriers that transfer electrons from NADH and FADH₂ to molecular oxygen, releasing energy in controlled steps.
+- **ATP synthase (Complex V)**, a rotary molecular machine that harnesses the energy of a proton gradient to synthesize ATP from ADP and inorganic phosphate ($\text{P}_i$).
+
+By capturing the free energy released during electron transfer as a transmembrane proton electrochemical gradient, oxidative phosphorylation achieves a remarkable efficiency, producing the bulk of the cell’s ATP—up to approximately 30–34 ATP molecules per glucose, depending on the shuttle system used.
+
+## The Electron Transport Chain
+The ETC consists of four large multiprotein complexes (I–IV) and two mobile carriers (ubiquinone, Q, and cytochrome c) embedded in or associated with the inner mitochondrial membrane.
+
+### Complex I (NADH:ubiquinone oxidoreductase)
+Complex I accepts two electrons from NADH, regenerating NAD⁺:
+\[
+\text{NADH} \to \text{NAD}^+ + \text{H}^+ + 2e^-
+\]
+The electrons are passed through a series of iron–sulfur (Fe–S) clusters to ubiquinone (Q), reducing it to ubiquinol (QH₂). The energy released drives the translocation of **four protons** from the matrix into the intermembrane space. The overall reaction:
+\[
+\text{NADH} + \text{Q} + 5\text{H}^+_{\text{matrix}} \to \text{NAD}^+ + \text{QH}_2 + 4\text{H}^+_{\text{IMS}}
+\]
+
+### Complex II (succinate dehydrogenase)
+Complex II is a membrane-bound enzyme of the citric acid cycle. It oxidizes succinate to fumarate and passes electrons to FAD (forming FADH₂) and then through Fe–S centers to Q, forming QH₂. Importantly, **no protons are translocated** by Complex II, making the energy yield from FADH₂ lower than that from NADH.
+\[
+\text{Succinate} + \text{Q} \to \text{Fumarate} + \text{QH}_2
+\]
+
+### Complex III (cytochrome bc₁ complex)
+Complex III transfers electrons from QH₂ to cytochrome c via the Q-cycle mechanism. For every two molecules of QH₂ oxidized, two molecules of cytochrome c are reduced, and **four protons** are pumped into the intermembrane space (two from the Q pool, two translocated across the membrane). The net reaction can be summarized as:
+\[
+\text{QH}_2 + 2\text{cyt}\,c_{\text{oxidized}} + 2\text{H}^+_{\text{matrix}} \to \text{Q} + 2\text{cyt}\,c_{\text{reduced}} + 4\text{H}^+_{\text{IMS}}
+\]
+
+### Complex IV (cytochrome c oxidase)
+Complex IV catalyzes the final step: the transfer of electrons from cytochrome c to molecular oxygen, reducing it to water. Four reduced cytochrome c molecules supply four electrons, and four protons from the matrix are consumed in water formation. Additionally, **two protons are pumped** across the membrane per two electrons (or a total of four protons per O₂ reduced). Summarized:
+\[
+4\text{cyt}\,c_{\text{reduced}} + \text{O}_2 + 8\text{H}^+_{\text{matrix}} \to 4\text{cyt}\,c_{\text{oxidized}} + 2\text{H}_2\text{O} + 4\text{H}^+_{\text{IMS}}
+\]
+
+### Overall Electron Flow and Proton Pumping
+Combining the complexes, the transfer of two electrons from NADH to O₂ results in the translocation of **10 protons** (4 from Complex I, 4 from Complex III, 2 from Complex IV). For FADH₂, which enters at Complex II, only 6 protons are pumped (by Complex III and IV). These values are crucial for calculating ATP yield.
+
+## Proton Motive Force
+The proton pumping generates an electrochemical proton gradient across the inner membrane. The free energy stored in this gradient is termed the **proton motive force ($\Delta p$)**, expressed in millivolts (mV) or as a Gibbs free energy change. It consists of two components:
+- **Electrical potential difference ($\Delta \psi$)**: a membrane potential (negative inside, matrix side).
+- **pH gradient ($\Delta \text{pH}$)**: a chemical concentration difference of protons.
+
+The proton motive force is given by:
+\[
+\Delta p = \Delta \psi - \frac{2.303 \, RT}{F} \Delta \text{pH}
+\]
+where $R$ is the gas constant, $T$ is absolute temperature, $F$ is Faraday’s constant. At $37^\circ\text{C}$, $2.303 RT/F \approx 60\,\text{mV}$.
+
+Typically, the mitochondrial $\Delta \psi$ is about $150-180\,\text{mV}$ (negative in the matrix), and $\Delta \text{pH} \approx 0.5-1.0$ units, yielding a total $\Delta p$ of $180-220\,\text{mV}$. The free energy released when one proton flows back into the matrix is $\Delta G = -F\Delta p$, roughly $-20\,\text{kJ/mol}$ under physiological conditions.
+
+## ATP Synthase Mechanism
+ATP synthase (Complex V) uses the energy of the proton gradient to drive ATP synthesis. The enzyme comprises two large subcomplexes:
+- **Fₒ**: a membrane-integral proton channel that uses the flow of protons to rotate a ring of c-subunits.
+- **F₁**: a peripheral catalytic headpiece that synthesizes ATP via a rotary mechanism (binding-change model).
+
+Protons flow through the Fₒ channel, spinning the rotor (c-ring and attached $\gamma\epsilon$ shaft). The shaft rotation induces sequential conformational changes in the three $\beta$ subunits of F₁: open (O), loose (L), and tight (T) states. ADP and $\text{P}_i$ bind at an L or O site, ATP is formed spontaneously in the tight site, and rotation releases the newly synthesized ATP. Each full rotation of the c-ring typically requires $\sim$8–10 protons, depending on the species (mammalian enzyme uses 8 c-subunits). In mitochondria, **8 protons** drive a 360° rotation that produces **3 ATP** (one per catalytic site), but the exact stoichiometry can vary. A commonly taught value is **~3 H⁺ per ATP** synthesized, but with the cost of transporting $\text{P}_i$ and ADP into the matrix (symport with H⁺), the effective ratio becomes about **4 H⁺ per ATP** formed and exported.
+
+## Regulation and Uncoupling
+Oxidative phosphorylation is tightly regulated by the energy state of the cell. The most immediate control is exerted by the **ATP/ADP ratio**. When [ATP] is high, the ETC slows due to a reduced availability of ADP for ATP synthase (acceptor control). Additionally, uncoupling proteins (UCPs) can dissipate the proton gradient without ATP synthesis.
+
+### Example: Brown Adipose Tissue and Thermogenin
+In brown fat, the protein **thermogenin (UCP1)** provides an alternative route for protons to re-enter the matrix, bypassing ATP synthase. The energy of the gradient is released as heat rather than being captured in ATP. This non-shivering thermogenesis is vital in neonates and hibernating animals. The process uncouples oxidation from phosphorylation, demonstrating the separability of electron transport and ATP synthesis.
+
+### Example: Chemical Uncouplers and Inhibitors
+Synthetic uncouplers like **2,4-dinitrophenol (DNP)** collapse the proton gradient by shuttling protons across the membrane, leading to uncontrolled respiration and heat generation—potentially fatal hyperthermia. Conversely, inhibitors of specific complexes (e.g., **rotenone** at Complex I, **cyanide** and **azide** at Complex IV) block electron flow, abolishing both ATP synthesis and proton pumping.
+
+## Examples and Quantitative Aspects
+### ATP Yield from Glucose Oxidation
+The complete oxidation of one glucose molecule through glycolysis, the citric acid cycle, and oxidative phosphorylation yields approximately 30–32 ATP. The variability arises from the shuttle system used to transfer cytosolic NADH into the mitochondria:
+- Glycerol-3-phosphate shuttle: cytosolic NADH → mitochondrial FADH₂ → yields ~1.5 ATP.
+- Malate–aspartate shuttle: cytosolic NADH → mitochondrial NADH → yields ~2.5 ATP.
+
+A simplified accounting (using P/O ratios of 2.5 for NADH and 1.5 for FADH₂) is:
+- Glycolysis: 2 ATP + 2 NADH (cytoplasmic)
+- Pyruvate oxidation: 2 NADH (mitochondrial)
+- Citric acid cycle: 6 NADH, 2 FADH₂, 2 GTP (equivalent to 2 ATP)
+Total mitochondrial NADH = 10 (if malate–aspartate shuttle) or 8 (glycerol-3-phosphate).  
+ATP from oxidative phosphorylation: $10 \times 2.5 + 2 \times 1.5 = 25 + 3 = 28$ ATP, plus substrate-level phosphorylation (2 + 2) = 32 ATP. With the glycerol-3-phosphate shuttle: $8 \times 2.5 + 2 \times 1.5 = 20 + 3 = 23$, plus 2 + 2 = 27, plus the 2 glycolytic NADH now as FADH₂ giving ~3 ATP total from those (1.5 each), so 27+3=30. Thus, the textbook range 30–32.
+
+### Redox Potential and Free Energy
+Electrons flow from a more negative reduction potential to a more positive one. The standard reduction potentials ($E^{\circ'}$) of the relevant carriers are:
+- NAD⁺/NADH: $-0.32\,\text{V}$
+- FAD/FADH₂ (succinate/fumarate couple): $\approx 0.0\,\text{V}$
+- Q/QH₂: $+0.045\,\text{V}$
+- Cytochrome c (Fe³⁺/Fe²⁺): $+0.22\,\text{V}$
+- O₂/H₂O: $+0.82\,\text{V}$
+
+The overall free energy change for the transfer of two electrons from NADH to O₂ is:
+\[
+\Delta G^{\circ'} = -nF\Delta E^{\circ'} = -2 \times 96.5\,\text{kJ mol}^{-1} \times (0.82 - (-0.32)) = -220\,\text{kJ mol}^{-1}
+\]
+This large free energy drop is captured in multiple steps, enabling the pumping of protons and storage of energy as the proton gradient.
+
+## Summary
+Oxidative phosphorylation is the central ATP-generating process in aerobic metabolism. Through the electron transport chain, high-energy electrons from NADH and FADH₂ are passed along a series of redox centers, culminating in the reduction of oxygen to water. The energy released is used to pump protons across the inner mitochondrial membrane, establishing a proton motive force composed of an electrical potential and a pH gradient. This electrochemical energy drives ATP synthase, a rotary engine that couples proton backflow to the synthesis of ATP. The system is regulated by cellular energy charge, and its integrity is essential for life; disruptions by uncouplers or inhibitors have profound physiological effects. The quantitative interplay of redox potentials, proton stoichiometry, and ATP yield illustrates the elegance of chemiosmotic coupling, a unifying principle in bioenergetics.
