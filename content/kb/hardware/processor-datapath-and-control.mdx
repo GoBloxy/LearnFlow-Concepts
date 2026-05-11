@@ -1,0 +1,150 @@
+---
+title: "Processor Datapath and Control"
+subject: "hardware"
+slug: "processor-datapath-and-control"
+description: ""
+status: "published"
+verified: false
+author: "n8n@learnflow.bot"
+created_at: 2026-05-11
+---
+
+# Processor Datapath and Control
+
+## Introduction
+A modern processor executes instructions by moving data through a carefully orchestrated set of functional units. The **datapath** comprises the storage elements (registers, memories) and combinational logic (ALU, adders, multiplexers) that perform operations on data, while the **control** unit generates the signals that determine what each component does during every clock cycle. Together, they implement the instruction set architecture (ISA). This article presents the design of a single‑cycle MIPS‑like processor, explaining how the datapath and control unit cooperate to execute instructions.
+
+## 1. Basic Components of a Datapath
+Before assembling the full processor, we must understand the building blocks:
+
+- **Program Counter (PC)** – a register that holds the address of the current instruction.
+- **Instruction Memory** – a read‑only memory that outputs the instruction word located at the address provided.
+- **Register File** – a set of 32 general‑purpose registers. It has two read ports (outputting `Read data 1` and `Read data 2`) and one write port (input `Write data`). Read and write are controlled by addresses (`Read register 1`, `Read register 2`, `Write register`) and a `RegWrite` enable signal.
+- **Arithmetic Logic Unit (ALU)** – performs arithmetic and logical operations. It takes two 32‑bit operands and a 4‑bit control code (`ALU control`) and produces a 32‑bit result and a `Zero` flag (used for branches).
+- **Data Memory** – a read/write memory for load and store instructions. Controlled by `MemRead` and `MemWrite` signals.
+- **Multiplexers** – select one of several inputs based on a control select line.
+- **Sign‑Extension Unit** – extends a 16‑bit immediate field to 32 bits by replicating the sign bit.
+- **Shift‑Left‑2 Unit** – shifts a value left by 2 bits; used to multiply by 4 when computing branch target addresses or jump addresses.
+
+## 2. A Simple Single‑Cycle Datapath
+In a single‑cycle implementation, every instruction executes in exactly one clock cycle. While inefficient in terms of clock speed, it clearly illustrates the interaction between datapath and control. The datapath can be built around four main execution phases:
+
+### 2.1 Instruction Fetch
+- $PC$ points to the current instruction in instruction memory.
+- The instruction word is fetched and then the $PC$ is updated to $PC+4$ to prepare for the next sequential instruction.
+
+### 2.2 Instruction Decode / Register Fetch
+- Fields of the instruction (opcode, register numbers, immediate) are decoded.
+- The register file reads the values from the registers specified by the `rs` and `rt` fields.
+
+### 2.3 Execute / Address Calculation
+- For arithmetic‑logical instructions, the ALU operates on the two read register values.
+- For load/store instructions, the ALU computes the memory address by adding a base register and a sign‑extended immediate.
+- For branches, the ALU subtracts the two register values to determine equality, and a separate adder computes the branch target: $PC+4 + (\text{immediate} \times 4)$.
+
+### 2.4 Memory Access / R‑type Completion
+- Loads read data memory at the computed address.
+- Stores write `Read data 2` into data memory.
+- R‑type instructions write the ALU result back to the register file.
+
+### 2.5 Write‑Back
+- The value to be written into the register file (ALU result or memory read data) is selected by a multiplexer and written to the destination register.
+
+The figure below (described textually) shows how these pieces are connected. (Imagine a diagram with shared buses and multiplexers.)  
+Key shared data paths:
+- The ALU inputs come from either the register file (R‑type) or a register and a sign‑extended immediate (I‑type). A multiplexer (`ALUSrc`) chooses.
+- The register file write data comes either from the ALU result or from data memory (`MemtoReg`).
+- The address of the next $PC$ comes from either $PC+4$ or the branch target (`PCSrc`).
+
+## 3. Control Unit Design
+The control unit translates the opcode (and possibly the function field) into the set of control signals that steer the datapath. There are two main pieces: the **Main Control** and the **ALU Control**.
+
+### 3.1 Main Control Signals
+The main control decodes the 6‑bit opcode and generates the following signals:
+
+| Signal | Purpose | When 1 | When 0 |
+|--------|---------|--------|--------|
+| `RegDst` | Selects destination register | Write register = `rd` (R‑type) | Write register = `rt` (I‑type) |
+| `ALUSrc` | Selects second ALU operand | Second operand = sign‑extended immediate | Second operand = `Read data 2` |
+| `MemtoReg` | Selects value to write back to register file | Value comes from data memory | Value comes from ALU |
+| `RegWrite` | Enable writing to register file | Yes | No |
+| `MemRead` | Enable reading data memory | Yes | No |
+| `MemWrite` | Enable writing data memory | Yes | No |
+| `Branch` | Indicates a branch instruction | Yes (beq) | No |
+| `ALUOp` (2 bits) | Determines how ALU control is derived | See below | – |
+
+### 3.2 ALU Control
+The ALU needs a 4‑bit code specifying the operation. For R‑type instructions, this is derived from the 6‑bit `funct` field and the 2‑bit `ALUOp` from the main control. For load/store and branches, the operation is forced to addition or subtraction. The logic:
+
+- If `ALUOp = 00` (lw/sw): ALU control = `0010` (add).
+- If `ALUOp = 01` (beq): ALU control = `0110` (subtract).
+- If `ALUOp = 10` (R‑type): look at `funct` field; e.g.,
+  - `funct` = `100000` → ALU control = `0010` (add)
+  - `funct` = `100010` → ALU control = `0110` (subtract)
+  - `funct` = `100100` → ALU control = `0000` (AND)
+  - `funct` = `100101` → ALU control = `0001` (OR)
+  - `funct` = `101010` → ALU control = `0111` (set‑on‑less‑than)
+
+### 3.3 Control Signal Generation Logic (Main Control)
+The truth table for the main control based on the 6‑bit opcode is:
+
+| Opcode (instruction) | RegDst | ALUSrc | MemtoReg | RegWrite | MemRead | MemWrite | Branch | ALUOp |
+|----------------------|--------|--------|----------|----------|---------|----------|--------|-------|
+| R‑type (000000)      | 1      | 0      | 0        | 1        | 0       | 0        | 0      | 10    |
+| lw (100011)          | 0      | 1      | 1        | 1        | 1       | 0        | 0      | 00    |
+| sw (101011)          | X      | 1      | X        | 0        | 0       | 1        | 0      | 00    |
+| beq (000100)         | X      | 0      | X        | 0        | 0       | 0        | 1      | 01    |
+
+*(X = don’t care)*
+
+The `PCSrc` signal that controls the PC multiplexer is computed as `Branch AND Zero`. Only when a branch is taken (`Branch=1`) and the two registers are equal (`Zero=1`) does the next PC become the branch target.
+
+## 4. Example: R‑type Instruction – `add $s1, $s2, $s3`
+Assume `$s2` = 5, `$s3` = 7, want `$s1` = 12.
+
+- **Fetch:** PC → instruction memory → `add` instruction. PC → PC+4.
+- **Decode:** `rs = $s2`, `rt = $s3`, `rd = $s1`. Read data 1 = 5, Read data 2 = 7.
+- **Execute:** ALUSrc=0 → ALU input A=5, B=7. ALUOp=10, funct→ALU control=0010 (add). Result=12, Zero=0.
+- **Memory:** MemRead=0, MemWrite=0 → no memory access.
+- **Write‑Back:** RegDst=1 selects `rd` ($s1). MemtoReg=0 selects ALU result. RegWrite=1, so 12 is written to $s1.
+
+## 5. Example: Load Word – `lw $t0, 8($t1)`
+Assume `$t1` = 1000, memory[1008] = 42.
+
+- **Fetch:** PC provides instruction; PC ← PC+4.
+- **Decode:** rs = $t1, rt = $t0. Read data 1 = 1000, Read data 2 = don’t care.
+- **ALU:** ALUSrc=1 → B = sign‑extend(8) = 8. ALUOp=00 → ALU control=0010 (add). Result = 1000+8 = 1008.
+- **Memory access:** MemRead=1, MemWrite=0, address=1008 → Read data = 42.
+- **Write‑Back:** RegDst=0 → write register = rt ($t0). MemtoReg=1 → Write data = 42. RegWrite=1 → $t0 becomes 42.
+
+## 6. Example: Store Word – `sw $t0, 12($t1)`
+Assume `$t1`=2000, `$t0`=99.
+
+- **Fetch / Decode:** Similar, rs = $t1, rt = $t0. Read data1=2000, Read data2=99.
+- **ALU:** ALUSrc=1, B=12, ALUOp=00 → result=2012.
+- **Memory access:** MemRead=0, MemWrite=1, address=2012, Write data=99. Memory[2012] ← 99.
+- **Write‑Back:** RegWrite=0, so no register update.
+
+## 7. Example: Branch on Equal – `beq $s0, $s1, label`
+Assume `$s0` = 7, `$s1` = 7, and the immediate field encodes offset = 3 (i.e., label is 3 instructions ahead, offset = 3 words → $3 \times 4 = 12$ bytes). PC after fetch is, say, 0x1000.
+
+- **Fetch:** PC=0x1000, instruction fetched; PC+4 = 0x1004.
+- **Decode:** rs=$s0, rt=$s1. Read data1=7, Read data2=7.
+- **ALU:** Branch→ALUOp=01 → ALU control = subtract (0110). Result = 7−7 = 0, so Zero=1.
+- **Address calculation:** Separate adder computes branch target = (PC+4) + (sign‑extend(offset) << 2) = 0x1004 + (3×4) = 0x1004 + 12 = 0x1010.
+- **Next PC:** PCSrc = Branch AND Zero = 1 AND 1 = 1, so PC ← 0x1010 (branch taken).
+
+If `$s0` ≠ `$s1`, Zero=0, PCSrc=0, and PC ← 0x1004 (next sequential instruction).
+
+## 8. Performance Considerations and Beyond
+The single‑cycle design is easy to understand but impractical because the clock cycle must be long enough for the slowest instruction (typically `lw`). Most modern processors use **multi‑cycle** or **pipelined** datapaths. In a pipelined design, instruction execution is divided into stages (Fetch, Decode, Execute, Memory, Write‑Back), each taking one cycle. This allows overlapping execution of multiple instructions, drastically improving throughput. Pipeline control must handle hazards (data, control) and requires additional forwarding and stalling logic. The principles of datapath and control, however, remain the same: the control unit coordinates the flow of data through a shared set of resources.
+
+## Summary
+- The **datapath** is a collection of functional units connected by buses and multiplexers; the **control** unit produces the select and enable signals that configure the datapath for each instruction.
+- A single‑cycle datapath executes each instruction in one clock cycle, combining instruction fetch, decode, ALU operation, memory access, and write‑back into a single pass.
+- The **main control** decodes the opcode to set signals like `RegDst`, `ALUSrc`, `MemtoReg`, `RegWrite`, `MemRead`, `MemWrite`, `Branch`, and `ALUOp`.
+- The **ALU control** uses `ALUOp` and the function field to produce the 4‑bit ALU operation code.
+- Examples for `add`, `lw`, `sw`, and `beq` illustrate how the datapath operates for different instruction types and how control signals steer the data.
+- Extensions to pipelining retain the same fundamental control concepts while improving performance.
+
+By understanding the interaction between datapath and control, students gain insight into the hardware implementation of instruction sets and the trade‑offs that influence processor design.
