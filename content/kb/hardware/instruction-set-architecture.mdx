@@ -1,0 +1,116 @@
+---
+title: "Instruction Set Architecture"
+subject: "hardware"
+slug: "instruction-set-architecture"
+description: ""
+status: "published"
+verified: false
+author: "n8n@learnflow.bot"
+created_at: 2026-05-11
+---
+
+# Instruction Set Architecture
+
+## Introduction
+The Instruction Set Architecture (ISA) serves as the contract between software and hardware. It defines the set of instructions a processor can execute, the data types, the registers, the addressing modes, and the memory model. Every program, from a simple calculator to an operating system, is ultimately reduced to sequences of these basic machine instructions. By studying ISAs, we understand how high-level constructs are compiled into low-level operations and how hardware design must support this abstraction layer. This article presents the core concepts of ISA design, classification, and operation, with examples from both RISC and CISC paradigms.
+
+## Core Concepts
+
+### What is an ISA?
+An ISA specifies:
+- **Supported data types** (e.g., integers, floating-point numbers, packed vectors).
+- **Registers**: names, size, and purpose of a small set of fast storage locations.
+- **Memory addressing modes**: how operands can be accessed.
+- **Instruction format**: binary encoding of operations, registers, and immediate values.
+- **Exception and interrupt handling** mechanisms.
+
+The ISA does **not** specify how the instructions are implemented in microarchitecture (pipeline depth, cache size, execution units). This separation allows multiple processor generations to run the same binary programs.
+
+### Classification of ISAs
+ISAs can be classified by the location of operands and the style of instruction.
+
+**Stack Architecture**  
+Operands are implicitly taken from the top of a stack. No explicit operand fields are needed, leading to dense code but limited parallelism. Example: Java Virtual Machine bytecode.
+
+**Accumulator Architecture**  
+One operand is always an implicit accumulator register. Early 8-bit CPUs (e.g., MOS 6502) used this. `ADD x` means $ACC \leftarrow ACC + \text{mem}[x]$.
+
+**Register-Memory Architecture**  
+One operand may come from memory; others come from registers. This is typical of CISC ISAs (e.g., x86). Example: `ADD AX, [BX+disp]` adds a memory datum to the AX register.
+
+**Register-Register (Load-Store) Architecture**  
+All arithmetic and logic operations use only register operands. Explicit `LOAD` and `STORE` instructions move data between registers and memory. This is the hallmark of RISC ISAs (e.g., MIPS, ARM, RISC-V). It simplifies execution and enables efficient pipelining.
+
+### Instruction Types
+Most ISAs provide these fundamental categories:
+
+1. **Data Transfer**  
+   `LOAD`, `STORE`, `MOV`, `PUSH`, `POP` – move data between registers and memory.
+2. **Arithmetic and Logical**  
+   `ADD`, `SUB`, `MUL`, `DIV`, `AND`, `OR`, `XOR`, `SHIFT` – perform computation.
+3. **Control Flow**  
+   `JUMP` (unconditional), `BRANCH` (conditional), `CALL`, `RET` – alter the program counter.
+4. **System / Privileged**  
+   Instructions for interrupt handling, memory management, and I/O.
+
+### Addressing Modes
+An addressing mode defines how the effective address (EA) of an operand is calculated. Common modes:
+
+| Mode | Effective Address | Example (MIPS-like syntax) |
+|------|-------------------|----------------------------|
+| Immediate | Operand is part of the instruction | `ADDI $t1, $t2, 42` |
+| Register Direct | Operand is in a register | `ADD $t1, $t2, $t3` |
+| Direct (Absolute) | Address given as an immediate value | `LW $t0, 0x1000($zero)` |
+| Register Indirect | $EA = R[i]$ | `LW $t0, ($t1)` |
+| Base + Displacement | $EA = R[i] + \text{offset}$ | `LW $t0, 8($t2)` |
+| Indexed | $EA = R[i] + R[j]$ | `LW $t0, $t3($t2)` |
+| Scaled Indexed | $EA = R[i] + R[j] \times s + \text{offset}$ | typical in x86 |
+| PC-Relative | $EA = PC + \text{offset}$ | used for branches |
+
+Many CISC ISAs support complex modes; RISC ISAs restrict to a few simple ones.
+
+### Instruction Encoding
+Instructions are binary words. The encoding must balance compactness, decoding complexity, and extensibility.
+
+- **Fixed-length encoding**: all instructions have the same size (e.g., 32 bits in MIPS, ARM, RISC-V). Decoding is simple and parallelisable, but code size may be larger.
+- **Variable-length encoding**: instructions may be 1–15 bytes (e.g., x86). Dense coding saves memory, but decoding is more complex and sequential.
+
+A typical fixed-length RISC format divides an instruction word into fields:
+
+```
+| opcode | rs | rt | rd | shamt | funct |
+  31-26   25-21 20-16 15-11 10-6   5-0
+```
+For a MIPS R-type: `funct` selects the specific operation (e.g., ADD, SUB) when `opcode = 0`.
+
+Let’s see an example of encoding an instruction:  
+`ADD $t0, $t1, $t2` where `$t0 = r8`, `$t1 = r9`, `$t2 = r10`.  
+The binary: `opcode = 0 (000000)`, `rs = 9 (01001)`, `rt = 10 (01010)`, `rd = 8 (01000)`, `shamt = 0 (00000)`, `funct = 32 (100000)`.  
+Final 32-bit word: `000000 01001 01010 01000 00000 100000`.
+
+### RISC Example: MIPS Arithmetic
+Suppose we compute $A = B + C$ where `A`, `B`, `C` are memory variables at addresses `0x1000`, `0x1004`, `0x1008`. The RISC load-store model requires:
+
+```assembly
+LW   $t0, 0x1004($zero)   # Load B into $t0
+LW   $t1, 0x1008($zero)   # Load C into $t1
+ADD  $t2, $t0, $t1        # $t2 = $t0 + $t1
+SW   $t2, 0x1000($zero)   # Store result to A
+```
+
+Only `LOAD` and `STORE` touch memory; arithmetic stays purely within registers. This separation is fundamental to achieving high clock speeds and efficient pipelining.
+
+### CISC Example: x86 Variable-Length Instructions
+The x86 ISA allows a single instruction to read memory, perform arithmetic, and store the result, e.g., `ADD [EBX+4*ECX], EAX`. This computes the address $[EBX] + 4 \times [ECX]$, adds the value from `EAX`, and writes the result back to that memory location. Encoding is complex:
+
+- Prefixes (optional) up to 4 bytes
+- Opcode 1–3 bytes
+- ModR/M byte (specifies addressing mode and registers)
+- SIB byte (Scale-Index-Base) if needed
+- Displacement (1, 2, or 4 bytes)
+- Immediate data (1, 2, or 4 bytes)
+
+The total length can range from 1 to 15 bytes. While this reduces code size, it introduces significant decoder complexity.
+
+## Summary
+The Instruction Set Architecture is a critical abstraction that defines how software controls hardware. We have examined the major ISA classes (stack, accumulator, register-memory, register-register), the common instruction categories, addressing modes for operand access, and the trade-offs between fixed-length and variable-length encoding. RISC architectures like MIPS, ARM, and RISC-V employ simple, uniform encoding and a load-store philosophy, enabling high performance through pipelining. CISC architectures like x86 offer dense, complex instructions that reduce code size but demand sophisticated decoders. Regardless of the style, a well-designed ISA balances programmability, implementation efficiency, and forward compatibility, forming the foundation of modern computing.
