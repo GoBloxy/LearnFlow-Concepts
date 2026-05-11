@@ -1,0 +1,249 @@
+---
+title: "Assembly Language Programming"
+subject: "hardware"
+slug: "assembly-language-programming"
+description: ""
+status: "published"
+verified: false
+author: "n8n@learnflow.bot"
+created_at: 2026-05-11
+---
+
+```markdown
+# Assembly Language Programming
+
+## Introduction
+
+Assembly language is the lowest-level human-readable representation of a computer’s machine code. Each assembly instruction corresponds to exactly one machine instruction, providing direct control over the processor’s registers, arithmetic logic unit (ALU), and memory. In a hardware-oriented study, understanding assembly language bridges the gap between high-level programming and the actual digital logic of a CPU. It reveals how a processor fetches, decodes, and executes instructions, how addressing modes access operands, and how the system stack supports subroutines and interrupts. This article explores the core concepts of assembly language programming, using a generic but realistic 32‑bit x86 (IA‑32) architecture as the running example, with occasional mention of 64‑bit extensions. All examples use Intel syntax for readability.
+
+## The Hardware–Software Interface
+
+A program written in assembly is translated by an *assembler* into an object file containing binary machine code. The linker then resolves addresses to produce an executable. At the hardware level, the CPU fetches these binary words, decodes them, and drives control signals to data‑path components such as register files, the ALU, and memory controllers. Thus, every assembly mnemonic (e.g., `MOV`, `ADD`, `JMP`) directly maps to an opcode and operand fields that the hardware interprets.
+
+A typical assembly program is divided into sections:
+
+- `.data` – Initialised global variables and constants.
+- `.bss` – Uninitialised variables (reserved memory).
+- `.text` – Executable code.
+
+The CPU’s state visible to the programmer mainly consists of general-purpose registers, the instruction pointer (EIP), and the flags register (EFLAGS). Common 32‑bit general‑purpose registers are `EAX`, `EBX`, `ECX`, `EDX`, `ESI`, `EDI`, `EBP`, and `ESP`. Each can be accessed as 16‑bit (`AX`, etc.) or 8‑bit (`AL`, `AH`) portions. In x86‑64, these are extended to 64 bits (`RAX`, `RBX`, …) with additional registers `R8`–`R15`.
+
+## Core Concepts
+
+### 1. Basic Template and Assembler Directives
+
+An assembly program typically begins with directives that define the memory model and section boundaries. The following NASM‑style template illustrates the minimal structure:
+
+```asm
+section .data
+    msg db 'Hello, World!', 0    ; null-terminated string
+    count dd 10                  ; 32-bit integer
+
+section .bss
+    buffer resb 64               ; reserve 64 bytes
+
+section .text
+    global _start
+_start:
+    mov eax, 1                   ; system call number (exit)
+    mov ebx, 0                   ; exit code
+    int 0x80                     ; invoke kernel
+```
+
+Assembler directives (e.g., `db`, `dw`, `dd`, `resb`) allocate storage and define constants. Labels such as `_start` mark the entry point, and the linker resolves the symbol to an address.
+
+### 2. Instruction Set and Addressing Modes
+
+An instruction consists of an operation code (opcode) and zero or more operands. Typical operand types are registers, immediate values, and memory references. The variety of addressing modes allows flexible access to data:
+
+- **Immediate addressing** – the operand is a constant encoded in the instruction.  
+  `mov eax, 0x2A`   →   $EAX \leftarrow 42$
+- **Register addressing** – the operand is a register.  
+  `add ebx, ecx`    →   $EBX \leftarrow EBX + ECX$
+- **Direct memory addressing** – a fixed memory address.  
+  `mov eax, [0x6000]`
+- **Register indirect** – the address is held in a register.  
+  `mov eax, [esi]`
+- **Base-plus-index with displacement and scale** – combines base, index, scale (1, 2, 4, 8) and a constant displacement.  
+  `mov eax, [ebx + esi*4 + 8]` → effective address $= EBX + ESI \times 4 + 8$
+
+The general memory operand format is:
+
+$$
+[\text{base} + \text{index} \times \text{scale} + \text{displacement}]
+$$
+
+where **base** and **index** are any general-purpose registers (except `ESP` as an index in some architectures), **scale** is $1, 2, 4$ or $8$, and **displacement** is an 8‑, 16‑, or 32‑bit constant.
+
+### 3. Data Movement and Arithmetic
+
+Data movement (`MOV`, `LEA`, `PUSH`, `POP`) and arithmetic (`ADD`, `SUB`, `MUL`, `DIV`, `INC`, `DEC`) form the backbone of any program. `MOV` copies a value; it does not affect flags. Arithmetic instructions update the EFLAGS register: `ZF` (zero), `SF` (sign), `CF` (carry), `OF` (overflow) are frequently tested by conditional jumps.
+
+Example: Multiplication and Division
+
+```asm
+mov eax, 7      ; multiplicand
+mov ebx, 6      ; multiplier
+mul ebx         ; EDX:EAX = EAX * EBX (unsigned);
+                ; result EDX:EAX = 0x0000 0000 0000 002A
+
+mov eax, 50
+mov ecx, 7
+div ecx         ; EAX = quotient, EDX = remainder
+```
+
+`LEA` (Load Effective Address) computes an address without accessing memory, often used for arithmetic like `lea eax, [ebx + ebx*2]` (multiplication by three).
+
+### 4. Control Flow
+
+Conditional execution relies on jumps that test individual flags or combinations thereof. Unconditional jump (`JMP`) alters the instruction pointer. The `CMP` instruction subtracts operands and sets flags without storing the result.
+
+```asm
+mov eax, [x]
+cmp eax, 10
+jl  less_than_10   ; jump if signed less than
+jmp otherwise
+less_than_10:
+    ; ...
+otherwise:
+```
+
+Common conditional jumps: `JE`/`JZ`, `JNE`/`JNZ`, `JG`, `JL`, `JGE`, `JLE` for signed compares, and `JA`, `JB` for unsigned. Loops are built with a counter and a conditional jump:
+
+```asm
+mov ecx, 10
+loop_start:
+    ; body
+    dec ecx
+    jnz loop_start
+```
+
+Alternatively, the `LOOP` instruction decrements `ECX` and jumps if not zero, but explicit `DEC`/`JNZ` is often clearer and faster on modern processors.
+
+### 5. Subroutines and the Stack
+
+The stack is a LIFO region in memory managed by the `ESP` register (stack pointer) and `EBP` (base pointer) for accessing local variables and parameters. `CALL` pushes the return address (`EIP`) onto the stack and jumps to the subroutine; `RET` pops it back.
+
+The standard subroutine prologue and epilogue create a stack frame:
+
+```asm
+my_func:
+    push ebp        ; save old base pointer
+    mov ebp, esp    ; set new base pointer
+    sub esp, 8      ; allocate 8 bytes for locals
+    ; ... body ...
+    mov esp, ebp    ; restore stack pointer
+    pop ebp         ; restore base pointer
+    ret
+```
+
+Parameters are often passed via registers (fastcall) or pushed onto the stack before `CALL`. The stack frame then gives access at `[ebp+8]`, `[ebp+12]`, etc. (depending on calling convention). Return values are typically placed in `EAX`.
+
+### 6. System Interaction and I/O
+
+In a bare‑metal or operating‑system environment, assembly interacts with hardware via **I/O ports** (using `IN`/`OUT` instructions) or **memory‑mapped I/O**. Under an OS, system calls (e.g., x86 Linux `int 0x80` or `syscall` on x86‑64) request services like console output or file operations. The example at the start used the `exit` system call. To print a string:
+
+```asm
+mov eax, 4          ; sys_write
+mov ebx, 1          ; file descriptor (stdout)
+mov ecx, msg        ; pointer to string
+mov edx, len        ; length
+int 0x80
+```
+
+## Comprehensive Example: Sum of an Array
+
+Below is a complete program that calculates the sum of a 32‑bit integer array and stores the result. It demonstrates sections, loops, addressing modes, and conditional branching.
+
+```asm
+; Sum of Array in x86 Assembly (NASM, Linux)
+
+section .data
+    array dd 10, 20, 30, 40, 50   ; 5 elements
+    arr_len equ ($ - array) / 4    ; number of elements
+    sum_msg db 'Sum = ', 0
+
+section .bss
+    sum resd 1
+    out_buf resb 12                ; buffer for integer to ASCII conversion
+
+section .text
+    global _start
+
+_start:
+    ; initialise pointers and counter
+    mov esi, array      ; ESI points to array start
+    mov ecx, arr_len    ; ECX as loop counter
+    xor eax, eax        ; sum = 0
+
+sum_loop:
+    add eax, [esi]      ; add current element
+    add esi, 4          ; next 32-bit element
+    loop sum_loop       ; decrement ECX, jump if not zero
+
+    mov [sum], eax      ; store result
+
+    ; ---- simple integer-to-string conversion ----
+    ; assume EAX = value to convert
+    mov eax, [sum]
+    mov edi, out_buf + 11  ; point to end of buffer
+    mov byte [edi], 0      ; null-terminator (for safety)
+    dec edi
+
+    mov ebx, 10         ; divisor
+
+.to_string_loop:
+    xor edx, edx
+    div ebx             ; EAX = quotient, EDX = remainder
+    add dl, '0'         ; convert digit to ASCII
+    mov [edi], dl
+    dec edi
+    test eax, eax
+    jnz .to_string_loop
+
+    ; write message and number (syscall based output)
+    mov eax, 4
+    mov ebx, 1
+    mov ecx, sum_msg
+    mov edx, 7          ; length of "Sum = "
+    int 0x80
+
+    ; write converted number string
+    inc edi             ; EDI now points to first digit
+    mov eax, 4
+    mov ebx, 1
+    mov ecx, edi
+    ; calculate length = (out_buf + 11 - edi)
+    mov edx, out_buf + 11
+    sub edx, edi
+    int 0x80
+
+    ; exit
+    mov eax, 1
+    xor ebx, ebx
+    int 0x80
+```
+
+**Step‑by‑step explanation:**
+
+1. `.data` defines the array and a constant `arr_len` computed by the assembler. The `$` symbol denotes the current address; subtracting `array` gives the total byte size, divided by 4 gives the element count.
+2. `ESI` holds the address of the current element. The `xor eax, eax` zeroes the accumulator.
+3. The loop `sum_loop` performs `EAX += [ESI]` and increments `ESI` by 4. The `LOOP` instruction automatically decrements `ECX` and jumps if `ECX ≠ 0`.
+4. After the loop, the sum is stored in the `sum` variable.
+5. A custom integer‑to‑ASCII routine successively divides by 10, storing remainders (digits) backwards in a buffer.
+6. System call `sys_write` (call number 4) outputs the constant message and then the converted string. Finally, `sys_exit` (1) terminates the program.
+
+The effective address in `add eax, [esi]` uses register indirect addressing with no displacement. This illustrates how a simple pointer is walked through in assembly.
+
+## Summary
+
+Assembly language programming provides an unobscured view of the processor’s operation. Key takeaways:
+
+- Every assembly mnemonic encodes a specific hardware operation, directly influencing registers, flags, and memory.
+- The programmer explicitly manages data movement between registers and memory, choosing from a rich set of addressing modes such as `[base + index*scale + displacement]`.
+- Control flow is implemented with conditional and unconditional jumps that test status flags set by arithmetic and comparison instructions.
+- The stack supports subroutines, local variables, and parameter passing, with `CALL`/`RET` manipulating the instruction pointer and `PUSH`/`POP` managing data.
+- A complete program, like the array sum example, integrates these concepts while interacting with the operating system through system calls or hardware via I/O instructions.
+
+Mastering assembly language deepens the understanding of how software actually executes on hardware, forming a critical link between high‑level programming and computer architecture. Even in an era of optimising compilers, this knowledge remains fundamental for system programming, embedded development, reverse engineering, and performance tuning.
+```
