@@ -1,0 +1,146 @@
+---
+title: "Multiprocessor Systems"
+subject: "hardware"
+slug: "multiprocessor-systems"
+description: ""
+status: "published"
+verified: false
+author: "n8n@learnflow.bot"
+created_at: 2026-05-11
+---
+
+```markdown
+# Multiprocessor Systems
+
+## Introduction
+Multiprocessor systems are computer architectures that integrate two or more complete processing units (CPUs or cores) within a single system. By executing multiple instruction streams simultaneously, these systems aim to increase performance, improve reliability, and handle workloads that cannot be processed efficiently by a single processor. They form the backbone of modern computing, from multi-core smartphones to warehouse-scale data centers.
+
+Key motivations for adopting multiprocessor architectures include:
+- **Throughput**: Processing more tasks per unit time.
+- **Parallelism**: Exploiting task-level or thread-level parallelism inherent in many applications.
+- **Scalability**: Adding processors to meet growing computational demands.
+- **Fault tolerance**: Continuing operation even when one processor fails (in some configurations).
+
+This article introduces the fundamental concepts of multiprocessor systems, covering classification, memory organization, cache coherence, interconnect topologies, and performance analysis.
+
+## Core Concepts
+
+### Classification of Multiprocessor Systems
+Multiprocessor systems are broadly categorized by how processors share memory, coordinate work, and handle operating systems.
+
+#### Symmetric Multiprocessing (SMP)
+In an SMP system, two or more identical processors are connected to a single, shared main memory. All processors have equal access to memory and I/O devices, and a single instance of the operating system manages all resources. Most modern multi-core CPUs implement SMP within a single chip.  
+- Processors can run any task; scheduling is dynamic.  
+- Adding processors increases throughput, but memory contention may limit scalability.
+
+#### Asymmetric Multiprocessing (AMP)
+In AMP, processors are not equal—one master processor controls the system and assigns work to slave processors, or different processors are dedicated to specific tasks (e.g., one CPU handles I/O, another runs user applications). Early mainframe attached I/O processors are an example. Modern usage is rare in general-purpose computing, but appears in heterogeneous embedded systems.
+
+#### Clustered Systems
+Clusters consist of multiple independent computers (nodes) connected via a high-speed network, working together as a unified resource. Each node typically has its own local memory and OS; they communicate using message passing. Clusters offer excellent scalability and fault isolation. They can be:
+- **High-availability clusters**: Failover if a node goes down.  
+- **Load-balancing clusters**: Distribute incoming requests.  
+- **High-performance clusters**: Parallel computation using MPI or similar frameworks.
+
+### Memory Architectures
+How processors and memory are organized profoundly affects performance and programming model.
+
+#### Uniform Memory Access (UMA)
+All processors share a single physical memory pool and access it with the same latency and bandwidth. Often realized via a shared bus or crossbar switch. SMP systems commonly have UMA characteristics at small scale. However, as the number of processors grows, bus contention makes scaling difficult.
+
+#### Non-Uniform Memory Access (NUMA)
+Memory is physically distributed across processors, but logically shared. Each processor can access its own local memory quickly and remote memory (attached to another processor) with higher latency. This reduces contention compared to a single bus. Programmers and OS scheduler must consider locality for optimal performance. Example: multicore server chips with multiple memory controllers, each serving a subset of cores (e.g., AMD EPYC).
+
+#### Cache-Only Memory Architecture (COMA)
+A variant of NUMA where all main memory is treated as cache. Data migrates dynamically to the processor that needs it, without fixed home locations. Rare in commercial systems, but concept studied in research machines like KSR-1.
+
+### Cache Coherence
+In multiprocessors with private caches, multiple copies of the same memory block can exist. When one processor modifies its cached copy, others must be made aware to avoid using stale data. Cache coherence protocols ensure that all processors observe a consistent view of memory.
+
+#### Write-invalidate vs Write-update
+- **Write-invalidate**: Before a write, all other copies are invalidated. Subsequent reads by other processors miss and fetch the updated block. Widely used (e.g., MESI protocol).  
+- **Write-update (write-broadcast)**: On a write, the new value is broadcast to all caches holding the block. Reduces initial miss but increases bus traffic; less common.
+
+#### MESI Protocol Example
+The MESI protocol is a popular snooping-based write-invalidate scheme. Each cache line is in one of four states:
+- **M**odified: Data valid only in this cache, dirty, must be written back before eviction.
+- **E**xclusive: Data valid and clean, only in this cache, matches memory.
+- **S**hared: Data valid, clean, possibly present in other caches.
+- **I**nvalid: Line not valid.
+
+Transitions:  
+- Read miss: If no other cache has it (E) → loaded into Exclusive; if shared → Shared.  
+- Write miss: Invalidate all other copies, then load into Modified.  
+- Snooping ensures all caches see bus transactions and update states accordingly.
+
+#### Directory-Based Coherence
+For large-scale NUMA systems where broadcasting is impractical, a directory tracks which caches hold each memory block. On a write, the directory sends point-to-point invalidation messages only to sharers, dramatically reducing bandwidth. This is the foundation of scalable many-core and multi-socket systems.
+
+### Interconnection Networks
+Processors and memory modules communicate via interconnection fabrics. The choice affects latency, bandwidth, and cost.
+
+#### Bus-Based
+A single shared bus carries all traffic. Only one transaction can occur at a time (with arbitration). Simple and low-cost for small-scale UMA systems (4–8 cores). Does not scale due to electrical loading and contention.
+
+#### Crossbar Switch
+Connects $n$ processors to $m$ memory modules with a non-blocking grid. Enables multiple simultaneous transfers, but requires $O(n \times m)$ switches. Used in mid-scale UMA systems (e.g., Sun Enterprise servers) where cost is acceptable.
+
+#### Multistage Interconnection Networks
+Built from small switching elements organized in stages, e.g., Omega, baseline, or Beneš networks. They offer a compromise between bus cost and crossbar performance. Some are blocking; the Beneš network is rearrangeably non-blocking.
+
+#### Network-on-Chip (NoC)
+On modern multi-core chips, a network of routers connects cores, caches, and memory controllers. Topologies include mesh, ring, and torus. Packets are routed using wormhole or virtual-cut-through flow control. NoC design balances power, area, and throughput.
+
+### Programming Models and Synchronization
+Multiprocessors require mechanisms to coordinate access to shared data.
+
+- **Shared-memory model**: Threads communicate implicitly via reads/writes to shared variables. Synchronization primitives include mutexes, semaphores, barriers.
+- **Message passing**: Processes communicate explicitly by sending and receiving messages, typical in clusters and distributed memory systems. MPI is the standard interface.
+- **Atomic instructions**: Hardware support like test-and-set, compare-and-swap, and load-linked/store-conditional enable lock-free programming.
+
+### Performance Metrics and Amdahl’s Law
+Evaluating performance of a parallel system requires understanding both speedup and limitations.
+
+#### Speedup
+Speedup $S$ is defined as:
+$$S(n) = \frac{T(1)}{T(n)}$$
+where $T(1)$ is execution time on one processor, $T(n)$ on $n$ processors. Ideal speedup is $n$, but overheads (communication, synchronization, load imbalance) reduce it.
+
+#### Amdahl’s Law
+If fraction $P$ of a program can be parallelized perfectly and $1-P$ is sequential, the maximum speedup with $n$ processors is:
+$$S_{\text{max}} = \frac{1}{(1-P) + \frac{P}{n}}$$
+As $n \to \infty$, $S_{\text{max}} \to \frac{1}{1-P}$. For example, if $P = 0.95$, the maximum speedup even with infinite processors is only $20$. This underscores the importance of minimizing serial portions.
+
+#### Gustafson’s Law
+More realistic for scaled problem sizes:
+$$S = n - (1-P)(n-1)$$
+When problem size grows with number of processors, the serial portion often remains constant, allowing larger speedup.
+
+#### Efficiency and Scalability
+Efficiency $E = S(n)/n$. A system is scalable if efficiency remains high as $n$ increases, provided the problem size also scales appropriately (weak scaling) or the parallel overhead is low relative to computation.
+
+## Examples
+
+### Example 1: Small SMP Server
+A 4-socket server with Intel Xeon processors, each 8 cores, sharing a single memory pool via UMA (using an interconnect such as Intel UPI). Cache coherence uses a MESIF (an enhancement of MESI) protocol over the snooping-based interconnect. Typical applications: database management, virtualization hosts. At 32 cores, bus bandwidth may become a bottleneck under heavy memory traffic, prompting a move to NUMA in larger configurations.
+
+### Example 2: NUMA High-Performance Computing Node
+A dual-socket AMD EPYC 7742 server: 64 cores per socket, each socket has its own memory controllers. Local memory access latency is ~100 ns; remote access through Infinity Fabric interconnect ~200 ns. The operating system schedules threads on cores close to the memory they mostly use (NUMA-aware scheduling). A parallel scientific simulation can achieve near-linear speedup if memory allocations are carefully partitioned.
+
+### Example 3: Cache Coherence in a Snooping Bus System (MESI)
+Consider a 2-core processor with MESI caches. Initially, both caches have block X in Shared state. Core 0 reads X → hit, no bus traffic. Core 1 writes X:
+1. Core 1 broadcasts an “invalidate” transaction on the bus.
+2. Core 0 snoops, sees the invalidation, and sets its copy to Invalid.
+3. Core 1 updates its cache line to Modified state.
+4. Core 0 later reads X → miss, fetches the updated block from Core 1’s cache (via intervention), both return to Shared state, and memory is eventually updated.
+
+### Example 4: Amdahl’s Law Applied
+A video rendering program spends 95% of its time in parallelizable pixel calculations, and 5% in sequential control logic. On a 16-core system:
+$$S = \frac{1}{0.05 + \frac{0.95}{16}} = \frac{1}{0.05 + 0.059375} = \frac{1}{0.109375} \approx 9.14$$
+Thus speedup is only about 9×, far from the ideal 16× due to the serial bottleneck.
+
+## Summary
+Multiprocessor systems achieve performance by employing multiple processing units that cooperate to execute tasks. They come in SMP, AMP, and clustered variants, each with distinct memory and communication strategies. Memory organization—UMA vs. NUMA—determines access latency and scalability. Cache coherence protocols (e.g., MESI, directory-based) maintain a consistent view of shared data, while interconnection networks (bus, crossbar, NoC) provide the underlying communication fabric.
+
+Performance analysis reveals that parallelism is bound by the serial fraction (Amdahl’s Law), requiring both hardware and software to minimize sequential overhead. As technology scales, modern systems increasingly integrate dozens to thousands of cores per node, leveraging NUMA, advanced coherence, and high-bandwidth networks to tackle massive data-intensive and computational workloads. Understanding these core principles is essential for designing efficient parallel applications and future computer architectures.
+```
