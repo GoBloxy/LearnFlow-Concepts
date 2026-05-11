@@ -1,0 +1,222 @@
+---
+title: "Digital Logic Fundamentals"
+subject: "hardware"
+slug: "digital-logic-fundamentals"
+description: ""
+status: "published"
+verified: false
+author: "n8n@learnflow.bot"
+created_at: 2026-05-11
+---
+
+```markdown
+# Digital Logic Fundamentals
+
+## Introduction
+
+Digital logic forms the foundation of all modern computing and electronic hardware. It deals with circuits that process discrete voltage levels—typically denoted as binary values 0 and 1—to perform computation, data storage, and control. This article introduces the essential concepts of digital logic at the undergraduate level, covering number systems, Boolean algebra, logic gates, combinational and sequential circuits, and commonly used building blocks. Throughout the exposition, mathematical notation is expressed in LaTeX and practical examples illustrate each topic.
+
+---
+
+## 1. Number Systems and Binary Representation
+
+Digital systems operate on binary (base‑2) numbers. Understanding conversions among binary, decimal, and hexadecimal is fundamental.
+
+- **Decimal (base‑10):** digits $0$–$9$.
+- **Binary (base‑2):** digits $0$, $1$.
+- **Hexadecimal (base‑16):** digits $0$–$9$ and letters $A$–$F$ (values $10$–$15$).
+
+### 1.1 Positional Notation
+
+Any number can be expressed as a sum of powers of its base. For example, the binary number $1101_2$ is:
+
+$$
+1 \times 2^3 + 1 \times 2^2 + 0 \times 2^1 + 1 \times 2^0 = 8 + 4 + 0 + 1 = 13_{10}
+$$
+
+Similarly, hexadecimal $2F_{16}$ equals:
+
+$$
+2 \times 16^1 + 15 \times 16^0 = 32 + 15 = 47_{10}
+$$
+
+### 1.2 Conversions
+
+- **Decimal to binary:** Repeated division by 2; read remainders in reverse.  
+  Example: $13_{10}$ → $13 \div 2 = 6$ remainder $1$, $6 \div 2 = 3$ remainder $0$, $3 \div 2 = 1$ remainder $1$, $1 \div 2 = 0$ remainder $1$ → $1101_2$.
+- **Binary to hexadecimal:** Group bits in sets of four from right, pad with zeros, replace each group with the hex digit.  
+  $11011101_2$ → $1101\ 1101$ → $D D_{16}$.
+
+In hardware, a group of 8 bits is a byte; words are wider. Numbers can be signed (two’s complement) but for pure logic we treat them as unsigned.
+
+---
+
+## 2. Boolean Algebra and Logic Gates
+
+Boolean algebra is a mathematical system with variables that take values $0$ (FALSE) and $1$ (TRUE). Three basic operations—**AND**, **OR**, **NOT**—form the basis of all digital logic.
+
+### 2.1 Basic Gates and Truth Tables
+
+**AND** (conjunction): $Y = A \cdot B$ (or $AB$)  
+$Y=1$ only when both $A$ and $B$ are $1$.
+
+| A | B | Y |
+|---|---|---|
+| 0 | 0 | 0 |
+| 0 | 1 | 0 |
+| 1 | 0 | 0 |
+| 1 | 1 | 1 |
+
+**OR** (disjunction): $Y = A + B$  
+$Y=1$ when at least one input is $1$.
+
+| A | B | Y |
+|---|---|---|
+| 0 | 0 | 0 |
+| 0 | 1 | 1 |
+| 1 | 0 | 1 |
+| 1 | 1 | 1 |
+
+**NOT** (negation): $Y = \overline{A}$ (or $A'$)
+
+| A | Y |
+|---|---|
+| 0 | 1 |
+| 1 | 0 |
+
+Composite gates built from these are equally important:
+
+- **NAND**: $Y = \overline{A \cdot B}$ (AND followed by NOT)
+- **NOR**: $Y = \overline{A + B}$
+- **XOR** (exclusive OR): $Y = A \oplus B = A\overline{B} + \overline{A}B$  
+  Output $1$ when inputs differ.
+- **XNOR** (equivalence): $Y = \overline{A \oplus B} = A B + \overline{A}\,\overline{B}$
+
+### 2.2 Boolean Identities and Laws
+
+Key identities allow simplification of logic expressions:
+
+- **Identity:** $A + 0 = A$, $A \cdot 1 = A$
+- **Null:** $A + 1 = 1$, $A \cdot 0 = 0$
+- **Idempotence:** $A + A = A$, $A \cdot A = A$
+- **Involution:** $\overline{\overline{A}} = A$
+- **Commutative:** $A + B = B + A$, $A \cdot B = B \cdot A$
+- **Associative:** $A + (B + C) = (A + B) + C$, $A \cdot (B \cdot C) = (A \cdot B) \cdot C$
+- **Distributive:** $A \cdot (B + C) = A \cdot B + A \cdot C$, $A + (B \cdot C) = (A + B)(A + C)$
+- **De Morgan’s Laws:** $\overline{A \cdot B} = \overline{A} + \overline{B}$, $\overline{A + B} = \overline{A} \cdot \overline{B}$
+- **Absorption:** $A + A \cdot B = A$, $A \cdot (A + B) = A$
+
+**Example:** Simplify $F = A \cdot \overline{B} + A \cdot B \cdot C$.  
+Using absorption: $F = A \cdot (\overline{B} + B \cdot C) = A \cdot (\overline{B} + C)$ because $X + \overline{X}Y = X + Y$. Thus $F = A\overline{B} + A C$.
+
+---
+
+## 3. Combinational Logic Circuits
+
+Combinational circuits are those whose outputs depend solely on the current inputs; they have no memory. They are described by Boolean expressions, truth tables, or logic diagrams.
+
+### 3.1 Standard Forms: SOP and POS
+
+- **Sum of Products (SOP):** A Boolean expression written as an OR of AND terms. Each AND term is a *minterm* where every variable appears exactly once in true or complemented form.  
+  Example: $F(A,B,C) = \overline{A} B C + A \overline{B} C + A B C$ corresponds to minterms $m_3, m_5, m_7$.
+- **Product of Sums (POS):** An AND of OR terms, each being a *maxterm*.  
+  The same function can be expressed as $F = (A + B + C)(A + \overline{B} + C)(\overline{A} + B + C)$.
+
+### 3.2 Karnaugh Map (K‑map) Minimization
+
+A K‑map provides a visual method to simplify Boolean expressions by grouping adjacent ones.
+
+**Example:** Function $F(A,B,C) = \sum m(1,2,3,6)$ (i.e., minterms 1,2,3,6).  
+Place 1s in a 2‑variable by 1‑variable 3‑input K‑map:
+
+```
+       BC
+       00  01  11  10
+   A = 0   0   1   1   1   (m1,m2,m3 order: 01,10,11 -> but standard ordering 00,01,11,10)
+   A = 1   0   0   1   0   (m6 = 110)
+```
+Wait, standard ordering for 3 variables: A across rows, BC columns with Gray code: 00, 01, 11, 10. Minterms: $m_1 = 001$, $m_2 = 010$, $m_3 = 011$, $m_6 = 110$.
+
+Better presentation: `A` row 0: cells for BC=00,01,11,10 → m0,m1,m3,m2. A=1: m4,m5,m7,m6.
+
+Place 1s: m1 (BC=01, A=0), m2 (BC=10, A=0), m3 (BC=11, A=0), m6 (BC=10, A=1). The K‑map:
+
+| A \ BC | 00 | 01 | 11 | 10 |
+|--------|----|----|----|----|
+| **0**  | 0  | 1  | 1  | 1  |
+| **1**  | 0  | 0  | 0  | 1  |
+
+Groups: (m1,m3) -> A=0, B=0, C varies -> $\overline{A} \, C$? Actually m1: A'B'C, m3: A'BC -> A'C (B' and B cancel). Another group: (m2,m6) -> A=0,B C=10; A=1,BC=10 -> B C' (A changes). But m2 = A' B C'? m2 is 010 -> A' B C' and m6 is 110 -> A B C', so group yields B C'. Also m1,m2 can group? m1 001, m2 010 -> A' B' C + A' B C' -> no adjacency because they differ in B and C. So the groups: group 1 (m1,m3) = $\overline{A}C$, group 2 (m2,m6) = $B \overline{C}$. Thus simplified $F = \overline{A}C + B \overline{C}$.
+
+### 3.3 Common Combinational Blocks
+
+**Half Adder:** adds two single bits, produces sum ($S$) and carry ($C_{out}$).  
+Truth table:
+
+| A | B | S | C_out |
+|---|---|---|---------|
+| 0 | 0 | 0 |   0    |
+| 0 | 1 | 1 |   0    |
+| 1 | 0 | 1 |   0    |
+| 1 | 1 | 0 |   1    |
+
+$S = A \oplus B$, $C_{out} = A \cdot B$.
+
+**Full Adder:** adds three bits ($A, B, C_{in}$).  
+$S = A \oplus B \oplus C_{in}$, $C_{out} = A \cdot B + A \cdot C_{in} + B \cdot C_{in}$ (or equivalently $AB + C_{in}(A \oplus B)$). This can be built from two half adders and an OR gate.
+
+**Multiplexer (MUX):** selects one of several data inputs using select lines. A 2‑to‑1 MUX implements $Y = \overline{S} D_0 + S D_1$. Larger multiplexers select from $2^n$ inputs with $n$ select bits.
+
+**Decoder:** converts $n$ input bits into $2^n$ unique output lines. For example, a 2‑to‑4 decoder asserts exactly one of the outputs $Y_0, Y_1, Y_2, Y_3$ based on the input combination. Often used in conjunction with OR gates to implement arbitrary logic functions (using minterms).
+
+**Encoder:** performs the reverse operation; a priority encoder outputs the binary code of the highest‑priority active input.
+
+---
+
+## 4. Sequential Logic Circuits
+
+Sequential circuits incorporate memory elements; their outputs depend on both current inputs and the history of previous inputs (the circuit’s state). The fundamental memory element is the **latch** or **flip‑flop**.
+
+### 4.1 Latches and Flip‑Flops
+
+- **SR Latch:** Two cross‑coupled NOR or NAND gates. The NOR‑based SR latch has active‑high inputs $S$ (set) and $R$ (reset).  
+  - $S=1,R=0$: $Q=1$, $\overline{Q}=0$ (set state).  
+  - $S=0,R=1$: $Q=0$, $\overline{Q}=1$ (reset state).  
+  - $S=0,R=0$: hold previous state.  
+  - $S=1,R=1$: forbidden (both outputs 0, ambiguous).  
+
+- **Gated D Latch:** A level‑sensitive device. When clock (enable) is high, output $Q$ follows input $D$ (transparent). When clock goes low, $Q$ holds the last value.  
+  Implementation: $S = D$, $R = \overline{D}$ (but with a gating mechanism).
+
+- **Edge‑Triggered Flip‑Flops** change state only on a clock edge (rising or falling). The most widely used are:
+  - **D flip‑flop:** $Q^+ = D$ at the active clock edge. Used in registers and synchronous systems.  
+  - **JK flip‑flop:** behaves like SR except $J=K=1$ toggles the output ($Q^+ = \overline{Q}$) instead of being forbidden. The characteristic equation: $Q^+ = J \overline{Q} + \overline{K} Q$.  
+  - **T flip‑flop:** toggles when $T=1$; $Q^+ = T \oplus Q$. Easily built from a JK with $J=K=T$.  
+
+Excitation tables show what input values are needed to cause a desired transition. For D flip‑flop: to go $0 \rightarrow 0$: $D=0$; $0 \rightarrow 1$: $D=1$; $1 \rightarrow 0$: $D=0$; $1 \rightarrow 1$: $D=1$.
+
+### 4.2 Registers
+
+A register is a group of flip‑flops sharing a common clock, used to store multi‑bit data. An **n‑bit register** holds an n‑bit word. Shift registers shift data serially; a **parallel‑in parallel‑out (PIPO)** shift register can also load data all at once.
+
+### 4.3 Counters
+
+Counters cycle through a predetermined sequence of states, usually binary numbers.  
+- **Asynchronous (ripple) counter:** Flip‑flops are not triggered by a common clock; propagation delays accumulate.  
+- **Synchronous counter:** All flip‑flops share the same clock; state transitions are determined by combinational logic feeding the flip‑flop inputs.  
+  Example: A 2‑bit binary up counter (states 00 → 01 → 10 → 11 → 00). Using T flip‑flops: $T_0 = 1$ (always toggle LSB), $T_1 = Q_0$. With D flip‑flops, $D_0 = \overline{Q_0}$, $D_1 = Q_0 \oplus Q_1$.
+
+### 4.4 Finite State Machines (FSMs)
+
+Sequential circuits are often designed as finite state machines, of two types:
+
+- **Mealy machine:** outputs depend on state *and* inputs.
+- **Moore machine:** outputs depend only on state (inputs affect next state).
+
+A design flow: starting from a problem statement, draw a state diagram, assign binary codes to states, create a state transition table, derive next‑state and output equations, and implement with flip‑flops and combinational logic.
+
+**Simple example:** Design a sequence detector that recognizes the pattern “110” with overlapping allowed.  
+State diagram (Moore style):  
+- S0: reset, waiting for first 1 (output 0).  
+- S1: got 1 (output 0).  
+- S2: got
