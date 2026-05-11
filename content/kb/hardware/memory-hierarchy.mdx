@@ -1,0 +1,119 @@
+---
+title: "Memory Hierarchy"
+subject: "hardware"
+slug: "memory-hierarchy"
+description: ""
+status: "published"
+verified: false
+author: "n8n@learnflow.bot"
+created_at: 2026-05-11
+---
+
+# Memory Hierarchy
+
+## Introduction
+
+In modern computer systems, the memory hierarchy is a critical architectural concept that bridges the vast gap between processor speed and data access latency. Processors execute instructions at extremely high clock rates—often several gigahertz—but main memory (DRAM) and secondary storage (such as SSDs or hard disks) operate orders of magnitude slower. Without a carefully designed memory hierarchy, the CPU would spend most of its time idle, waiting for data. The hierarchy exploits two fundamental properties of program execution: **temporal locality** (recently accessed data are likely to be accessed again) and **spatial locality** (data near recently accessed locations are likely to be accessed soon). By storing frequently or recently used data in smaller but faster memories closer to the processor, the memory hierarchy provides the illusion of a large, fast, and cheap memory system. This article explores the levels of the memory hierarchy, the principles that make it effective, cache organizations, performance evaluation, and the role of virtual memory.
+
+## Core Concepts
+
+### The Memory Hierarchy Pyramid
+
+The memory hierarchy arranges storage technologies from fastest, smallest, and most expensive (closest to the CPU) to slowest, largest, and cheapest (farthest from the CPU). A typical pyramid includes:
+
+- **Registers**: Inside the CPU, holding operands and intermediate results. Access time $\approx 1$ cycle, capacity $\approx$ hundreds of bytes.
+- **L1 Cache**: Small, fast SRAM, split into instruction and data caches. Access time $\approx 1$–$4$ cycles, capacity $\approx 32$–$64$ KiB.
+- **L2 Cache**: Larger SRAM, often unified. Access time $\approx 10$–$20$ cycles, capacity $\approx 256$–$512$ KiB.
+- **L3 Cache**: Shared among cores, still SRAM. Access time $\approx 30$–$50$ cycles, capacity $\approx 4$–$32$ MiB.
+- **Main Memory (DRAM)**: Volatile, high density. Access time $\approx 100$–$300$ cycles ($50$–$70$ ns), capacity $\approx$ gigabytes.
+- **Secondary Storage (SSD / HDD)**: Non‑volatile, massive capacity (terabytes), but access times of $10$–$100\ \mu\text{s}$ for SSDs and milliseconds for HDDs.
+
+Each level acts as a cache for the level below, holding a subset of the data stored there.
+
+### Locality of Reference
+
+The hierarchical structure works because programs exhibit:
+
+- **Temporal locality**: If a memory location is referenced, it is likely to be referenced again soon (e.g., loop counters, reused variables).
+- **Spatial locality**: If a memory location is referenced, nearby locations will likely be referenced soon (e.g., sequential array accesses, instruction streams).
+
+Caches exploit these principles by storing blocks (or lines) of contiguous data and by keeping recently accessed blocks.
+
+### Cache Basics
+
+A **cache** is organized as an array of **cache lines**, each holding a fixed‑size block of memory (e.g., $64$ bytes). The data from main memory are mapped to cache lines according to an address mapping scheme.
+
+**Key parameters**:
+- Block size $B$: number of bytes per block.
+- Number of sets $S$ and associativity $W$: ways per set.
+- Total cache size $C = S \times W \times B$.
+
+#### Mapping Techniques
+
+1. **Direct‑mapped cache**: Each memory block maps to exactly one cache line:  
+   $\text{Set index} = (\text{block address}) \bmod S$, with $W=1$.  
+   Simple hardware, but conflict misses can be high.
+
+2. **Fully associative cache**: Any block can reside in any cache line ($S=1,\ W \gg 1$). Requires parallel tag comparison, expensive in hardware.
+
+3. **Set‑associative cache**: A compromise. $S > 1$ and $W > 1$. A block maps to a specific set, but can occupy any way within that set. Typical consumer CPUs use $4$‑way or $8$‑way set‑associative L1 caches.
+
+**Address breakdown** for a set‑associative cache:
+- **Block offset**: selects byte within the block ($\log_2 B$ bits).
+- **Set index**: selects the set ($\log_2 S$ bits).
+- **Tag**: remaining address bits, stored in the cache alongside the block to verify identity.
+
+#### Handling Cache Misses
+
+When a requested block is not found in the cache (a **miss**):
+- The miss is classified as compulsory (first access), capacity (cache too small to hold all needed blocks), or conflict (multiple blocks competing for the same set).
+- The block is fetched from the next level of the hierarchy.
+- A cache replacement policy decides which block to evict. Common policies: **Least Recently Used (LRU)**, pseudo‑LRU, **First‑In‑First‑Out (FIFO)**.
+- On a write, caches may use a **write‑through** policy (immediately update lower level) or **write‑back** (defer updates, requiring a dirty bit). **Write‑allocate** (fetch block on a write miss) is typical for hierarchical systems.
+
+### Performance Metrics
+
+The effectiveness of a memory hierarchy is often measured by the **average memory access time** (AMAT):
+
+$$
+\text{AMAT} = t_\text{cache} + \text{miss rate} \times t_\text{miss penalty}
+$$
+
+where $t_\text{cache}$ is the hit time, $t_\text{miss penalty}$ is the time to fetch a block from the next level, and $\text{miss rate} = 1 - \text{hit rate}$. For a multi‑level cache, we compute AMAT recursively:
+
+$$
+\text{AMAT} = t_{L1} + m_{L1} \times \big( t_{L2} + m_{L2} \times t_{L3} + \dots \big)
+$$
+
+where $m_{Li}$ is the miss rate at level $i$.
+
+**Example**: Suppose an L1 cache has a hit time of $1$ cycle, miss rate $5\%$, and a miss penalty to L2 of $20$ cycles. Then  
+$\text{AMAT} = 1 + 0.05 \times 20 = 2\ \text{cycles}$.  
+If we add an L2 cache with hit time $10$ cycles and miss rate $10\%$ to main memory with $100$‑cycle penalty, the AMAT becomes:  
+$\text{AMAT} = 1 + 0.05 \times (10 + 0.10 \times 100) = 1 + 0.05 \times 20 = 2\ \text{cycles}$, same as before—illustrating that well‑designed caches can hide even large main memory latencies.
+
+Another useful metric is **CPI** (cycles per instruction) contribution:  
+$\text{CPI}_{\text{stall}} = \text{accesses per instruction} \times \text{miss rate} \times \text{miss penalty}$.
+
+### Virtual Memory
+
+Virtual memory extends the hierarchy to secondary storage. It provides each process with its own address space, simplifies memory management, and protects processes from each other. The unit of transfer is a **page**, typically $4$ KiB. Mapping from virtual to physical addresses is managed by the **page table**, often accelerated by a small, fast cache called the **Translation Lookaside Buffer (TLB)**. A TLB miss triggers a page walk or a page fault if the page is on disk. Like caches, TLBs exploit locality and can be multi‑level, making them a natural component of the memory hierarchy.
+
+### Example: Cache Addressing
+
+Consider a $64$‑byte cache, direct‑mapped, with block size $B = 8$ bytes.  
+- Number of blocks = $64 / 8 = 8$, so $S = 8$, $W = 1$.
+- Address width: $16$ bits (for illustration).  
+- Block offset: $\log_2 8 = 3$ bits.  
+- Set index: $\log_2 8 = 3$ bits.  
+- Tag: $16 - (3 + 3) = 10$ bits.
+
+For address `0x1A5C` (binary: `0001 1010 0101 1100`):
+- Block offset: lower $3$ bits = `100` (byte $4$ within block).
+- Set index: next $3$ bits = `101` (set $5$).
+- Tag: remaining $10$ bits = `0001 1010 01`.
+The cache controller would look at set $5$, compare the stored tag with `0001 1010 01`, and if equal with valid bit set, return the block; otherwise, a miss occurs.
+
+## Summary
+
+The memory hierarchy is a fundamental hardware design principle that balances speed, capacity, and cost. By leveraging temporal and spatial locality, it places fast, small caches (L1, L2, L3) between the CPU and large, slow main memory. Virtual memory further extends this hierarchy to disk. Key technical aspects include cache mapping strategies, replacement policies, and write handling, all of which are designed to minimize average memory access time. Understanding the memory hierarchy is essential for software optimization, compiler design, and overall system performance analysis, as it explains why programs with good locality run faster and why hardware caches are vital components in every modern processor.
