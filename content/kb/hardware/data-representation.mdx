@@ -1,0 +1,136 @@
+---
+title: "Data Representation"
+subject: "hardware"
+slug: "data-representation"
+description: ""
+status: "published"
+verified: false
+author: "n8n@learnflow.bot"
+created_at: 2026-05-11
+---
+
+# Data Representation
+
+## Introduction
+All digital computers process, store, and transmit information in the form of binary digits—bits. Physical hardware elements such as flip‑flops, transistor gates, and memory cells naturally assume one of two stable states, corresponding to `0` and `1`. The way those patterns of ones and zeros are interpreted is the subject of **data representation**. At the hardware level, the choice of representation directly affects the complexity of arithmetic‑logic units (ALUs), register files, data paths, and error‑detection circuitry. Understanding the fundamental schemes for integers, floating‑point numbers, and characters is essential for any study of computer architecture and embedded systems.
+
+## Binary Fundamentals
+A single binary digit is called a **bit**. Collections of bits are grouped into:
+
+- **Nibble:** 4 bits
+- **Byte:** 8 bits (the smallest addressable unit in most architectures)
+- **Word:** the natural data size of a processor (e.g., 32 bits, 64 bits)
+
+Given an $n$-bit binary pattern $b_{n-1}b_{n-2}\dots b_1b_0$, where each $b_i \in \{0,1\}$, its value as an **unsigned integer** is computed using positional notation:
+
+$$
+\text{Value} = \sum_{i=0}^{n-1} b_i \cdot 2^i
+$$
+
+For example, `10110` ($n=5$) evaluates to $1\cdot2^4 + 0\cdot2^3 + 1\cdot2^2 + 1\cdot2^1 + 0\cdot2^0 = 16 + 4 + 2 = 22$.
+
+## Unsigned Integer Representation
+Unsigned integers use the full $n$‑bit range to represent non‑negative values from $0$ to $2^{n}-1$. An $8$‑bit unsigned number can represent $0$ to $255$, while a $32$‑bit register spans $0$ to $4,\!294,\!967,\!295$.
+
+**Arithmetic with unsigned numbers** behaves as modulo‑$2^n$ arithmetic. For example, adding $1$ to `11111111` ($255$) in an 8‑bit adder yields `00000000` with a carry‑out — a condition that may be captured in a **carry flag** inside the processor’s status register. Hardware implementing unsigned addition uses a simple ripple‑carry or carry‑lookahead adder without any sign handling.
+
+**Overflow:** An overflow occurs in unsigned arithmetic when the result exceeds $2^{n}-1$. In many architectures this is signalled by the carry flag.
+
+## Signed Integer Representation
+To represent negative numbers, several schemes have been used historically. All sacrifice half of the bit patterns to negative values.
+
+### Sign-Magnitude
+The most intuitive approach reserves the most significant bit (MSB) as a sign bit: $0$ for positive, $1$ for negative, and the remaining $n-1$ bits give the magnitude.
+
+- Range: $-(2^{n-1}-1)$ to $+(2^{n-1}-1)$.
+- Two representations for zero: `000...0` (+0) and `100...0` (-0).
+
+**Hardware drawbacks:** Adding numbers of unlike signs requires a comparator, a subtractor, and logic to determine the sign. This makes the ALU more complex and slower. Because of the dual zero and asymmetric arithmetic rules, sign‑magnitude is rarely used in modern general‑purpose hardware (though it appears in floating‑point mantissas).
+
+### One’s Complement
+Negative numbers are formed by bitwise inversion (the **one’s complement**) of the positive number. For an $n$‑bit value $A$, $-A$ is obtained as $\overline{A}$.
+
+- Example: $+6$ in 8 bits is `00000110`; $-6$ is `11111001`.
+- Range: $-(2^{n-1}-1)$ to $+(2^{n-1}-1)$.
+- Again two zeros: $+0 = 000\dots0$, $-0 = 111\dots1$.
+
+Addition in one’s complement is straightforward except when a carry out of the MSB occurs. That carry must be added back to the least significant bit (an **end‑around carry**). This extra step adds a small overhead to ALU design, and the dual zero still complicates comparison logic.
+
+### Two’s Complement
+Two’s complement is the dominant representation in all modern processors because it unifies addition and subtraction with no special zero handling.
+
+- **Definition:** The two’s complement of an $n$‑bit number $A$ is $2^n - A$ (modulo $2^n$). Practically, it is obtained by inverting all bits (one’s complement) and adding $1$: $-A = \overline{A} + 1$.
+- **Range:** With only one zero, the pattern space distributes asymmetrically: $-2^{n-1}$ to $+(2^{n-1}-1)$. There is no distinct $-0$; the pattern `100...0` represents $-2^{n-1}$.
+- **Example:** For $n=8$, $+6$ is `00000110`. Invert: `11111001`, add $1$ → `11111010` represents $-6$. Indeed, $6 + (-6)$ yields `00000000` after discarding the carry out of bit 7.
+- **Sign extension:** To widen a two’s complement number, the sign bit is replicated into the higher bits. This preserves the value and is critical when moving data between registers of different sizes.
+
+**Arithmetic hardware:** A single adder can perform both addition and subtraction (by adding the two’s complement). Overflow detection is also clean: an overflow occurs if adding two numbers with the same sign yields a result with the opposite sign. Many CPUs provide an overflow flag (V) that is the XOR of the carry into and out of the MSB.
+
+$$
+\text{Overflow in addition of } A_{n-1} \text{ and } B_{n-1}: \quad C_{n} \oplus C_{n-1}
+$$
+
+where $C_n$ is the carry out of the MSB and $C_{n-1}$ is the carry into the MSB.
+
+## Floating-Point Representation
+Real numbers and very large/small integers are represented in scientific notation‑like form using the **IEEE 754** standard. Most modern processors include a dedicated **floating‑point unit (FPU)** that operates on these formats directly.
+
+### IEEE 754 Format
+A floating‑point number consists of three parts:
+
+- **Sign ($S$):** 1 bit, $0$ for positive, $1$ for negative.
+- **Exponent ($E$):** stored with a **bias** to allow both positive and negative exponents without a separate sign bit.
+- **Fraction / Significand ($F$):** the precision bits; for normalised numbers an implicit leading $1$ is assumed (the “hidden bit”).
+
+The value of a normalised number is:
+
+$$
+(-1)^{S} \times (1.F)_2 \times 2^{(E - \text{bias})}
+$$
+
+Single precision (32 bits):
+- $S$: 1 bit
+- $E$: 8 bits, bias $= 127$
+- $F$: 23 bits
+
+Double precision (64 bits):
+- $S$: 1 bit
+- $E$: 11 bits, bias $= 1023$
+- $F$: 52 bits
+
+**Example:** Represent $-13.625$ in single precision.
+1. Convert magnitude to binary: $13 = 1101_2$, $0.625 = 0.101_2$, so $13.625 = 1101.101_2$.
+2. Normalise: $1.101101_2 \times 2^3$ (binary point moved 3 places left). The significand is $1.101101$, the fraction field stores the part after the radix point: `10110100000000000000000` (23 bits).
+3. Exponent: $E = 3 + \text{bias} = 3 + 127 = 130 = 10000010_2$.
+4. Sign: $S=1$ for negative.
+5. Final representation: `1 10000010 10110100000000000000000`.
+In hexadecimal: `0xC15A0000`.
+
+### Special Values
+IEEE 754 reserves certain exponent encodings for special cases:
+- **Zero:** Exponent $=0$, fraction $=0$. ($+0$ and $-0$ exist by sign bit.)
+- **Denormalised numbers:** Exponent $=0$, fraction $\neq 0$. Represent numbers smaller than the smallest normalised value, using a leading $0$ instead of $1$.
+- **Infinity:** Exponent $=255$ (single) or $2047$ (double), fraction $=0$. Sign bit gives $+\infty$ or $-\infty$.
+- **NaN (Not a Number):** Exponent all ones, fraction $\neq 0$. Used for undefined results like $\sqrt{-1}$ or $0/0$.
+
+### Hardware Considerations
+Floating‑point arithmetic is significantly more complex than integer arithmetic. Addition requires aligning exponents, adding significands, and renormalising. Multiplication multiplies significands and adds exponents. To handle these operations efficiently, an FPU implements multi‑stage pipelines, barrel shifters, and rounding logic that respects the standard’s four rounding modes (round‑to‑nearest, toward zero, toward $+\infty$, toward $-\infty$). The datapath width and internal register sizes are often larger than the stored format to maintain precision during intermediate calculations.
+
+## Character Representation
+Text is stored as numeric codes interpreted by hardware and software.
+
+- **ASCII:** 7‑bit code for 128 characters (English letters, digits, punctuation, control characters). Usually stored in an 8‑bit byte with the MSB set to $0$ or used for parity. Example: `'A'` = `0x41` (binary `01000001`).
+- **Unicode:** A universal character set that assigns a unique code point to every character of every script. Hardware rarely operates on code points directly; instead, they are serialised into byte sequences using an encoding:
+  - **UTF‑8:** Variable length (1‑4 bytes), backward compatible with ASCII. The first byte indicates the number of bytes, and subsequent bytes begin with `10`. This encoding allows null‑byte safety and is widely used in network and file systems.
+  - **UTF‑16:** Uses 2‑byte units; characters outside the Basic Multilingual Plane are represented with surrogate pairs (4 bytes total). Common in Windows API and Java.
+
+At the hardware level, character data is simply a sequence of bytes. Memory controllers and DMA engines transfer them without interpretation. Only when passed to a display controller or string‑handling instructions (e.g., SSE, SIMD) are the bytes interpreted as characters. Load/store operations treat them identically to any other integer data of the same width.
+
+## Summary
+Data representation is the bridge between voltage levels in hardware and meaningful information. Key takeaways:
+
+- Binary and two’s complement are the universal language of integer arithmetic, chosen because they allow the same adder to handle signed and unsigned operations seamlessly.
+- IEEE 754 floating‑point balances range and precision, with dedicated hardware support to meet performance and correctness requirements.
+- Character encodings map human symbols to bit patterns, enabling hardware to handle text through ordinary memory operations.
+
+Mastery of these representations is essential for understanding processor design, instruction‑set architecture, memory organisation, and low‑level programming. Every register transfer, ALU operation, and memory access obeys the rules of the chosen representation, making data representation a cornerstone of computer hardware.
