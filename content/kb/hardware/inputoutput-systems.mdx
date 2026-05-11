@@ -1,0 +1,169 @@
+---
+title: "Input/Output Systems"
+subject: "hardware"
+slug: "inputoutput-systems"
+description: ""
+status: "published"
+verified: false
+author: "n8n@learnflow.bot"
+created_at: 2026-05-11
+---
+
+# Input/Output Systems
+
+## Introduction
+Input/Output (I/O) systems are the essential hardware and software components that allow a computer to communicate with the outside world. Without I/O, a processor and memory would have no way to receive instructions or deliver results. I/O systems connect the central processing unit (CPU) and main memory to a diverse array of peripheral devices—keyboards, mice, displays, disk drives, network adapters, sensors, and more. The challenge arises from the wide variation in device characteristics: data rates range from a few bytes per second (a keyboard) to several gigabytes per second (a high-speed solid‑state drive), and devices may be character‑oriented or block‑oriented, synchronous or asynchronous.
+
+This article explores the architecture of I/O systems at the undergraduate hardware level. We cover the structure of I/O modules, addressing schemes, the principal data‑transfer techniques (programmed I/O, interrupts, and DMA), common buses and interfaces, and basic performance metrics. Throughout, we use practical examples to illustrate how these concepts are implemented in real hardware.
+
+## I/O System Architecture
+The logical structure of an I/O system is built around **I/O modules** (also called I/O controllers or peripheral interface units). An I/O module sits between the system bus and one or more peripheral devices, performing essential functions:
+
+- **Control and timing** – coordinating data flow between the CPU and the slow, often non‑synchronised device.
+- **Device communication** – handling device‑specific commands, status registers, and data registers.
+- **Data buffering** – temporarily storing data to compensate for speed mismatches.
+- **Error detection** – reporting parity, CRC, or other transmission faults to the CPU.
+
+A simplified view of the connection is:
+
+$$
+\text{CPU} \longleftrightarrow \text{I/O Module} \longleftrightarrow \text{Peripheral Device}
+$$
+
+The CPU communicates with the I/O module through three types of bus lines:
+
+- **Address lines** – select a particular I/O module and a specific register inside it.
+- **Data lines** – carry the actual information being transferred.
+- **Control lines** – carry commands (read, write) and timing signals (interrupt requests, acknowledgements).
+
+Most systems use a *hierarchical bus structure*, where high‑speed devices sit on a fast memory bus or a dedicated peripheral bus (e.g., PCI Express), while slower devices are attached via expansion buses (USB, SATA, SPI).
+
+## I/O Addressing: Port-Mapped vs Memory-Mapped
+When the CPU writes a command or reads status from an I/O module, it must address a particular register. Two fundamental addressing schemes exist:
+
+### Port‑Mapped I/O (Isolated I/O)
+The processor provides a separate address space for I/O ports, distinct from memory. Special instructions such as `IN` and `OUT` (x86) are used. The `I/O` control line on the bus distinguishes a port access from a memory access.
+
+**Example (x86 assembly notion):**
+```
+MOV DX, 0x3F8    ; serial port address
+IN  AL, DX       ; read byte from port into AL
+```
+
+*Advantage:* The memory address space is not consumed by I/O devices.  
+*Disadvantage:* Only a limited set of dedicated instructions can manipulate I/O ports; operations like arithmetic on device registers are more cumbersome.
+
+### Memory‑Mapped I/O
+Device registers appear as ordinary memory locations. The CPU uses standard load and store instructions (`MOV`, `LDR`, `STR`) to interact with them. A portion of the physical address space is reserved for I/O devices.
+
+*Advantage:* The full power of the instruction set—arithmetic, logical, and addressing modes—can be applied to device registers. No special instructions are needed.  
+*Disadvantage:* Part of the memory map is used up, and the memory management unit (MMU) must be aware of this region to prevent caching or speculative access.
+
+Modern systems often combine both techniques; for example, x86 processors support port‑mapped I/O for legacy devices while most high‑performance peripherals are memory‑mapped.
+
+## I/O Control Methods
+Three main strategies govern how the CPU and I/O module coordinate a data transfer.
+
+### Programmed I/O (Polling)
+The CPU directly controls every byte (or word) of data movement. It continuously examines a status register until the device is ready, then reads or writes the data register.
+
+**Example – Outputting a character to a printer:**
+```c
+#define STATUS_REG 0x1000
+#define DATA_REG   0x1004
+
+while ((inb(STATUS_REG) & READY_BIT) == 0) {
+    // busy-wait
+}
+outb(DATA_REG, 'A');
+```
+In this polled I/O, the CPU wastes time spinning while the device prepares. For very slow devices the wait can be extreme. Programmed I/O is simple to implement but highly inefficient when the CPU could be performing other tasks.
+
+### Interrupt‑Driven I/O
+The CPU issues a command to the I/O module and then continues with another program. When the device is ready, it asserts an interrupt request line. The processor saves its state, vectors to an **interrupt service routine (ISR)**, completes the data transfer, and finally restores the original context.
+
+**Example – Keyboard input:**
+A keyboard controller raises an interrupt each time a key is pressed (or released). The ISR reads the scan code from the controller’s data register and places it into an operating‑system buffer. The CPU can process other tasks between keystrokes. This dramatically improves overall throughput.
+
+However, handling interrupts involves overhead: saving and restoring state, determining the interrupt source, and fetching the ISR. For high‑speed I/O, the overhead can become a bottleneck.
+
+### Direct Memory Access (DMA)
+When large blocks of data must be transferred, interrupt‑driven I/O would consume a significant portion of the CPU time. DMA resolves this by offloading the transfer to a specialised **DMA controller**. The CPU programs the DMA controller with:
+- The device address (or memory‑mapped register)
+- The starting memory address
+- The number of words to transfer
+- The direction (read or write)
+
+Then the CPU returns to other work. The DMA controller seizes the system bus (using a *cycle‑stealing* or *burst* mode) and moves data directly between the device’s interface and memory, one word at a time. When the entire block has been moved, an interrupt signals completion.
+
+**Example – Hard‑disk read:**
+A disk controller reads a sector into its internal buffer. The OS sets up a DMA transfer. The disk’s DMA logic transfers the sector from the controller’s buffer to main memory without CPU intervention. At the end, the DMA controller raises a single interrupt.
+
+Because the CPU is involved only at the start and end, DMA achieves high data rates with minimal processor load. The trade‑off is added hardware complexity and the need for bus‑arbitration logic.
+
+## Buses and Interfaces
+A **bus** is a shared collection of wires that carries address, data, and control information among several modules. The I/O system relies on a hierarchy of buses that differ in speed, width, and protocol.
+
+### Bus Types
+- **Parallel buses** – transmit multiple bits simultaneously over separate lines. Example: legacy PCI (32‑bit, 33 MHz). They become problematic at high speeds due to signal skew and crosstalk.
+- **Serial buses** – send data one bit at a time on a differential pair. Modern high‑speed interconnects (PCI Express, USB, SATA) are serial because they can achieve far higher per‑wire bandwidth and avoid skew issues.
+
+### Common I/O Buses
+- **PCI Express (PCIe)** – a switched, serial point‑to‑point interconnect used for graphics cards, NVMe SSDs, and networking adapters. Each lane consists of two differential pairs (transmit/receive) and carries packets. Data rate per lane: Gen 5 runs at $32\ \mathrm{GT/s}$.
+- **USB (Universal Serial Bus)** – a tree‑like, host‑centric bus for slower peripherals. Host polls devices periodically. Versions range from USB 1.1 (1.5 Mbps) to USB4 (40 Gbps).
+- **SATA (Serial ATA)** – point‑to‑point protocol for hard drives and SSDs, offering up to 6 Gbps for SATA III.
+- **SPI / I²C** – low‑pin‑count buses for embedded sensors and microcontrollers.
+
+### Synchronous vs Asynchronous Buses
+- **Synchronous bus** – includes a clock line; every transaction occurs relative to the clock edge. Simpler but restricts bus length and device variety.
+- **Asynchronous bus** – uses handshaking (request/acknowledge) and no common clock. Allows mixing of fast and slow devices on the same bus without sacrificing speed.
+
+## I/O Performance Metrics
+Evaluating an I/O system quantitatively helps architects balance cost, power, and responsiveness.
+
+### Transfer Time and Bandwidth
+For a single transfer, total time $T_{total}$ includes overhead and data movement:
+
+$$
+T_{total} = T_{overhead} + \frac{N}{B}
+$$
+
+where:
+- $N$ is the amount of data transferred (in bytes, words, or bits),
+- $B$ is the effective bandwidth of the I/O path (e.g., bytes per second).
+
+Bandwidth itself may be limited by the slowest link in the chain. For example, a disk that can deliver 200 MB/s internally will not exceed the 600 MB/s limit of its SATA III interface.
+
+### Disk I/O Example
+The total time to read a sector from a magnetic hard disk is:
+
+$$
+T_{disk} = T_{seek} + T_{rotation} + T_{transfer}
+$$
+
+- $T_{seek}$ – time to move the read/write head to the desired track.
+- $T_{rotation}$ – average rotational latency, typically $\frac{1}{2 \times \mathrm{RPS}}$ (for a 7200 rpm drive, $\frac{1}{2 \times 120} \approx 4.17\ \mathrm{ms}$).
+- $T_{transfer}$ – $ \frac{\mathrm{sector\ size}}{\mathrm{rotational\ speed} \times \mathrm{bytes\ per\ track}}$, often small compared to the mechanical delays.
+
+Solid‑state drives (SSDs) remove mechanical delays but still exhibit latency for flash translation and wear leveling. NVMe SSDs connected via PCIe exploit multiple queues and interrupts (or polling) to deliver latencies below 100 µs.
+
+### Polling vs Interrupt Overhead
+An I/O analysis often compares the CPU utilization for different strategies:
+
+- **Polling:** CPU utilization = $\frac{T_{poll}}{T_{interval}}$, where $T_{poll}$ is the time to check the device and $T_{interval}$ is the inter‑arrival time of data. For a slow keyboard, $T_{interval}$ is huge, so polling is acceptable. For a 1 Gbps network adapter, polling wastes too many cycles.
+- **Interrupt:** each interrupt costs a fixed time $T_{intr}$. If the device interrupts $f$ times per second, CPU overhead = $f \cdot T_{intr}$. Modern controllers use *interrupt coalescing*—combining several events into one interrupt—to reduce this cost.
+
+## Real‑World Examples
+### Keyboard (Polling and Interrupt)
+A USB keyboard is actually polled by the host controller at a configurable rate (e.g., 125 Hz). Inside the operating system, the USB driver reads the HID report and passes the keystroke to the input stack. From the CPU’s perspective, the USB host controller may raise an interrupt when a transfer completes, effectively turning a polled bus into an interrupt‑driven interface at the OS level.
+
+### Hard Disk and DMA
+A contemporary SATA or NVMe disk controller uses DMA for all data transfers. For instance, when reading a file, the file system driver builds a scatter‑gather list of physical pages and submits the request to the block layer. The disk controller’s DMA engine fetches the commands and writes the incoming data directly into those pages, completely bypassing the CPU. Completion is signalled by a single MSI‑X interrupt.
+
+### Network Interface
+High‑speed network cards (10 Gbps and above) often combine DMA with *poll‑mode* drivers. Instead of interrupting for every packet, the driver periodically polls the descriptor ring to reduce latency and interrupt overhead. Latency‑sensitive applications may use dedicated CPU cores that spin on receive queues continuously, effectively reverting to polling to achieve microsecond response times.
+
+## Summary
+Input/Output systems bridge the high‑speed digital core of a computer with the vast array of external devices. Fundamental to their design is the I/O module, which buffers and controls information flow. Two addressing schemes—port‑mapped and memory‑mapped—allow the CPU to access device registers. The choice among programmed I/O, interrupt‑driven I/O, and DMA represents a trade‑off between simplicity, CPU utilization, and throughput; most high‑performance peripherals today rely on DMA for bulk data movement and interrupts for event notifications.
+
+The physical interconnection between components is provided by a hierarchy of buses (such as PCI Express, USB, and SATA), each optimised for different speed, distance, and power requirements. Performance analysis helps system designers select the appropriate buses and I/O strategies to meet latency and bandwidth goals. Understanding these hardware concepts is essential for any student of computer organization and provides the foundation for appreciating how operating systems manage devices at the software level.
