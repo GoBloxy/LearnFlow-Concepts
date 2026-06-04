@@ -1,0 +1,277 @@
+---
+title: "Multithreading in Java in details"
+subject: "java"
+slug: "multithreading-in-java-in-details"
+description: ""
+status: "published"
+verified: false
+author: "n8n@learnflow.bot"
+created_at: 2026-06-04
+---
+
+# Multithreading in Java in Details
+
+## Introduction
+
+Modern applications often need to perform multiple tasks at the same time—handling user input, downloading resources, processing data, and updating the interface. In Java, this concurrency is achieved through **multithreading**, where multiple threads of execution run within a single program, sharing the same memory space. Multithreading can significantly improve application responsiveness and resource utilization, especially on multi-core processors. However, it introduces challenges such as race conditions, deadlocks, and thread interference, which require careful design and synchronization.
+
+This article provides a comprehensive overview of multithreading in Java targeted at undergraduate students. We will cover:
+
+- Thread creation using `Thread` and `Runnable`
+- The thread lifecycle and states
+- Synchronization techniques to protect shared data
+- Inter‑thread communication with `wait()`/`notify()`
+- High‑level concurrency utilities from `java.util.concurrent`
+- Best practices and common pitfalls
+
+By the end, you should be able to design, implement, and debug multithreaded Java applications.
+
+## Creating Threads in Java
+
+Every Java application starts with at least one thread—the **main thread**. To create additional threads, there are two primary approaches: extending the `Thread` class or implementing the `Runnable` interface.
+
+### 1. Extending the `Thread` class
+Define a subclass of `Thread` and override its `run()` method. Then instantiate the subclass and call `start()`.
+
+```java
+class MyThread extends Thread {
+    @Override
+    public void run() {
+        System.out.println("Thread running: " + Thread.currentThread().getName());
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        MyThread t = new MyThread();
+        t.start();   // launches the new thread
+    }
+}
+```
+
+### 2. Implementing `Runnable`
+Implement the `Runnable` interface and pass an instance to a `Thread` constructor. This approach is more flexible because your class can extend another class while still being runnable.
+
+```java
+class MyRunnable implements Runnable {
+    @Override
+    public void run() {
+        System.out.println("Runnable thread: " + Thread.currentThread().getName());
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Thread t = new Thread(new MyRunnable());
+        t.start();
+        // Or using lambda
+        Thread t2 = new Thread(() -> System.out.println("Lambda thread"));
+        t2.start();
+    }
+}
+```
+
+**Key point:** Always invoke `start()`, not `run()`. Calling `run()` directly executes the method on the current thread, not a new one.
+
+## Thread Lifecycle and States
+
+A Java thread progresses through a well‑defined set of states, managed by the JVM and the operating system. The states are defined in `java.lang.Thread.State` enumeration:
+
+- **NEW** – thread object created, `start()` not yet called.
+- **RUNNABLE** – thread is executing in the JVM (it may be waiting for CPU time by the OS scheduler).
+- **BLOCKED** – thread is waiting to acquire an intrinsic lock held by another thread.
+- **WAITING** – thread is waiting indefinitely for another thread to perform a particular action (e.g., `Object.wait()`, `Thread.join()`).
+- **TIMED_WAITING** – waiting with a specified timeout (e.g., `Thread.sleep(millis)`, `Object.wait(millis)`).
+- **TERMINATED** – thread has completed execution (either normally or due to an uncaught exception).
+
+A typical flow: NEW → start() → RUNNABLE → possibly BLOCKED / WAITING / TIMED_WAITING → back to RUNNABLE (when condition is satisfied) → TERMINATED.
+
+Understanding the lifecycle helps diagnose concurrency bugs and design proper synchronization.
+
+## Thread Priorities and Scheduling
+
+Threads have an integer priority (1 to 10, default 5) that hints the scheduler about relative importance. Preemptive scheduling is used in most JVM implementations: higher‑priority threads tend to be scheduled more often, but the exact behavior is platform‑dependent. Use `setPriority()` and `getPriority()` cautiously; do not rely solely on priorities for correctness.
+
+```java
+Thread t = new Thread(runnable);
+t.setPriority(Thread.MAX_PRIORITY);  // 10
+t.start();
+```
+
+## Synchronization
+
+When multiple threads access shared mutable data without synchronization, data inconsistency (race conditions) can occur. Java provides built‑in synchronization mechanisms through intrinsic locks (monitors).
+
+### 1. Synchronized Methods
+Declaring a method as `synchronized` acquires the intrinsic lock of the object on which the method is invoked. Only one thread can execute any synchronized instance method of that object at a time.
+
+```java
+class Counter {
+    private int count = 0;
+
+    public synchronized void increment() {
+        count++;   // read‑modify‑write is atomic under synchronization
+    }
+
+    public synchronized int getCount() {
+        return count;
+    }
+}
+```
+
+### 2. Synchronized Blocks
+Synchronized blocks provide finer granularity, allowing you to lock on any object.
+
+```java
+class Counter {
+    private int count = 0;
+    private final Object lock = new Object();
+
+    public void increment() {
+        synchronized(lock) {
+            count++;
+        }
+    }
+}
+```
+
+### 3. Intrinsic Locks and Reentrancy
+Each Java object has an intrinsic lock (monitor). A thread that already holds a lock can acquire it again (reentrant), which prevents self‑deadlock.
+
+**Example without synchronization – race condition:**
+```java
+class UnsafeCounter {
+    private int c = 0;
+    public void increment() { c++; }
+}
+```
+If two threads call `increment()` concurrently, the final value of `c` may be less than expected because `c++` is not atomic. Using synchronized methods/blocks solves this.
+
+## Inter‑Thread Communication
+
+Java provides methods `wait()`, `notify()`, and `notifyAll()` for threads to communicate about condition state. These must be called from within a synchronized context (holding the object’s lock).
+
+- `wait()` – Releases the lock and puts the thread into WAITING state until another thread calls `notify()`/`notifyAll()` on the same object.
+- `notify()` – Wakes up one waiting thread (chosen arbitrarily).
+- `notifyAll()` – Wakes up all waiting threads.
+
+**Producer–Consumer example:**
+```java
+class SharedBuffer {
+    private int data;
+    private boolean available = false;
+
+    public synchronized void produce(int value) throws InterruptedException {
+        while (available) {          // guard against spurious wakeups
+            wait();
+        }
+        data = value;
+        available = true;
+        notifyAll();
+    }
+
+    public synchronized int consume() throws InterruptedException {
+        while (!available) {
+            wait();
+        }
+        available = false;
+        notifyAll();
+        return data;
+    }
+}
+```
+Always use `while` loops to check the condition after waking up, because a waiting thread may be woken spuriously or another thread may have already consumed the item before it reacquires the lock.
+
+## Advanced Concurrency Utilities (`java.util.concurrent`)
+
+Java 5 introduced the `java.util.concurrent` package, offering higher‑level concurrency tools that are more flexible and less error‑prone than intrinsic locks and low‑level wait/notify.
+
+### 1. ExecutorService and Thread Pools
+Instead of manually managing thread creation, executors provide thread pool management and task submission.
+
+```java
+import java.util.concurrent.*;
+
+public class ExecutorDemo {
+    public static void main(String[] args) {
+        ExecutorService executor = Executors.newFixedThreadPool(3);
+        for (int i = 0; i < 5; i++) {
+            executor.submit(() -> {
+                System.out.println(Thread.currentThread().getName() + " executing");
+            });
+        }
+        executor.shutdown();   // initiates graceful shutdown
+    }
+}
+```
+
+### 2. Lock Interface and ReentrantLock
+`ReentrantLock` offers more flexibility than synchronized blocks: it is interruptible, can try to acquire lock with a timeout, and provides fair ordering.
+
+```java
+Lock lock = new ReentrantLock();
+lock.lock();
+try {
+    // critical section
+} finally {
+    lock.unlock();   // always unlock in finally
+}
+```
+
+### 3. Concurrent Collections
+Classes like `ConcurrentHashMap`, `CopyOnWriteArrayList`, and `BlockingQueue` provide thread‑safe operations without requiring explicit synchronization.
+
+```java
+ConcurrentHashMap<String, Integer> map = new ConcurrentHashMap<>();
+map.put("key", 1);
+```
+
+### 4. Atomic Variables
+`AtomicInteger`, `AtomicLong`, etc., use low‑level atomic machine instructions (CAS) to perform compound operations without locking.
+
+```java
+AtomicInteger counter = new AtomicInteger(0);
+counter.incrementAndGet();   // atomic increment
+```
+
+### 5. Synchronization Helpers
+- **CountDownLatch** – one or more threads wait until a set of operations completes.
+- **CyclicBarrier** – threads wait for each other to reach a common barrier point.
+- **Semaphore** – controls access to a shared resource with a set number of permits.
+
+Example with `CountDownLatch`:
+```java
+CountDownLatch latch = new CountDownLatch(3);
+// In worker threads: do work, then latch.countDown();
+// In main thread: latch.await(); proceeds when count reaches zero.
+```
+
+## Best Practices and Common Pitfalls
+
+### 1. Deadlock, Livelock, and Starvation
+- **Deadlock** occurs when two or more threads are blocked forever, each waiting for a lock held by the other.  
+  Avoid by always acquiring locks in the same global order, using `tryLock()` with timeout, or using lock‑free algorithms.
+- **Livelock** – threads are not blocked but constantly change state in response to each other, making no progress.
+- **Starvation** – a thread is perpetually denied access to resources. Use fair locks or ensure proper prioritization.
+
+### 2. Thread Safety Guidelines
+- Favor immutable objects to avoid sharing mutable state.
+- Minimize shared mutable data; use thread‑local variables when possible.
+- Prefer `java.util.concurrent` utilities over raw synchronized blocks.
+- Always release locks in `finally` blocks.
+- Call `shutdown()` on executor services to prevent resource leaks.
+
+### 3. Testing and Debugging
+Concurrent bugs are notoriously hard to reproduce. Use tools like static analyzers, `Thread` profiling, and rigorous testing with many threads and varying thread interleavings.
+
+## Summary
+
+Multithreading in Java empowers applications to perform tasks concurrently, improving performance and responsiveness. The language provides a spectrum of tools:
+
+- **Basic threading:** `Thread` class and `Runnable` interface for thread creation.
+- **Thread lifecycle:** NEW → RUNNABLE → BLOCKED/WAITING → TERMINATED.
+- **Synchronization:** `synchronized` methods/blocks using intrinsic locks to protect shared state.
+- **Inter‑thread communication:** `wait()`/`notify()` for condition coordination.
+- **High‑level concurrency API:** Executors, locks, concurrent collections, atomic variables, and synchronizers that simplify development and reduce errors.
+
+Understanding these concepts and applying best practices will help you write efficient, correct, and maintainable concurrent Java applications. As with any powerful tool, always test thoroughly and design for thread safety from the start.
